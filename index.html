@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Журнал навыков DBT</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f4f3e4; --paper:#faf9ee; --ink:#4a5b45; --muted:#7d8a76; --line:#dcdcc6;
+  --sage:#b7c3b4; --sage-d:#4f6349; --sage-l:#e1e6dc;
+  --sand:#f1e7a9; --sand-l:#f7f1cf;
+  --sky:#c5d9ef; --sky-l:#dde9f6;
+  --rose:#d9b9b0; --rose-l:#f3e6e2;
+  --radius:18px; --shadow:0 1px 2px rgba(74,91,69,.05),0 8px 24px rgba(74,91,69,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,sans-serif;font-size:15px;line-height:1.55}
+h1,h2,h3{font-family:"Instrument Serif",Georgia,serif;font-weight:400;margin:0;letter-spacing:-.01em;color:var(--sage-d)}
+h1{font-size:38px;line-height:1.1} h2{font-size:26px;margin-bottom:6px} h3{font-size:20px;margin-bottom:4px}
+p{margin:0 0 10px}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 20px 80px}
+header{display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+header .sub{font-family:"Instrument Serif",serif;font-style:italic;font-size:17px;color:var(--muted)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap}
+button,.btn{font:inherit;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;border:1px solid transparent;background:var(--sand);color:var(--sage-d);padding:10px 18px;border-radius:999px;cursor:pointer;transition:.15s}
+button:hover{background:#ebdf95}
+button.primary{background:var(--sage-d);color:var(--bg)}
+button.primary:hover{background:#3f5039}
+button.ghost{background:transparent;border-color:var(--line)}
+button.ghost:hover{background:var(--sage-l)}
+button.danger{background:transparent;border-color:var(--line)}
+button.danger:hover{background:var(--rose-l);border-color:var(--rose)}
+nav.tabs{display:flex;gap:4px;background:var(--sage-l);padding:4px;border-radius:999px;width:max-content;margin-bottom:28px}
+nav.tabs button{background:transparent;padding:9px 20px;color:var(--muted)}
+nav.tabs button:hover{background:rgba(255,255,255,.5)}
+nav.tabs button.active{background:var(--paper);color:var(--sage-d);box-shadow:var(--shadow)}
+.view{display:none}.view.active{display:block}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin-bottom:18px;box-shadow:var(--shadow)}
+.card.c-sage{background:var(--sage-l);border-color:transparent}
+.card.c-sand{background:var(--sand-l);border-color:transparent}
+.card.c-sky{background:var(--sky-l);border-color:transparent}
+.card.c-rose{background:var(--rose-l);border-color:transparent}
+.pill{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;border-radius:999px;border:1px solid currentColor;color:var(--sage-d)}
+.theory-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px}
+.theory ul{padding-left:18px;margin:8px 0 0}
+.theory li{margin-bottom:6px}
+.theory .lead{font-family:"Instrument Serif",serif;font-size:20px;font-style:italic;color:var(--sage-d);line-height:1.3}
+.theory .card.off{background:var(--paper);border:1px dashed var(--line)}
+.theory .card.off .pill{color:var(--muted)}
+details{margin-top:10px}
+summary{cursor:pointer;font-weight:600;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--sage-d);list-style:none}
+summary::before{content:"▸ ";} details[open] summary::before{content:"▾ ";}
+.tips{background:rgba(255,255,255,.55);border-radius:12px;padding:12px 14px;margin-top:10px;font-size:14px}
+label{font-weight:600;font-size:13px;color:var(--muted);display:block;margin-bottom:4px}
+input[type=text],input[type=date],textarea,select{font:inherit;width:100%;border:1px solid var(--line);border-radius:12px;padding:9px 12px;background:#fffffb;color:var(--ink)}
+textarea{min-height:64px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--sky);border-color:var(--sky)}
+.row{display:flex;gap:14px;flex-wrap:wrap}
+.row>*{flex:1;min-width:180px}
+.chk{display:flex;align-items:center;gap:8px;margin:5px 0;font-weight:500;cursor:pointer}
+.chk input{width:17px;height:17px;accent-color:var(--sage-d)}
+.chk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2px 20px}
+/* module / skill chips */
+.mod{margin-top:14px}
+.mod-h{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;border:1.5px solid var(--line);background:#fffffb;cursor:pointer;font-weight:500;font-size:14px;transition:.15s;user-select:none}
+.chip:hover{border-color:var(--sage)}
+.chip.on{background:var(--sage-d);border-color:var(--sage-d);color:var(--bg)}
+.chip .sw{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.seg{display:inline-flex;background:var(--sage-l);border-radius:999px;padding:3px;gap:2px}
+.seg button{background:transparent;padding:6px 14px;color:var(--muted)}
+.seg button.active{background:var(--paper);color:var(--sage-d);box-shadow:var(--shadow)}
+.hdr{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:6px}
+/* practice checklist */
+.plist{list-style:none;padding:0;margin:0}
+.plist li{display:flex;align-items:center;gap:12px;padding:7px 0;border-bottom:1px dashed var(--line)}
+.plist li:last-child{border-bottom:0}
+.dots{display:flex;gap:4px;flex-shrink:0}
+.dot{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--sage-d);background:#fffffb;cursor:pointer;padding:0}
+.dot.on{background:var(--sage-d)}
+.dot:hover{background:var(--sand)}
+.dot.on:hover{background:#3f5039}
+.pnum{color:var(--muted);font-size:12px;width:20px;text-align:right;flex-shrink:0}
+.sgroup{margin-top:16px}
+.sgroup h3{display:flex;align-items:center;gap:8px}
+.swatch{width:10px;height:10px;border-radius:50%;display:inline-block}
+/* calendar */
+.day{border-radius:14px;padding:16px 18px;margin-bottom:10px;background:var(--sky-l)}
+.day:nth-child(even){background:var(--sage-l)}
+.day .dh{display:flex;gap:12px;align-items:center;margin-bottom:10px;flex-wrap:wrap}
+.day .dh strong{font-family:"Instrument Serif",serif;font-weight:400;font-size:20px;min-width:170px;color:var(--sage-d)}
+.day .dh small{color:var(--muted)}
+.day select{max-width:260px}
+.entry{background:rgba(255,255,255,.45);border-radius:12px;padding:12px 14px;margin-bottom:10px}
+.entry .eh{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+.entry .x{background:transparent;border:1px solid var(--line);color:var(--muted);padding:4px 10px;font-size:16px;line-height:1}
+.entry .x:hover{background:var(--rose-l);border-color:var(--rose)}
+.day .row textarea{min-height:56px}
+.status{font-size:13px;color:var(--muted);margin-left:8px}
+/* archive */
+.arch{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 16px;border-radius:14px;background:var(--sky-l);margin-bottom:8px}
+.arch:nth-child(even){background:var(--sage-l)}
+.arch strong{font-family:"Instrument Serif",serif;font-weight:400;font-size:19px;color:var(--sage-d)}
+.arch small{color:var(--muted)}
+.empty{color:var(--muted);text-align:center;padding:24px}
+.hint{font-size:13px;color:var(--muted);margin-top:6px}
+footer{margin-top:30px;font-size:12px;color:var(--muted)}
+/* print */
+.print-only{display:none}
+/* ===== REPORT (print only) ===== */
+#report{display:none}
+@media print{
+  @page{margin:16mm 15mm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{background:#fff;font-size:11.5pt;color:#2f3a2c}
+  .wrap{display:none!important}
+  #report{display:block;max-width:none;font-family:Manrope,system-ui,sans-serif;line-height:1.5}
+  .rp-head{border-bottom:2px solid var(--sage-d);padding-bottom:10px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+  .rp-head h1{font-size:26pt;color:var(--sage-d)}
+  .rp-head .meta{text-align:right;font-size:10pt;color:#5e6b58;line-height:1.4}
+  .rp-head .meta b{color:#2f3a2c}
+  .rp-h2{font-family:"Instrument Serif",serif;font-weight:400;font-size:17pt;color:var(--sage-d);margin:22px 0 8px;break-after:avoid}
+  .rp-skills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
+  .rp-skill{background:var(--sage-l);border-radius:999px;padding:4px 12px;font-size:10pt;font-weight:600;color:var(--sage-d)}
+  .rp-skill i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
+  table.rp{width:100%;border-collapse:collapse;font-size:10.5pt;break-inside:auto}
+  table.rp th{text-align:left;font-size:9pt;letter-spacing:.08em;text-transform:uppercase;color:#7d8a76;font-weight:600;padding:4px 8px;border-bottom:1px solid var(--line)}
+  table.rp td{padding:5px 8px;border-bottom:1px solid #eceadb;vertical-align:top}
+  table.rp tr{break-inside:avoid}
+  table.rp td.n{width:22px;color:#7d8a76;font-size:9pt}
+  table.rp td.c{width:70px;white-space:nowrap;text-align:right;font-weight:600}
+  table.rp tr.zero td{color:#9aa394}
+  .rp-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sage-d);margin-left:3px}
+  .rp-dot.e{background:transparent;border:1px solid #b5bdb0;width:7px;height:7px}
+  .rp-group td.g{background:var(--sage-l);font-weight:600;color:var(--sage-d);padding:6px 8px;border:0}
+  .rp-day{break-inside:avoid;border-left:4px solid var(--sky);padding:6px 0 6px 14px;margin:0 0 12px}
+  .rp-day:nth-of-type(even){border-left-color:var(--sage)}
+  .rp-day .dh{font-family:"Instrument Serif",serif;font-size:14pt;color:var(--sage-d);margin-bottom:2px}
+  .rp-day .dh small{font-family:Manrope,sans-serif;font-size:9.5pt;color:#7d8a76;margin-left:8px}
+  .rp-entry{margin:6px 0 10px;padding-left:10px;border-left:1px solid var(--line)}
+  .rp-entry:last-child{margin-bottom:0}
+  .rp-entry .sk{display:inline-block;font-family:Manrope,sans-serif;font-size:9pt;font-weight:600;background:var(--sand-l);border-radius:999px;padding:2px 10px;margin-bottom:4px;color:#6f6137}
+  .rp-day{break-inside:auto} .rp-entry{break-inside:avoid}
+  .rp-f{margin:4px 0}
+  .rp-f b{display:block;font-size:9pt;letter-spacing:.06em;text-transform:uppercase;color:#7d8a76;font-weight:600}
+  .rp-f p{margin:0;white-space:pre-wrap}
+  .rp-empty{color:#9aa394;font-style:italic;font-size:10pt;margin:0 0 10px}
+  .rp-helped{display:grid;grid-template-columns:1fr 1fr;gap:3px 20px;font-size:10.5pt;margin-bottom:8px}
+  .rp-helped span{padding-left:20px;position:relative}
+  .rp-helped span::before{content:"";position:absolute;left:0;top:5px;width:11px;height:11px;border-radius:3px;border:1px solid #b5bdb0}
+  .rp-helped span.y::before{background:var(--sage-d);border-color:var(--sage-d)}
+  .rp-helped span.y::after{content:"";position:absolute;left:3.5px;top:6px;width:3px;height:6px;border:solid #fff;border-width:0 1.5px 1.5px 0;transform:rotate(45deg)}
+  .rp-helped span:not(.y){color:#9aa394}
+  .rp-block{break-inside:avoid;margin-bottom:12px}
+  .rp-notes{background:var(--sand-l);border-radius:12px;padding:12px 16px;break-inside:avoid}
+  .rp-notes .rp-f b{color:#6f6137}
+  .rp-foot{margin-top:28px;font-size:8.5pt;color:#9aa394;border-top:1px solid var(--line);padding-top:6px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div>
+    <h1>Журнал навыков DBT</h1>
+    <div class="sub" id="subtitle">Домашние задания по сессиям групповой терапии</div>
+  </div>
+  <div class="toolbar">
+    <button onclick="printReport()">🖨 Печать / PDF</button>
+    <button onclick="exportJSON()">⬇ Резервная копия</button>
+    <button onclick="document.getElementById('importFile').click()">⬆ Восстановить</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none" onchange="importJSON(this)">
+  </div>
+</header>
+
+<nav class="tabs">
+  <button data-v="practice" onclick="showView('practice')">Практика</button>
+  <button data-v="theory" onclick="showView('theory')">Теория</button>
+  <button data-v="archive" onclick="showView('archive')">Сессии</button>
+</nav>
+
+<!-- ============ PRACTICE ============ -->
+<section class="view active" id="view-practice">
+  <div class="card c-sand">
+    <div class="hdr">
+      <h2>Сессия</h2>
+      <div class="no-print"><button class="primary" onclick="newSession()">+ Новая сессия</button><span class="status" id="status"></span></div>
+    </div>
+    <div class="row">
+      <div><label>Имя</label><input type="text" id="f-name" placeholder="Светлана"></div>
+      <div><label>Дата сессии</label><input type="date" id="f-date"></div>
+      <div style="flex:2"><label>Тема сессии</label><input type="text" id="f-topic" placeholder="напр. Осознанность — навыки «как»"></div>
+    </div>
+    <div id="skillpicker"></div>
+    <p class="hint no-print">Отметь навыки, которые заданы на дом после этой сессии. Чек-лист, календарь и теория покажут только их. Всё сохраняется автоматически в браузере; изредка делай «Резервную копию».</p>
+  </div>
+
+  <div class="card">
+    <h2>1. Чек-лист практик</h2>
+    <p class="hint">Один кружок — один раз, когда практиковала за эту неделю.</p>
+    <div id="checklist"></div>
+  </div>
+
+  <div class="card">
+    <h2>2. Календарь по дням</h2>
+    <p class="hint">Семь дней от сессии до следующей. Записи делай после практики, но как можно внимательнее.</p>
+    <div id="calendar"></div>
+  </div>
+
+  <div class="card">
+    <h2>3. Итоги недели</h2>
+    <label>Помогла ли практика (хотя бы немного)</label>
+    <div class="chk-grid" style="margin-bottom:14px">
+      <label class="chk"><input type="checkbox" data-k="h1"> Уменьшить страдания</label>
+      <label class="chk"><input type="checkbox" data-k="h2"> Повысить ощущение счастья</label>
+      <label class="chk"><input type="checkbox" data-k="h3"> Улучшить сосредоточение</label>
+      <label class="chk"><input type="checkbox" data-k="h4"> Снизить реактивность</label>
+      <label class="chk"><input type="checkbox" data-k="h5"> Увеличить мудрость</label>
+      <label class="chk"><input type="checkbox" data-k="h6"> Расширить опыт</label>
+      <label class="chk"><input type="checkbox" data-k="h7"> Укрепить связи</label>
+      <label class="chk"><input type="checkbox" data-k="h8"> Повысить чувство собственной значимости</label>
+    </div>
+    <label>Как навыки помогли (или не помогли)</label>
+    <textarea data-k="reflect" placeholder="Два разных случая за неделю: где, как, что получилось…"></textarea>
+    <label style="margin-top:12px">Мудрые поступки, которые я совершила на этой неделе</label>
+    <textarea data-k="wise" placeholder="Даже маленькие считаются."></textarea>
+    <label style="margin-top:12px">Вопросы и заметки для терапевта</label>
+    <textarea data-k="notes" placeholder="Что хочу обсудить на следующей встрече"></textarea>
+  </div>
+  <footer>Структура по рабочим листам DBT (M. Linehan, DBT Skills Training Handouts and Worksheets, 2nd ed.). Личный инструмент, не заменяет терапию.</footer>
+</section>
+
+<!-- ============ THEORY ============ -->
+<section class="view" id="view-theory">
+  <div class="card">
+    <div class="hdr">
+      <h2>Библиотека навыков</h2>
+      <div class="seg no-print">
+        <button class="active" id="th-cur" onclick="setTheoryMode('current')">Текущая сессия</button>
+        <button id="th-all" onclick="setTheoryMode('all')">Все навыки</button>
+      </div>
+    </div>
+    <p class="hint">Навыки сгруппированы по модулям. По мере прохождения новых сессий сюда добавляются новые карточки.</p>
+  </div>
+  <div id="theory"></div>
+</section>
+
+<!-- ============ ARCHIVE ============ -->
+<section class="view" id="view-archive">
+  <div class="card">
+    <h2>Все сессии</h2>
+    <p class="hint">Открой сессию, чтобы продолжить домашку или распечатать её.</p>
+    <div id="archive"></div>
+  </div>
+</section>
+</div>
+
+<div id="report"></div>
+<script>
+// ============ SKILL LIBRARY ============
+// Чтобы добавить навык: новый объект в SKILLS. module — для группировки.
+const MODULES = {
+  mind:{name:'Осознанность', color:'var(--sage)', cls:'c-sage'},
+  dist:{name:'Стрессоустойчивость', color:'var(--sky)', cls:'c-sky'},
+  emo:{name:'Эмоциональная регуляция', color:'var(--sand)', cls:'c-sand'},
+  inter:{name:'Межличностная эффективность', color:'var(--rose)', cls:'c-rose'}
+};
+const SKILLS = [
+  {id:'nonjudg', module:'mind', name:'Безоценочность', lead:'Видеть факты, а не ярлыки.',
+   text:'Оценка — это когда вместо того, что произошло, в голове звучит «хорошо / плохо / должен / ужасно». Задача не в том, чтобы перестать думать, а в том, чтобы замечать оценку и возвращаться к наблюдаемому: что случилось, какие были последствия, что я при этом почувствовала. Эмоции — это не оценки, их описывать можно и нужно.',
+   tip:'<strong>Формула замены оценки фактом:</strong><br>1) что я видела и слышала → 2) что за этим последовало → 3) что я почувствовала в ответ.',
+   ideas:['Отмечать про себя: «У меня возникла оценочная мысль».','Считать оценки за день (галочки, счётчик, монетки из кармана в карман).','Переформулировать оценку в факт.','Замечать осуждающие выражение лица, позу, тон — включая тон «внутреннего голоса».','Менять их на нейтральные.','Рассказать кому-то о своём дне, только наблюдения и конкретика.','Письменно описать событие, которое зацепило эмоционально, без оценок.','Подробный отчёт о главном событии дня: что происходило вокруг и внутри — без анализа «почему».','Представить человека, на которого злюсь, изнутри: его чувства, страхи, историю.','Поймав себя на осуждении — полуулыбка и/или «ладони готовности».'],
+   items:['Сказала себе: «В моём сознании возникла оценочная мысль»','Подсчитывала оценочные мысли','Заменяла оценки фактами','Замечала оценочные выражение лица, позу, тон голоса','Меняла оценочные выражения, позы, тон','Описывала свой день конкретно и безоценочно','Письменно описала событие, вызвавшее эмоции, без оценок','Подробный безоценочный отчёт о главном событии дня','Представила себя человеком, на которого злюсь','Полуулыбка и/или ладони готовности, поймав себя на оценке']},
+  {id:'onemind', module:'mind', name:'Однонаправленность', lead:'Одно дело за раз, целиком.',
+   text:'Делать только то, что делаю сейчас, и присутствовать в этом полностью. Ум будет уходить — это нормально; практика в том, чтобы мягко возвращать его (обычно через дыхание), а не в том, чтобы он никогда не отвлекался. Темп намеренно медленнее обычного.',
+   tip:'<strong>Опора:</strong> дыхание + замедление примерно втрое + внимание к каждому движению рук.',
+   ideas:['<strong>Чай или кофе</strong> — каждое движение медленно и осознанно, дышать мягче и глубже.','<strong>Мытьё посуды</strong> — как будто это самое важное дело; не спешить закончить.','<strong>Ручная стирка</strong> — 3–4 вещи, удобная поза, внимание на руках, мыле и воде.','<strong>Уборка</strong> — разбить на этапы, на каждый дать время; осознавать намерение в каждом действии.','<strong>Ванна</strong> — 30–45 минут без спешки, внимание к каждой части тела и каждой струйке воды.','<strong>Медитация «один»</strong> — спина прямая, на вдохе и выдохе про себя «один»; желание пошевелиться — просто наблюдать.'],
+   items:['Осознанность при приготовлении чая или кофе','Осознанность при мытье посуды','Осознанность при ручной стирке','Осознанность при уборке дома','Осознанность при неторопливой ванне','Осознанность при медитации']},
+  {id:'effect', module:'mind', name:'Эффективность', lead:'Делать то, что работает, а не то, что «правильно».',
+   text:'Фокус на том, чего я хочу достичь в этой ситуации, — а не на справедливости, правоте или «так должно быть». Два главных врага эффективности: желание быть правой и своеволие (упёртость, «назло», «не буду, и всё»). Ключевой вопрос в любой момент: <em>«Это эффективно?»</em>',
+   tip:'<strong>Ладони готовности:</strong> разжать кулаки, развернуть ладони вверх (на коленях или вдоль тела) — тело сигналит уму «я открыта, я принимаю», и упёртость ослабевает.',
+   ideas:['Начинаю злиться или чувствовать враждебность → спросить себя: «Это эффективно?»','Замечаю, что хочу быть правой, а не эффективной → отпустить правоту.','Отметить своеволие внутри → «Это эффективно?»','Отбросить своеволие и сделать эффективное действие; заметить разницу.','Злость, враждебность, или вот-вот сделаю что-то неэффективное → «ладони готовности».'],
+   items:['Отказ от стремления всегда быть правой','Отказ от своеволия','Делала то, что эффективно']}
+];
+const SK = Object.fromEntries(SKILLS.map(s=>[s.id,s]));
+const DAYS = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+const KEY = 'dbt-journal-v2';
+
+// ============ STORE ============
+let store = {name:'', sessions:{}, current:null, theoryMode:'current'};
+function load(){
+  try{ const s=localStorage.getItem(KEY); if(s){ store=Object.assign(store,JSON.parse(s)); return; } }catch(e){}
+  // миграция из v1 (недели)
+  try{ const old=localStorage.getItem('dbt-journal-v1'); if(old){ const o=JSON.parse(old); store.name=o.name||'';
+    Object.values(o.weeks||{}).forEach(w=>{ const s=blankSession(w.start); s.topic='Осознанность — навыки «как»'; s.skills=['nonjudg','onemind','effect'];
+      Object.assign(s,{checks:w.checks||{},days:(w.days||s.days),reflect:w.reflect||'',wise:w.wise||'',notes:w.notes||''}); for(let i=1;i<=8;i++) s['h'+i]=!!w['h'+i]; store.sessions[s.id]=s; });
+    store.current=Object.keys(store.sessions).sort().reverse()[0]||null; } }catch(e){}
+}
+function persist(){ try{ localStorage.setItem(KEY, JSON.stringify(store)); setStatus('сохранено '+new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})); }catch(e){ setStatus('не удалось сохранить'); } }
+let t; function save(){ clearTimeout(t); t=setTimeout(persist,400); }
+function setStatus(s){ document.getElementById('status').textContent=s; }
+function iso(d){ return d.toISOString().slice(0,10); }
+function today(){ const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return iso(d); }
+function blankSession(date){
+  const s={id:date+'-'+Math.random().toString(36).slice(2,6), date, topic:'', skills:[], checks:{}, days:[], reflect:'',wise:'',notes:''};
+  for(let i=1;i<=8;i++) s['h'+i]=false;
+  for(let i=0;i<7;i++) s.days.push({entries:[]});
+  return s;
+}
+function cur(){ return store.sessions[store.current]; }
+function normalize(){ Object.values(store.sessions).forEach(ss=>{ ss.days=ss.days.map(d=>{ if(d&&d.entries) return d; const e=(d&&(d.how||d.feel||d.now||d.skill))?[{skill:d.skill||'',how:d.how||'',feel:d.feel||'',now:d.now||''}]:[]; return {entries:e}; }); while(ss.days.length<7) ss.days.push({entries:[]}); }); }
+function dayHas(d){ return d.entries.some(e=>e.how||e.feel||e.now); }
+function fmt(d){ return new Date(d+'T12:00').toLocaleDateString('ru',{day:'numeric',month:'long',year:'numeric'}); }
+function fmtShort(d){ return new Date(d+'T12:00').toLocaleDateString('ru',{day:'numeric',month:'short'}); }
+function addDays(d,n){ const x=new Date(d+'T12:00'); x.setDate(x.getDate()+n); return iso(x); }
+function dayName(d){ return DAYS[(new Date(d+'T12:00').getDay()+6)%7]; }
+
+// ============ VIEWS ============
+function showView(v){
+  document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+v));
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
+  if(v==='archive') renderArchive();
+  if(v==='theory') renderTheory();
+}
+
+function renderSkillPicker(){
+  const s=cur(); const c=document.getElementById('skillpicker'); c.innerHTML='';
+  Object.entries(MODULES).forEach(([mid,m])=>{
+    const list=SKILLS.filter(x=>x.module===mid); if(!list.length) return;
+    const div=document.createElement('div'); div.className='mod';
+    div.innerHTML=`<div class="mod-h">${m.name}</div><div class="chips">${list.map(x=>`<span class="chip ${s.skills.includes(x.id)?'on':''}" data-skill="${x.id}"><span class="sw" style="background:${m.color}"></span>${x.name}</span>`).join('')}</div>`;
+    c.appendChild(div);
+  });
+}
+function toggleSkill(id){
+  const s=cur(); const i=s.skills.indexOf(id);
+  if(i>=0) s.skills.splice(i,1); else s.skills.push(id);
+  renderSkillPicker(); renderChecklist(); renderCalendar(); save();
+}
+
+function renderChecklist(){
+  const s=cur(); const c=document.getElementById('checklist'); c.innerHTML=''; let n=1;
+  const active=SKILLS.filter(x=>s.skills.includes(x.id));
+  if(!active.length){ c.innerHTML='<div class="empty">Выбери навыки в блоке «Сессия» — чек-лист появится здесь.</div>'; return; }
+  active.forEach(sk=>{
+    const m=MODULES[sk.module];
+    const g=document.createElement('div'); g.className='sgroup';
+    g.innerHTML=`<h3><span class="swatch" style="background:${m.color}"></span>${sk.name}</h3>`;
+    const ul=document.createElement('ul'); ul.className='plist';
+    sk.items.forEach((txt,i)=>{
+      const li=document.createElement('li'); const key=sk.id+'|'+i; const v=s.checks[key]||0;
+      li.innerHTML=`<span class="pnum">${n++}.</span><div class="dots">${[0,1,2,3].map(k=>`<button class="dot ${v>k?'on':''}" data-key="${key}" data-i="${k}" title="отметить"></button>`).join('')}</div><span>${txt}</span>`;
+      ul.appendChild(li);
+    });
+    g.appendChild(ul); c.appendChild(g);
+  });
+}
+
+function renderCalendar(){
+  const s=cur(); const c=document.getElementById('calendar'); c.innerHTML='';
+  const active=SKILLS.filter(x=>s.skills.includes(x.id));
+  for(let i=0;i<7;i++){
+    const d=addDays(s.date,i); const dd=s.days[i];
+    const div=document.createElement('div'); div.className='day';
+    let h=`<div class="dh"><strong>${dayName(d)} <small>${fmtShort(d)}${i===0?' · сессия':''}</small></strong></div>`;
+    if(!dd.entries.length) h+=`<p class="hint" style="margin:0 0 8px">Практик пока нет.</p>`;
+    dd.entries.forEach((e,j)=>{
+      h+=`<div class="entry"><div class="eh">
+        <select data-day="${i}" data-e="${j}" data-f="skill"><option value="">— навык —</option>${active.map(x=>`<option value="${x.id}" ${e.skill===x.id?'selected':''}>${x.name}</option>`).join('')}</select>
+        <button class="x no-print" title="удалить запись" data-del="${i}:${j}">×</button></div>
+        <div class="row">
+          <div><label>Как практиковала</label><textarea data-day="${i}" data-e="${j}" data-f="how">${esc(e.how)}</textarea></div>
+          <div><label>Что переживала во время практики (тело, эмоции, мысли)</label><textarea data-day="${i}" data-e="${j}" data-f="feel">${esc(e.feel)}</textarea></div>
+          <div><label>Что переживаю сейчас, после</label><textarea data-day="${i}" data-e="${j}" data-f="now">${esc(e.now)}</textarea></div>
+        </div></div>`;
+    });
+    h+=`<button class="ghost no-print" style="padding:6px 14px" data-add="${i}">+ добавить навык</button>`;
+    div.innerHTML=h; c.appendChild(div);
+  }
+  autosizeAll();
+}
+function addEntry(i){ const s=cur(); const def=s.skills.length===1?s.skills[0]:''; s.days[i].entries.push({skill:def,how:'',feel:'',now:''}); renderCalendar(); save();
+  const t=document.querySelector(`textarea[data-day="${i}"][data-e="${s.days[i].entries.length-1}"][data-f="how"]`); if(t) t.focus(); }
+function delEntry(i,j){ const e=cur().days[i].entries[j]; if((e.how||e.feel||e.now)&&!confirm('Удалить эту запись?')) return; cur().days[i].entries.splice(j,1); renderCalendar(); save(); }
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
+
+function renderTheory(){
+  const s=cur(); const mode=store.theoryMode||'current';
+  document.getElementById('th-cur').classList.toggle('active',mode==='current');
+  document.getElementById('th-all').classList.toggle('active',mode==='all');
+  const c=document.getElementById('theory'); c.innerHTML='';
+  Object.entries(MODULES).forEach(([mid,m])=>{
+    let list=SKILLS.filter(x=>x.module===mid);
+    if(mode==='current') list=list.filter(x=>s.skills.includes(x.id));
+    if(!list.length) return;
+    const h=document.createElement('div'); h.className='mod-h'; h.style.margin='8px 0 10px'; h.textContent='Модуль · '+m.name; c.appendChild(h);
+    const grid=document.createElement('div'); grid.className='theory-grid theory';
+    list.forEach(sk=>{
+      const on=s.skills.includes(sk.id);
+      const card=document.createElement('div'); card.className='card '+m.cls+(on?'':' off');
+      card.innerHTML=`<div class="hdr"><span class="pill">${on?'в домашке':'не выбран'}</span>
+        <button class="ghost no-print" style="padding:6px 12px" onclick="toggleSkill('${sk.id}');renderTheory()">${on?'убрать':'добавить в домашку'}</button></div>
+        <h2>${sk.name}</h2><p class="lead">${sk.lead}</p><p>${sk.text}</p>
+        ${sk.tip?`<div class="tips">${sk.tip}</div>`:''}
+        ${sk.ideas?`<details><summary>Идеи для практики (${sk.ideas.length})</summary><ul>${sk.ideas.map(i=>`<li>${i}</li>`).join('')}</ul></details>`:''}`;
+      grid.appendChild(card);
+    });
+    c.appendChild(grid);
+  });
+  if(!c.children.length) c.innerHTML='<div class="empty">Для текущей сессии навыки ещё не выбраны. Переключи на «Все навыки» или отметь их в блоке «Сессия».</div>';
+}
+function setTheoryMode(m){ store.theoryMode=m; renderTheory(); save(); }
+
+function fillSummary(){
+  const s=cur();
+  document.getElementById('f-name').value=store.name||'';
+  document.getElementById('f-date').value=s.date;
+  document.getElementById('f-topic').value=s.topic||'';
+  document.querySelectorAll('[data-k]').forEach(el=>{ if(el.type==='checkbox') el.checked=!!s[el.dataset.k]; else el.value=s[el.dataset.k]||''; });
+  document.getElementById('subtitle').textContent = 'Сессия '+fmt(s.date)+(s.topic?' · '+s.topic:'');
+}
+function renderAll(){ fillSummary(); renderSkillPicker(); renderChecklist(); renderCalendar(); autosizeAll(); }
+
+function bind(){
+  document.getElementById('f-name').addEventListener('input',e=>{store.name=e.target.value;save();});
+  document.getElementById('f-topic').addEventListener('input',e=>{cur().topic=e.target.value;fillSummary();save();});
+  document.getElementById('f-date').addEventListener('change',e=>{ if(!e.target.value) return; cur().date=e.target.value; renderCalendar(); fillSummary(); save(); });
+  document.getElementById('skillpicker').addEventListener('click',e=>{ const ch=e.target.closest('.chip'); if(ch) toggleSkill(ch.dataset.skill); });
+  document.getElementById('checklist').addEventListener('click',e=>{
+    const b=e.target.closest('.dot'); if(!b) return;
+    const s=cur(); const k=b.dataset.key, i=+b.dataset.i;
+    s.checks[k] = (s.checks[k]===i+1) ? i : i+1;
+    b.parentElement.querySelectorAll('.dot').forEach(d=>d.classList.toggle('on',(s.checks[k]||0)>+d.dataset.i));
+    save();
+  });
+  document.addEventListener('input',e=>{
+    const el=e.target, s=cur();
+    if(el.dataset.day!==undefined){ s.days[+el.dataset.day].entries[+el.dataset.e][el.dataset.f]=el.value; }
+    else if(el.dataset.k){ s[el.dataset.k]= el.type==='checkbox'?el.checked:el.value; }
+    else return;
+    if(el.tagName==='TEXTAREA') autosize(el);
+    save();
+  });
+  document.addEventListener('change',e=>{ const el=e.target; if(el.dataset.day!==undefined){ cur().days[+el.dataset.day].entries[+el.dataset.e][el.dataset.f]=el.value; save(); } });
+  document.getElementById('calendar').addEventListener('click',e=>{ const a=e.target.closest('[data-add]'); if(a){ addEntry(+a.dataset.add); return; } const d=e.target.closest('[data-del]'); if(d){ const [i,j]=d.dataset.del.split(':').map(Number); delEntry(i,j); } });
+}
+function autosize(el){ el.style.height='auto'; el.style.height=Math.max(el.scrollHeight,56)+'px'; }
+function autosizeAll(){ document.querySelectorAll('textarea').forEach(autosize); }
+
+function newSession(){
+  const s=blankSession(today()); const prev=cur();
+  if(prev&&prev.skills.length&&confirm('Перенести навыки из прошлой сессии в новую?')) s.skills=[...prev.skills];
+  store.sessions[s.id]=s; store.current=s.id; renderAll(); persist(); showView('practice'); window.scrollTo(0,0);
+}
+function openSession(k){ store.current=k; renderAll(); persist(); showView('practice'); window.scrollTo(0,0); }
+function delSession(k){
+  const s=store.sessions[k]; if(!confirm('Удалить сессию от '+fmt(s.date)+'? Это нельзя отменить.')) return;
+  delete store.sessions[k];
+  if(store.current===k){ const ks=sortedIds(); store.current=ks[0]||null; if(!store.current){ const n=blankSession(today()); store.sessions[n.id]=n; store.current=n.id; } renderAll(); }
+  persist(); renderArchive();
+}
+function sortedIds(){ return Object.keys(store.sessions).sort((a,b)=>store.sessions[b].date.localeCompare(store.sessions[a].date)); }
+function renderArchive(){
+  const a=document.getElementById('archive'); const ks=sortedIds();
+  if(!ks.length){ a.innerHTML='<div class="empty">Пока пусто</div>'; return; }
+  a.innerHTML=ks.map(k=>{ const s=store.sessions[k]; const n=Object.values(s.checks).reduce((x,v)=>x+v,0); const filled=s.days.filter(dayHas).length;
+    const names=s.skills.map(id=>SK[id]?SK[id].name:id).join(', ')||'навыки не выбраны';
+    return `<div class="arch"><div><strong>${dayName(s.date)}, ${fmt(s.date)}</strong>${k===store.current?' <span class="pill" style="margin-left:8px">открыта</span>':''}<br>${s.topic?esc(s.topic)+'<br>':''}<small>${names} · ${n} отметок · ${filled} дн. с записями</small></div>
+      <div class="toolbar"><button onclick="openSession('${k}')">Открыть</button><button class="danger" onclick="delSession('${k}')">Удалить</button></div></div>`; }).join('');
+}
+
+// ============ EXPORT / IMPORT ============
+function exportJSON(){
+  const blob=new Blob([JSON.stringify(store,null,2)],{type:'application/json'});
+  const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='dbt-journal-'+today()+'.json'; a.click();
+}
+function importJSON(inp){
+  const f=inp.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.sessions) throw 0;
+    if(!confirm('Объединить с текущими записями? (Отмена — заменить всё)')) store={name:d.name||'',sessions:{},current:null,theoryMode:'current'};
+    Object.assign(store.sessions,d.sessions); store.name=store.name||d.name||''; store.current=d.current&&store.sessions[d.current]?d.current:sortedIds()[0];
+    normalize(); renderAll(); persist(); renderArchive(); alert('Готово: загружено сессий — '+Object.keys(store.sessions).length);
+  }catch(e){ alert('Не удалось прочитать файл'); } inp.value=''; };
+  r.readAsText(f);
+}
+
+// ============ REPORT ============
+const HELPED=['Уменьшить страдания','Повысить ощущение счастья','Улучшить сосредоточение','Снизить реактивность','Увеличить мудрость','Расширить опыт','Укрепить связи','Повысить чувство собственной значимости'];
+function buildReport(){
+  const s=cur(); const active=SKILLS.filter(x=>s.skills.includes(x.id)); const end=addDays(s.date,6);
+  const colorOf=sk=>MODULES[sk.module].color;
+  let h=`<div class="rp-head"><div><h1>Дневник навыков DBT</h1><div style="color:#5e6b58">${esc(store.name)||'&nbsp;'}</div></div>
+    <div class="meta"><b>Сессия: ${dayName(s.date).toLowerCase()}, ${fmt(s.date)}</b><br>${s.topic?esc(s.topic)+'<br>':''}Период практики: ${fmtShort(s.date)} — ${fmtShort(end)}</div></div>`;
+  // skills
+  h+=`<div class="rp-h2">Навыки на дом</div>`;
+  h+= active.length? `<div class="rp-skills">${active.map(sk=>`<span class="rp-skill"><i style="background:${colorOf(sk)}"></i>${sk.name}</span>`).join('')}</div>` : `<p class="rp-empty">Навыки не выбраны</p>`;
+  // checklist
+  if(active.length){
+    h+=`<div class="rp-h2">Чек-лист практик</div><table class="rp"><tr><th></th><th>Практика</th><th style="text-align:right">Сколько раз</th></tr>`;
+    let n=1;
+    active.forEach(sk=>{ h+=`<tr class="rp-group"><td class="g" colspan="3">${sk.name}</td></tr>`;
+      sk.items.forEach((txt,i)=>{ const v=s.checks[sk.id+'|'+i]||0;
+        h+=`<tr class="${v?'':'zero'}"><td class="n">${n++}</td><td>${txt}</td><td class="c">${v||'—'} ${[0,1,2,3].map(k=>`<span class="rp-dot ${v>k?'':'e'}"></span>`).join('')}</td></tr>`; });
+    });
+    h+=`</table>`;
+  }
+  // calendar
+  h+=`<div class="rp-h2">Записи по дням</div>`;
+  let any=false;
+  for(let i=0;i<7;i++){ const d=s.days[i]; const es=d.entries.filter(e=>e.how||e.feel||e.now); if(!es.length) continue; any=true; const dt=addDays(s.date,i);
+    h+=`<div class="rp-day"><div class="dh">${dayName(dt)}<small>${fmtShort(dt)}${i===0?' · день сессии':''}</small></div>`;
+    es.forEach(e=>{ h+=`<div class="rp-entry">${e.skill&&SK[e.skill]?`<span class="sk">${SK[e.skill].name}</span>`:''}`;
+      if(e.how) h+=`<div class="rp-f"><b>Как практиковала</b><p>${esc(e.how)}</p></div>`;
+      if(e.feel) h+=`<div class="rp-f"><b>Во время практики (тело, эмоции, мысли)</b><p>${esc(e.feel)}</p></div>`;
+      if(e.now) h+=`<div class="rp-f"><b>Сейчас, после практики</b><p>${esc(e.now)}</p></div>`;
+      h+=`</div>`; });
+    h+=`</div>`; }
+  if(!any) h+=`<p class="rp-empty">Записей по дням пока нет</p>`;
+  // summary
+  h+=`<div class="rp-h2">Итоги недели</div><div class="rp-block"><div class="rp-f"><b>Помогла ли практика</b></div><div class="rp-helped">${HELPED.map((t,i)=>`<span class="${s['h'+(i+1)]?'y':''}">${t}</span>`).join('')}</div></div>`;
+  const fld=(k,t)=> s[k]? `<div class="rp-block rp-f"><b>${t}</b><p>${esc(s[k])}</p></div>` : '';
+  h+=fld('reflect','Как навыки помогли (или не помогли)')+fld('wise','Мудрые поступки на этой неделе');
+  if(s.notes) h+=`<div class="rp-notes rp-f"><b>Вопросы и заметки для терапевта</b><p>${esc(s.notes)}</p></div>`;
+  h+=`<div class="rp-foot">Дневник навыков DBT · сформирован ${fmt(today())} · структура по рабочим листам M. Linehan, DBT Skills Training Handouts and Worksheets, 2nd ed.</div>`;
+  document.getElementById('report').innerHTML=h;
+}
+function printReport(){ buildReport(); window.print(); }
+window.addEventListener('beforeprint',buildReport);
+
+// ============ INIT ============
+load(); normalize(); bind();
+if(!store.current||!store.sessions[store.current]){ const s=blankSession(today()); store.sessions[s.id]=s; store.current=s.id; }
+renderAll();
+document.querySelector('nav.tabs button[data-v=practice]').classList.add('active');
+</script>
+</body>
+</html>
