@@ -181,6 +181,7 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
 <nav class="tabs">
   <button data-v="practice" onclick="showView('practice')">Практика</button>
   <button data-v="theory" onclick="showView('theory')">Теория</button>
+  <button data-v="chains" onclick="showView('chains')">Цепочки</button>
   <button data-v="archive" onclick="showView('archive')">Архив</button>
 </nav>
 
@@ -260,6 +261,44 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
   <div id="theory"></div>
 </section>
 
+<!-- ============ CHAINS ============ -->
+<section class="view" id="view-chains">
+  <div class="card c-sky">
+    <div class="hdr"><h2>Анализ поведенческой цепочки</h2><button class="primary no-print" onclick="newChain()">+ Новый анализ</button></div>
+    <p class="lead" style="font-family:'Instrument Serif',serif;font-size:19px;font-style:italic;color:var(--sage-d);margin-bottom:8px">Чтобы понять поведение — разложить его на звенья.</p>
+    <svg viewBox="0 0 760 120" style="width:100%;max-width:760px;display:block;margin:6px 0 10px" aria-hidden="true">
+      <g fill="none" stroke="#4f6349" stroke-width="2.5">
+        <ellipse cx="95" cy="60" rx="38" ry="22" stroke="#a9b8a3" stroke-dasharray="5 4"/>
+        <ellipse cx="160" cy="60" rx="38" ry="22"/><ellipse cx="225" cy="60" rx="38" ry="22"/><ellipse cx="290" cy="60" rx="38" ry="22"/><ellipse cx="355" cy="60" rx="38" ry="22"/>
+        <ellipse cx="430" cy="60" rx="42" ry="24" fill="#4f6349"/>
+        <ellipse cx="505" cy="60" rx="38" ry="22"/><ellipse cx="570" cy="60" rx="38" ry="22"/>
+      </g>
+      <g font-family="Manrope,sans-serif" font-size="12" fill="#4a5b45" text-anchor="middle">
+        <text x="95" y="18">уязвимость</text><text x="160" y="108">побуждающее событие</text><text x="290" y="18">звенья</text>
+        <text x="430" y="108">проблемное поведение</text><text x="540" y="18">последствия</text>
+      </g>
+    </svg>
+    <details><summary>Восемь шагов</summary>
+      <ol style="padding-left:20px;margin:8px 0 0;line-height:1.6">
+        <li><strong>Проблемное поведение</strong> — что именно я сделала.</li>
+        <li><strong>Побуждающее событие</strong> — что запустило цепочку.</li>
+        <li><strong>Уязвимость</strong> — что до этого сделало меня уязвимой (сон, еда, усталость, конфликт, вещества…).</li>
+        <li><strong>Звенья</strong> — предельно подробно: мысли, чувства, ощущения, действия, события — шаг за шагом от события к поведению.</li>
+        <li><strong>Последствия</strong> — что случилось после, для меня и для других, сразу и потом.</li>
+        <li><strong>Адаптивное поведение</strong> — какими навыками можно заменить проблемные звенья.</li>
+        <li><strong>План по предотвращению</strong> — как снизить уязвимость к таким событиям.</li>
+        <li><strong>Устранение последствий</strong> — как исправить или компенсировать самое серьёзное.</li>
+      </ol>
+      <p class="hint">Общие навыки, раздаточный материал 7 (рабочие листы 2, 2а). M. Linehan, 2015.</p>
+    </details>
+  </div>
+  <div id="chainEditor"></div>
+  <div class="card">
+    <h2>Мои анализы</h2>
+    <div id="chainList"><div class="empty">Пока пусто</div></div>
+  </div>
+</section>
+
 <!-- ============ ARCHIVE ============ -->
 <section class="view" id="view-archive">
   <div class="card">
@@ -288,7 +327,7 @@ const MODULES = {
   emo:{name:'Эмоциональная регуляция', color:'var(--sand)', cls:'c-sand'},
   inter:{name:'Межличностная эффективность', color:'var(--rose)', cls:'c-rose'}
 };
-const SKILLS = [
+let SKILLS = [
   {id:'nonjudg', module:'mind', name:'Безоценочность', lead:'Видеть факты, а не ярлыки.',
    text:'Оценка — это когда вместо того, что произошло, в голове звучит «хорошо / плохо / должен / ужасно». Задача не в том, чтобы перестать думать, а в том, чтобы замечать оценку и возвращаться к наблюдаемому: что случилось, какие были последствия, что я при этом почувствовала. Эмоции — это не оценки, их описывать можно и нужно.',
    tip:'<strong>Формула замены оценки фактом:</strong><br>1) что я видела и слышала → 2) что за этим последовало → 3) что я почувствовала в ответ.',
@@ -305,12 +344,20 @@ const SKILLS = [
    ideas:['Начинаю злиться или чувствовать враждебность → спросить себя: «Это эффективно?»','Замечаю, что хочу быть правой, а не эффективной → отпустить правоту.','Отметить своеволие внутри → «Это эффективно?»','Отбросить своеволие и сделать эффективное действие; заметить разницу.','Злость, враждебность, или вот-вот сделаю что-то неэффективное → «ладони готовности».'],
    items:['Отказ от стремления всегда быть правой','Отказ от своеволия','Делала то, что эффективно']}
 ];
-const SK = Object.fromEntries(SKILLS.map(s=>[s.id,s]));
+let SK = Object.fromEntries(SKILLS.map(s=>[s.id,s]));
+// Навыки из облака (коллекция `skills`): документ = {id, module, name, lead, text, tip, ideas[], items[], order, hidden}
+function applyCloudSkills(docs){
+  const byId=Object.fromEntries(SKILLS.map(s=>[s.id,s]));
+  docs.forEach(d=>{ if(!d||!d.id) return; if(d.hidden){ delete byId[d.id]; return; } if(!d.name&&!byId[d.id]) return;
+    byId[d.id]=Object.assign({module:'mind',lead:'',text:'',tip:'',ideas:[],items:[]},byId[d.id]||{},d); });
+  SKILLS=Object.values(byId).sort((a,b)=>(a.order||0)-(b.order||0)||a.name.localeCompare(b.name,'ru'));
+  SK=Object.fromEntries(SKILLS.map(s=>[s.id,s]));
+}
 const DAYS = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
 const KEY = 'dbt-journal-v2';
 
 // ============ STORE ============
-let store = {name:'', sessions:{}, current:null, theoryMode:'current'};
+let store = {name:'', sessions:{}, chains:{}, current:null, currentChain:null, theoryMode:'current'};
 function load(){
   try{ const s=localStorage.getItem(KEY); if(s){ store=Object.assign(store,JSON.parse(s)); return; } }catch(e){}
   // миграция из v1 (недели)
@@ -321,7 +368,7 @@ function load(){
 }
 // ---- cloud sync (Claude artifact db) ----
 let cloud=null; // {db,uid}
-const dirty=new Set(); let metaDirty=false; const chains={};
+const dirty=new Set(); const dirtyChains=new Set(); let metaDirty=false; const chains={};
 function queue(key,fn){ chains[key]=(chains[key]||Promise.resolve()).then(fn).catch(e=>{ console.warn('db',e); setStatus('облако: ошибка, данные сохранены локально'); }); return chains[key]; }
 function tstamp(){ return Date.now(); }
 function markSession(id){ if(id) dirty.add(id); }
@@ -331,7 +378,9 @@ function persist(){
   if(!cloud){ setStatus(ok?'сохранено локально '+t:'не удалось сохранить'); return; }
   const base='data/users/'+cloud.uid;
   const ids=[...dirty]; dirty.clear();
-  ids.forEach(id=>{ const ss=store.sessions[id]; if(!ss) return; ss.updated=tstamp(); queue(id,()=>cloud.db.doc(base+'/sessions/'+id).set(ss)); });
+  ids.forEach(id=>{ const ss=store.sessions[id]; if(!ss) return; ss.updated=tstamp(); queue(id,()=>cloud.db.doc(base+'/journal/sessions/'+id).set(ss)); });
+  const cids=[...dirtyChains]; dirtyChains.clear();
+  cids.forEach(id=>{ const c=store.chains[id]; if(!c) return; c.updated=tstamp(); queue('c'+id,()=>cloud.db.doc(base+'/journal/chains/'+id).set(c)); });
   if(metaDirty){ metaDirty=false; queue('meta',()=>cloud.db.doc(base+'/meta').set({name:store.name||'',current:store.current||'',theoryMode:store.theoryMode||'current',updated:tstamp()})); }
   Promise.all(Object.values(chains)).then(()=>setStatus('сохранено в облаке '+new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})));
   setStatus('сохраняю…');
@@ -346,7 +395,11 @@ async function connectCloud(){
   cloud={db,uid}; const base='data/users/'+uid;
   setStatus('загружаю из облака…');
   try{
-    const [metaSnap,sessSnap]=await Promise.all([db.doc(base+'/meta').get(), db.collection(base+'/sessions').get()]);
+    const [metaSnap,sessSnap,skSnap,chSnap]=await Promise.all([db.doc(base+'/meta').get(), db.collection(base+'/journal/sessions').get(), db.collection('skills').get().catch(()=>null), db.collection(base+'/journal/chains').get().catch(()=>null)]);
+    if(chSnap){ store.chains=store.chains||{}; const rc={}; chSnap.docs.forEach(d=>{ if(d.exists) rc[d.id]=d.data(); });
+      Object.keys(store.chains).forEach(id=>{ const l=store.chains[id], r=rc[id]; if(!r||(l.updated||0)>(r.updated||0)) dirtyChains.add(id); else store.chains[id]=r; });
+      Object.keys(rc).forEach(id=>{ if(!store.chains[id]) store.chains[id]=rc[id]; }); }
+    if(skSnap) applyCloudSkills(skSnap.docs.filter(d=>d.exists).map(d=>Object.assign({id:d.id},d.data())));
     const remote={}; sessSnap.docs.forEach(d=>{ if(d.exists) remote[d.id]=d.data(); });
     const meta=metaSnap.exists?metaSnap.data():null;
     // merge: newer wins; union of ids
@@ -358,7 +411,7 @@ async function connectCloud(){
     pushLocal=pushLocal.filter(id=>{ const ss=store.sessions[id]; const empty=!ss.topic&&!ss.skills.length&&!Object.values(ss.checks||{}).some(v=>v)&&!ss.days.some(dayHas)&&!ss.reflect&&!ss.wise&&!ss.notes; if(empty&&Object.keys(remote).length){ if(store.current===id){ delete store.sessions[id]; store.current=sortedIds()[0]; } else delete store.sessions[id]; return false; } return true; });
     normalize(); if(!store.current||!store.sessions[store.current]){ store.current=sortedIds()[0]; if(!store.current){ const n=blankSession(today()); store.sessions[n.id]=n; store.current=n.id; pushLocal.push(n.id); } }
     pushLocal.forEach(markSession); metaDirty=true;
-    renderAll(); if(document.getElementById('view-theory').classList.contains('active')) renderTheory(); if(document.getElementById('view-archive').classList.contains('active')) renderArchive();
+    renderAll(); renderChains(); if(document.getElementById('view-theory').classList.contains('active')) renderTheory(); if(document.getElementById('view-archive').classList.contains('active')) renderArchive();
     persist();
     document.getElementById('cloudHint').textContent='Записи хранятся в облаке твоего аккаунта Claude и доступны с любого устройства после входа.'; document.getElementById('repHint').textContent='Отчёты тоже лежат в облаке.';
   }catch(e){ console.warn('cloud load',e); cloud=null; setStatus('облако недоступно — работаю локально'); }
@@ -385,6 +438,7 @@ function showView(v){
   document.querySelectorAll('.view').forEach(x=>x.classList.toggle('active',x.id==='view-'+v));
   document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
   if(v==='archive'){ renderArchive(); loadReports().then(renderReports); }
+  if(v==='chains') renderChains();
   if(v==='theory') renderTheory();
 }
 
@@ -408,7 +462,7 @@ function renderChecklist(){
   const active=SKILLS.filter(x=>s.skills.includes(x.id));
   if(!active.length){ c.innerHTML='<div class="empty">Выбери навыки в блоке «Сессия» — чек-лист появится здесь.</div>'; return; }
   active.forEach(sk=>{
-    const m=MODULES[sk.module];
+    const m=MODULES[sk.module]||MODULES.mind;
     const g=document.createElement('div'); g.className='sgroup';
     g.innerHTML=`<h3><span class="swatch" style="background:${m.color}"></span>${sk.name}</h3>`;
     const ul=document.createElement('ul'); ul.className='plist';
@@ -520,7 +574,7 @@ function newSession(){
 function openSession(k){ store.current=k; metaDirty=true; renderAll(); persist(); showView('practice'); window.scrollTo(0,0); }
 function delSession(k){
   const s=store.sessions[k]; if(!confirm('Удалить сессию от '+fmt(s.date)+'? Это нельзя отменить.')) return;
-  delete store.sessions[k]; dirty.delete(k); if(cloud) queue(k,()=>cloud.db.doc('data/users/'+cloud.uid+'/sessions/'+k).delete());
+  delete store.sessions[k]; dirty.delete(k); if(cloud) queue(k,()=>cloud.db.doc('data/users/'+cloud.uid+'/journal/sessions/'+k).delete());
   if(store.current===k){ const ks=sortedIds(); store.current=ks[0]||null; if(!store.current){ const n=blankSession(today()); store.sessions[n.id]=n; store.current=n.id; } renderAll(); }
   persist(); renderArchive();
 }
@@ -546,7 +600,7 @@ function idbDel(id){ return idb().then(d=>new Promise((res,rej)=>{ const r=d.tra
 let reportsCache=[];
 async function loadReports(){
   try{
-    if(cloud){ const snap=await cloud.db.collection('data/users/'+cloud.uid+'/reports').get(); reportsCache=snap.docs.filter(d=>d.exists).map(d=>Object.assign({id:d.id},d.data())); }
+    if(cloud){ const snap=await cloud.db.collection('data/users/'+cloud.uid+'/journal/reports').get(); reportsCache=snap.docs.filter(d=>d.exists).map(d=>Object.assign({id:d.id},d.data())); }
     else { reportsCache=(await idbAll()).map(o=>({id:o.id,sessionId:o.sessionId,sessionDate:o.sessionDate,topic:o.topic,created:o.created,filename:o.filename,size:o.size})); }
   }catch(e){ console.warn('reports',e); }
   reportsCache.sort((a,b)=>(b.created||0)-(a.created||0));
@@ -556,7 +610,7 @@ async function saveReport(blob,s,name){
   try{
     if(cloud){ const assets=await claude.use('assets'); if(!assets) throw new Error('no assets');
       const up=await assets.upload(blob,{type:'application/pdf'}); meta.assetId=up.id;
-      await cloud.db.doc('data/users/'+cloud.uid+'/reports/'+id).set(meta); }
+      await cloud.db.doc('data/users/'+cloud.uid+'/journal/reports/'+id).set(meta); }
     else { await idbPut(Object.assign({id,blob},meta)); }
     reportsCache.unshift(Object.assign({id},meta));
   }catch(e){ console.warn('saveReport',e); setStatus('PDF скачан, но в архив не сохранился'); }
@@ -572,7 +626,7 @@ async function deliver(blob,name){
 }
 async function downloadReport(id){ const r=reportsCache.find(x=>x.id===id); if(!r) return; try{ await deliver(await reportBlob(r),r.filename); }catch(e){ alert('Не удалось получить файл'); } }
 async function deleteReport(id){ const r=reportsCache.find(x=>x.id===id); if(!r||!confirm('Удалить отчёт '+r.filename+'?')) return;
-  try{ if(cloud){ await cloud.db.doc('data/users/'+cloud.uid+'/reports/'+id).delete(); if(r.assetId){ const assets=await claude.use('assets'); if(assets) await assets.delete(r.assetId); } } else await idbDel(id);
+  try{ if(cloud){ await cloud.db.doc('data/users/'+cloud.uid+'/journal/reports/'+id).delete(); if(r.assetId){ const assets=await claude.use('assets'); if(assets) await assets.delete(r.assetId); } } else await idbDel(id);
     reportsCache=reportsCache.filter(x=>x.id!==id); renderReports(); }catch(e){ alert('Не удалось удалить'); } }
 function renderReports(){
   const c=document.getElementById('reports');
@@ -594,9 +648,74 @@ function importJSON(inp){
   r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.sessions) throw 0;
     if(!confirm('Объединить с текущими записями? (Отмена — заменить всё)')) store={name:d.name||'',sessions:{},current:null,theoryMode:'current'};
     Object.assign(store.sessions,d.sessions); store.name=store.name||d.name||''; store.current=d.current&&store.sessions[d.current]?d.current:sortedIds()[0];
-    normalize(); Object.keys(store.sessions).forEach(markSession); metaDirty=true; renderAll(); persist(); renderArchive(); alert('Готово: загружено сессий — '+Object.keys(store.sessions).length);
+    if(d.chains) Object.assign(store.chains=store.chains||{},d.chains); normalize(); Object.keys(store.sessions).forEach(markSession); Object.keys(store.chains||{}).forEach(markChain); metaDirty=true; renderAll(); persist(); renderArchive(); alert('Готово: загружено сессий — '+Object.keys(store.sessions).length);
   }catch(e){ alert('Не удалось прочитать файл'); } inp.value=''; };
   r.readAsText(f);
+}
+
+// ============ CHAINS ============
+const CHAIN_STEPS=[
+ ['s1','1. Проблемное поведение','Что именно я сделала'],
+ ['s2','2. Побуждающее событие','Что запустило цепочку'],
+ ['s3','3. Уязвимость','Что до этого сделало меня уязвимой'],
+ ['s4','4. Звенья событий','Как можно подробнее: мысли, чувства, ощущения, действия — шаг за шагом'],
+ ['s5','5. Последствия','Для меня и для других, сразу и потом'],
+ ['s6','6. Адаптивное поведение','Какими навыками заменить проблемные звенья'],
+ ['s7','7. План по предотвращению','Как снизить уязвимость'],
+ ['s8','8. Устранение последствий','Как исправить самое серьёзное']];
+function curChain(){ return store.chains&&store.currentChain?store.chains[store.currentChain]:null; }
+function chainIds(){ return Object.keys(store.chains||{}).sort((a,b)=>(store.chains[b].date||'').localeCompare(store.chains[a].date||'')||(store.chains[b].updated||0)-(store.chains[a].updated||0)); }
+function markChain(id){ if(id) dirtyChains.add(id); }
+function newChain(){ store.chains=store.chains||{}; const c={id:'c'+Date.now().toString(36),date:today(),title:'',updated:tstamp()}; CHAIN_STEPS.forEach(st=>c[st[0]]=''); store.chains[c.id]=c; store.currentChain=c.id; markChain(c.id); renderChains(); persist(); const t=document.getElementById('ch-title'); if(t) t.focus(); }
+function openChain(id){ store.currentChain=id; renderChains(); window.scrollTo(0,document.getElementById('chainEditor').offsetTop-80); }
+function closeChain(){ store.currentChain=null; renderChains(); }
+function delChain(id){ const c=store.chains[id]; if(!confirm('Удалить анализ «'+(c.title||fmt(c.date))+'»? Это нельзя отменить.')) return;
+  delete store.chains[id]; dirtyChains.delete(id); if(cloud) queue('c'+id,()=>cloud.db.doc('data/users/'+cloud.uid+'/journal/chains/'+id).delete());
+  if(store.currentChain===id) store.currentChain=null; localPersist(); renderChains(); }
+function renderChains(){
+  const ed=document.getElementById('chainEditor'); const c=curChain();
+  if(!c){ ed.innerHTML=''; }
+  else {
+    ed.innerHTML=`<div class="card c-sand">
+      <div class="hdr"><h2>Анализ</h2><div class="toolbar no-print"><button onclick="printChain()" id="chainPdfBtn">⬇ Скачать PDF</button><button class="ghost" onclick="closeChain()">Свернуть</button></div></div>
+      <div class="row"><div><label>Дата</label><input type="date" id="ch-date" value="${c.date||''}"></div><div style="flex:3"><label>Короткое название</label><input type="text" id="ch-title" value="${esc(c.title||'')}" placeholder="напр. Сорвалась на Макса из-за посуды"></div></div>
+      ${CHAIN_STEPS.map(st=>`<label style="margin-top:12px">${st[1]}</label><textarea data-ch="${st[0]}" placeholder="${st[2]}">${esc(c[st[0]]||'')}</textarea>`).join('')}
+    </div>`;
+    ed.querySelector('#ch-date').addEventListener('change',e=>{ c.date=e.target.value||c.date; markChain(c.id); save(); renderChainList(); });
+    ed.querySelector('#ch-title').addEventListener('input',e=>{ c.title=e.target.value; markChain(c.id); save(); renderChainList(); });
+    ed.querySelectorAll('[data-ch]').forEach(t=>t.addEventListener('input',e=>{ c[e.target.dataset.ch]=e.target.value; autosize(e.target); markChain(c.id); save(); }));
+    autosizeAll();
+  }
+  renderChainList();
+}
+function renderChainList(){
+  const l=document.getElementById('chainList'); const ids=chainIds();
+  if(!ids.length){ l.innerHTML='<div class="empty">Пока пусто. Нажми «+ Новый анализ», когда захочешь разобрать ситуацию.</div>'; return; }
+  l.innerHTML=ids.map(id=>{ const c=store.chains[id]; const filled=CHAIN_STEPS.filter(st=>c[st[0]]).length;
+    return `<div class="arch"><div><strong>${esc(c.title)||'Без названия'}</strong>${id===store.currentChain?' <span class="pill" style="margin-left:8px">открыт</span>':''}<br><small>${fmt(c.date)} · заполнено ${filled} из 8 шагов${c.s1?' · '+esc(c.s1.slice(0,80))+(c.s1.length>80?'…':''):''}</small></div>
+      <div class="toolbar"><button onclick="openChain('${id}')">Открыть</button><button class="danger" onclick="delChain('${id}')">Удалить</button></div></div>`; }).join('');
+}
+function buildChainReport(c){
+  let h=`<div class="rp-head"><div><h1>Анализ поведенческой цепочки</h1><div style="color:#5e6b58">${esc(store.name)||'&nbsp;'}</div></div>
+    <div class="meta"><b>${fmt(c.date)}</b><br>${esc(c.title||'')}</div></div>`;
+  CHAIN_STEPS.forEach(st=>{ h+=`<div class="rp-block"><div class="rp-h2" style="font-size:14pt;margin:14px 0 4px">${st[1]}</div><div class="rp-f"><p>${c[st[0]]?esc(c[st[0]]):'<span style="color:#9aa394">—</span>'}</p></div></div>`; });
+  h+=`<div class="rp-foot">Дневник навыков DBT · анализ цепочки · сформирован ${fmt(today())} · по раздаточному материалу «Общие навыки 7» (M. Linehan, 2015)</div>`;
+  document.getElementById('report').innerHTML=h;
+}
+async function printChain(){
+  const c=curChain(); if(!c) return; buildChainReport(c);
+  const name='DBT-chain-'+c.date+'_'+today()+'.pdf';
+  const btn=document.getElementById('chainPdfBtn'); const old=btn.textContent; btn.textContent='Собираю PDF…'; btn.disabled=true;
+  const el=document.getElementById('report'); el.classList.add('gen'); document.body.classList.add('pdfmode'); window.scrollTo(0,0);
+  try{
+    if(typeof html2pdf==='undefined') throw new Error('nolib');
+    await document.fonts.ready;
+    const blob=await html2pdf().set({margin:[12,0,14,0],filename:name,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy'],avoid:['.rp-block','.rp-h2']}}).from(el).outputPdf('blob');
+    el.classList.remove('gen'); document.body.classList.remove('pdfmode');
+    await saveReport(blob,{id:c.id,date:c.date,topic:'Анализ цепочки: '+(c.title||'')},name); if(document.getElementById('view-archive').classList.contains('active')) renderReports();
+    await deliver(blob,name);
+  }catch(e){ console.warn('pdf',e); el.classList.remove('gen'); document.body.classList.remove('pdfmode'); window.print(); }
+  finally{ el.classList.remove('gen'); document.body.classList.remove('pdfmode'); btn.textContent=old; btn.disabled=false; }
 }
 
 // ============ REPORT ============
@@ -663,7 +782,7 @@ async function printReport(){
 window.addEventListener('beforeprint',buildReport);
 
 // ============ INIT ============
-load(); normalize(); bind();
+load(); store.chains=store.chains||{}; normalize(); bind();
 if(!store.current||!store.sessions[store.current]){ const s=blankSession(today()); store.sessions[s.id]=s; store.current=s.id; }
 renderAll();
 document.querySelector('nav.tabs button[data-v=practice]').classList.add('active');
