@@ -213,7 +213,7 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
   <div class="card c-sand">
     <div class="hdr">
       <h2>Сессия</h2>
-      <div class="no-print"><button class="primary" onclick="newSession()">+ Новая сессия</button><span class="status" id="status"></span></div>
+      <div class="no-print toolbar" style="align-items:center"><button class="primary" id="finishBtn" onclick="finishSession()">✓ Составить отчёт</button><button class="ghost" onclick="newSession()">+ Новая сессия</button><span class="status" id="status"></span></div>
     </div>
     <div class="row">
       <div><label>Имя</label><input type="text" id="f-name" placeholder="Светлана"></div>
@@ -221,7 +221,7 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
       <div style="flex:2"><label>Тема сессии</label><input type="text" id="f-topic" placeholder="напр. Осознанность — навыки «как»"></div>
     </div>
     <div id="skillpicker"></div>
-    <p class="hint no-print">Отметь навыки, которые заданы на дом после этой сессии. Чек-лист, календарь и теория покажут только их. Всё сохраняется автоматически. <span id="cloudHint"></span></p>
+    <p class="hint no-print">Отметь навыки, которые заданы на дом после этой сессии. Чек-лист, календарь и теория покажут только их. Всё сохраняется автоматически. Когда неделя закончена — «Составить отчёт»: PDF уйдёт в архив, сессия закроется, откроется чистая. Закрытую сессию всегда можно вернуть из архива. <span id="cloudHint"></span></p>
   </div>
 
   <div class="card c-rose">
@@ -548,7 +548,8 @@ function fillSummary(){
   document.getElementById('f-date').value=s.date;
   document.getElementById('f-topic').value=s.topic||'';
   document.querySelectorAll('[data-k]').forEach(el=>{ if(el.type==='checkbox') el.checked=!!s[el.dataset.k]; else el.value=s[el.dataset.k]||''; });
-  document.getElementById('subtitle').textContent = 'Сессия '+fmt(s.date)+(s.topic?' · '+s.topic:'');
+  document.getElementById('subtitle').textContent = 'Сессия '+fmt(s.date)+(s.topic?' · '+s.topic:'')+(s.archived?' · завершена':'');
+  const fb=document.getElementById('finishBtn'); if(fb) fb.style.display=s.archived?'none':'';
 }
 function renderAll(){ fillSummary(); renderSkillPicker(); renderChecklist(); renderCalendar(); autosizeAll(); }
 
@@ -591,15 +592,25 @@ function delSession(k){
   persist(); renderArchive();
 }
 function sortedIds(){ return Object.keys(store.sessions).sort((a,b)=>store.sessions[b].date.localeCompare(store.sessions[a].date)); }
+function sessionRow(k){
+  const s=store.sessions[k]; const n=Object.values(s.checks).reduce((x,v)=>x+v,0); const filled=s.days.filter(dayHas).length;
+  const names=s.skills.map(id=>SK[id]?SK[id].name:id).join(', ')||'навыки не выбраны';
+  const obs=(s.obs_what||s.obs_insight||s.obs_feel)?' · есть заметки о сессии':'';
+  const closed=s.archived?' · закрыта '+new Date(s.closedAt||0).toLocaleDateString('ru',{day:'numeric',month:'short'}):'';
+  const btns=s.archived
+    ? `<button onclick="restoreSession('${k}')">Вернуть в работу</button><button class="ghost" onclick="openSession('${k}');printReport()">PDF</button><button class="danger" onclick="delSession('${k}')">Удалить</button>`
+    : `<button onclick="openSession('${k}')">Открыть</button><button class="ghost" onclick="openSession('${k}');printReport()">PDF</button><button class="danger" onclick="delSession('${k}')">Удалить</button>`;
+  return `<div class="arch"><div><strong>${dayName(s.date)}, ${fmt(s.date)}</strong>${k===store.current?' <span class="pill" style="margin-left:8px">открыта</span>':''}${s.archived?' <span class="pill" style="margin-left:8px;color:var(--muted)">завершена</span>':''}<br>${s.topic?esc(s.topic)+'<br>':''}<small>${names} · ${n} отметок · ${filled} дн. с записями${obs}${closed}</small></div>
+      <div class="toolbar">${btns}</div></div>`;
+}
 function renderArchive(){
   const a=document.getElementById('archive'); const ks=sortedIds();
-  if(!ks.length){ a.innerHTML='<div class="empty">Пока пусто</div>'; return; }
-  a.innerHTML=ks.map(k=>{ const s=store.sessions[k]; const n=Object.values(s.checks).reduce((x,v)=>x+v,0); const filled=s.days.filter(dayHas).length;
-    const names=s.skills.map(id=>SK[id]?SK[id].name:id).join(', ')||'навыки не выбраны';
-    const obs=(s.obs_what||s.obs_insight||s.obs_feel)?' · есть заметки о сессии':'';
-    return `<div class="arch"><div><strong>${dayName(s.date)}, ${fmt(s.date)}</strong>${k===store.current?' <span class="pill" style="margin-left:8px">открыта</span>':''}<br>${s.topic?esc(s.topic)+'<br>':''}<small>${names} · ${n} отметок · ${filled} дн. с записями${obs}</small></div>
-      <div class="toolbar"><button onclick="openSession('${k}')">Открыть</button><button class="ghost" onclick="openSession('${k}');printReport()">PDF</button><button class="danger" onclick="delSession('${k}')">Удалить</button></div></div>`; }).join('');
-  renderReports();
+  if(!ks.length){ a.innerHTML='<div class="empty">Пока пусто</div>'; renderReports(); return; }
+  const open=ks.filter(k=>!store.sessions[k].archived), done=ks.filter(k=>store.sessions[k].archived);
+  let h='';
+  if(open.length) h+=`<div class="mod-h">В работе</div>`+open.map(sessionRow).join('');
+  if(done.length) h+=`<div class="mod-h" style="margin-top:18px">Завершённые</div>`+done.map(sessionRow).join('');
+  a.innerHTML=h; renderReports();
 }
 
 // ============ REPORTS ARCHIVE ============
@@ -805,10 +816,19 @@ async function printReport(){
     const blob=await html2pdf().set({margin:[12,0,14,0],filename:name,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy'],avoid:['.rp-dayhead','.rp-entry','.rp-block','.rp-notes','tr','.rp-h2']}}).from(el).outputPdf('blob');
     el.classList.remove('gen'); document.body.classList.remove('pdfmode');
     await saveReport(blob,s,name); if(document.getElementById('view-archive').classList.contains('active')) renderReports();
-    await deliver(blob,name);
-  }catch(e){ console.warn('pdf',e); el.classList.remove('gen'); document.body.classList.remove('pdfmode'); window.print(); }
+    await deliver(blob,name); return true;
+  }catch(e){ console.warn('pdf',e); el.classList.remove('gen'); document.body.classList.remove('pdfmode'); window.print(); return false; }
   finally{ el.classList.remove('gen'); document.body.classList.remove('pdfmode'); btn.textContent=old; btn.disabled=false; }
 }
+async function finishSession(){
+  const s=cur(); if(!s) return;
+  if(!confirm('Составить отчёт по сессии от '+fmt(s.date)+'?\n\nPDF сохранится в архив и скачается, сессия перейдёт в «Завершённые», а здесь откроется новая пустая. Ничего не удаляется — вернуть сессию в работу можно из архива.')) return;
+  const ok=await printReport(); if(!ok){ alert('PDF не собрался — сессия оставлена открытой.'); return; }
+  s.archived=true; s.closedAt=tstamp(); markSession(s.id);
+  const n=blankSession(today()); n.skills=[...s.skills]; store.sessions[n.id]=n; store.current=n.id; markSession(n.id); metaDirty=true;
+  renderAll(); persist(); window.scrollTo(0,0); setStatus('сессия от '+fmtShort(s.date)+' в архиве');
+}
+function restoreSession(k){ const s=store.sessions[k]; if(!s) return; s.archived=false; delete s.closedAt; markSession(k); openSession(k); }
 window.addEventListener('beforeprint',buildReport);
 
 // ============ INIT ============
