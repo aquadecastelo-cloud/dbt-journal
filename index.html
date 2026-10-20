@@ -153,6 +153,28 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
 #report .rp-block{break-inside:avoid;margin-bottom:12px}
 #report .rp-notes{background:var(--sand-l);border-radius:12px;padding:12px 16px;break-inside:avoid}
 #report .rp-notes .rp-f b{color:#6f6137}
+/* chain rings */
+.ring{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:2.5px solid var(--sage-d);background:#fffffb;font-family:Manrope,sans-serif;font-weight:700;font-size:12px;color:var(--sage-d);flex-shrink:0;box-sizing:border-box}
+.ring.fill{background:var(--sage-d);color:#fff}
+.ring.dash{border-style:dashed;border-color:#8a9a84;color:#6f7f6a}
+.ring.soft{background:var(--sage-l);border-color:#8fa88f}
+.ch-label{display:flex;align-items:center;gap:10px;margin:14px 0 6px}
+.ch-label b{font-family:"Instrument Serif",serif;font-weight:400;font-size:19px;color:var(--sage-d)}
+.ch-label small{color:var(--muted);font-weight:500}
+#report .ch-diagram{margin:6px 0 14px}
+#report .ch-row{display:flex;gap:16px;position:relative;padding-bottom:18px;break-inside:avoid}
+#report .ch-col{width:38px;flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+#report .ch-col .ring{width:36px;height:36px;font-size:13px;z-index:1}
+#report .ch-col::after{content:"";width:2.5px;flex:1;background:var(--sage-d);margin-top:-2px;min-height:18px}
+#report .ch-row.last .ch-col::after{display:none}
+#report .ch-row.soft .ch-col::after{background:#8fa88f}
+#report .ch-body{flex:1;min-width:0;padding-top:4px}
+#report .ch-body h3{font-family:"Instrument Serif",serif;font-weight:400;font-size:14.5pt;color:var(--sage-d);margin:0 0 2px}
+#report .ch-body small{display:block;color:#7d8a76;font-size:9pt;margin-bottom:4px}
+#report .ch-body p{margin:0;white-space:pre-wrap}
+#report .ch-body p.empty{color:#9aa394}
+#report .ch-divider{display:flex;align-items:center;gap:12px;margin:4px 0 16px;color:var(--sage-d);font-size:10pt;font-weight:600;letter-spacing:.1em;text-transform:uppercase;break-after:avoid}
+#report .ch-divider::before,#report .ch-divider::after{content:"";flex:1;height:1px;background:var(--line)}
 #report .rp-foot{margin-top:28px;font-size:8.5pt;color:#9aa394;border-top:1px solid var(--line);padding-top:6px}
 @media print{
   @page{margin:16mm 15mm}
@@ -266,18 +288,7 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
   <div class="card c-sky">
     <div class="hdr"><h2>Анализ поведенческой цепочки</h2><button class="primary no-print" onclick="newChain()">+ Новый анализ</button></div>
     <p class="lead" style="font-family:'Instrument Serif',serif;font-size:19px;font-style:italic;color:var(--sage-d);margin-bottom:8px">Чтобы понять поведение — разложить его на звенья.</p>
-    <svg viewBox="0 0 760 120" style="width:100%;max-width:760px;display:block;margin:6px 0 10px" aria-hidden="true">
-      <g fill="none" stroke="#4f6349" stroke-width="2.5">
-        <ellipse cx="95" cy="60" rx="38" ry="22" stroke="#a9b8a3" stroke-dasharray="5 4"/>
-        <ellipse cx="160" cy="60" rx="38" ry="22"/><ellipse cx="225" cy="60" rx="38" ry="22"/><ellipse cx="290" cy="60" rx="38" ry="22"/><ellipse cx="355" cy="60" rx="38" ry="22"/>
-        <ellipse cx="430" cy="60" rx="42" ry="24" fill="#4f6349"/>
-        <ellipse cx="505" cy="60" rx="38" ry="22"/><ellipse cx="570" cy="60" rx="38" ry="22"/>
-      </g>
-      <g font-family="Manrope,sans-serif" font-size="12" fill="#4a5b45" text-anchor="middle">
-        <text x="95" y="18">уязвимость</text><text x="160" y="108">побуждающее событие</text><text x="290" y="18">звенья</text>
-        <text x="430" y="108">проблемное поведение</text><text x="540" y="18">последствия</text>
-      </g>
-    </svg>
+    <div id="chainSvg" style="margin:6px 0 10px"></div>
     <details><summary>Восемь шагов</summary>
       <ol style="padding-left:20px;margin:8px 0 0;line-height:1.6">
         <li><strong>Проблемное поведение</strong> — что именно я сделала.</li>
@@ -655,14 +666,26 @@ function importJSON(inp){
 
 // ============ CHAINS ============
 const CHAIN_STEPS=[
- ['s1','1. Проблемное поведение','Что именно я сделала'],
- ['s2','2. Побуждающее событие','Что запустило цепочку'],
- ['s3','3. Уязвимость','Что до этого сделало меня уязвимой'],
- ['s4','4. Звенья событий','Как можно подробнее: мысли, чувства, ощущения, действия — шаг за шагом'],
- ['s5','5. Последствия','Для меня и для других, сразу и потом'],
- ['s6','6. Адаптивное поведение','Какими навыками заменить проблемные звенья'],
- ['s7','7. План по предотвращению','Как снизить уязвимость'],
- ['s8','8. Устранение последствий','Как исправить самое серьёзное']];
+ ['s1','Проблемное поведение','Что именно я сделала','fill'],
+ ['s2','Побуждающее событие','Что запустило цепочку',''],
+ ['s3','Уязвимость','Что до этого сделало меня уязвимой','dash'],
+ ['s4','Звенья событий','Как можно подробнее: мысли, чувства, ощущения, действия — шаг за шагом',''],
+ ['s5','Последствия','Для меня и для других, сразу и потом',''],
+ ['s6','Адаптивное поведение','Какими навыками заменить проблемные звенья','soft'],
+ ['s7','План по предотвращению','Как снизить уязвимость','soft'],
+ ['s8','Устранение последствий','Как исправить самое серьёзное','soft']];
+const CHAIN_SVG=`<svg viewBox="0 0 760 120" width="680" height="107" style="max-width:100%;height:auto;display:block" aria-hidden="true">
+      <g fill="none" stroke="#4f6349" stroke-width="2.5">
+        <ellipse cx="95" cy="60" rx="38" ry="22" stroke="#8a9a84" stroke-dasharray="5 4"/>
+        <ellipse cx="160" cy="60" rx="38" ry="22"/><ellipse cx="225" cy="60" rx="38" ry="22"/><ellipse cx="290" cy="60" rx="38" ry="22"/><ellipse cx="355" cy="60" rx="38" ry="22"/>
+        <ellipse cx="430" cy="60" rx="42" ry="24" fill="#4f6349"/>
+        <ellipse cx="505" cy="60" rx="38" ry="22"/><ellipse cx="570" cy="60" rx="38" ry="22"/>
+      </g>
+      <g font-family="Manrope,sans-serif" font-size="12" fill="#4a5b45" text-anchor="middle">
+        <text x="95" y="18">уязвимость</text><text x="160" y="108">побуждающее событие</text><text x="290" y="18">звенья</text>
+        <text x="430" y="108">проблемное поведение</text><text x="540" y="18">последствия</text>
+      </g>
+    </svg>`;
 function curChain(){ return store.chains&&store.currentChain?store.chains[store.currentChain]:null; }
 function chainIds(){ return Object.keys(store.chains||{}).sort((a,b)=>(store.chains[b].date||'').localeCompare(store.chains[a].date||'')||(store.chains[b].updated||0)-(store.chains[a].updated||0)); }
 function markChain(id){ if(id) dirtyChains.add(id); }
@@ -679,7 +702,7 @@ function renderChains(){
     ed.innerHTML=`<div class="card c-sand">
       <div class="hdr"><h2>Анализ</h2><div class="toolbar no-print"><button onclick="printChain()" id="chainPdfBtn">⬇ Скачать PDF</button><button class="ghost" onclick="closeChain()">Свернуть</button></div></div>
       <div class="row"><div><label>Дата</label><input type="date" id="ch-date" value="${c.date||''}"></div><div style="flex:3"><label>Короткое название</label><input type="text" id="ch-title" value="${esc(c.title||'')}" placeholder="напр. Сорвалась на Макса из-за посуды"></div></div>
-      ${CHAIN_STEPS.map(st=>`<label style="margin-top:12px">${st[1]}</label><textarea data-ch="${st[0]}" placeholder="${st[2]}">${esc(c[st[0]]||'')}</textarea>`).join('')}
+      ${CHAIN_STEPS.map((st,i)=>`${i===5?'<div class="mod-h" style="margin-top:22px">Как изменить поведение</div>':''}<div class="ch-label"><span class="ring ${st[3]}">${i+1}</span><b>${st[1]}</b></div><textarea data-ch="${st[0]}" placeholder="${st[2]}">${esc(c[st[0]]||'')}</textarea>`).join('')}
     </div>`;
     ed.querySelector('#ch-date').addEventListener('change',e=>{ c.date=e.target.value||c.date; markChain(c.id); save(); renderChainList(); });
     ed.querySelector('#ch-title').addEventListener('input',e=>{ c.title=e.target.value; markChain(c.id); save(); renderChainList(); });
@@ -698,7 +721,13 @@ function renderChainList(){
 function buildChainReport(c){
   let h=`<div class="rp-head"><div><h1>Анализ поведенческой цепочки</h1><div style="color:#5e6b58">${esc(store.name)||'&nbsp;'}</div></div>
     <div class="meta"><b>${fmt(c.date)}</b><br>${esc(c.title||'')}</div></div>`;
-  CHAIN_STEPS.forEach(st=>{ h+=`<div class="rp-block"><div class="rp-h2" style="font-size:14pt;margin:14px 0 4px">${st[1]}</div><div class="rp-f"><p>${c[st[0]]?esc(c[st[0]]):'<span style="color:#9aa394">—</span>'}</p></div></div>`; });
+  h+=`<div class="ch-diagram">${CHAIN_SVG}</div>`;
+  h+=`<div class="ch-divider">Что произошло</div>`;
+  CHAIN_STEPS.forEach((st,i)=>{
+    if(i===5) h+=`<div class="ch-divider" style="margin-top:6px">Как изменить поведение</div>`;
+    const last=i===4||i===7;
+    h+=`<div class="ch-row ${st[3]==='soft'?'soft':''} ${last?'last':''}"><div class="ch-col"><span class="ring ${st[3]}">${i+1}</span></div>
+      <div class="ch-body"><h3>${st[1]}</h3><small>${st[2]}</small>${c[st[0]]?`<p>${esc(c[st[0]])}</p>`:`<p class="empty">—</p>`}</div></div>`; });
   h+=`<div class="rp-foot">Дневник навыков DBT · анализ цепочки · сформирован ${fmt(today())} · по раздаточному материалу «Общие навыки 7» (M. Linehan, 2015)</div>`;
   document.getElementById('report').innerHTML=h;
 }
@@ -782,7 +811,7 @@ async function printReport(){
 window.addEventListener('beforeprint',buildReport);
 
 // ============ INIT ============
-load(); store.chains=store.chains||{}; normalize(); bind();
+load(); store.chains=store.chains||{}; normalize(); bind(); document.getElementById('chainSvg').innerHTML=CHAIN_SVG;
 if(!store.current||!store.sessions[store.current]){ const s=blankSession(today()); store.sessions[s.id]=s; store.current=s.id; }
 renderAll();
 document.querySelector('nav.tabs button[data-v=practice]').classList.add('active');
