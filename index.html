@@ -213,7 +213,7 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
   <div class="card c-sand">
     <div class="hdr">
       <h2>Сессия</h2>
-      <div class="no-print toolbar" style="align-items:center"><button class="primary" id="finishBtn" onclick="finishSession()">✓ Составить отчёт</button><button class="ghost" onclick="newSession()">+ Новая сессия</button><span class="status" id="status"></span></div>
+      <div class="no-print toolbar" style="align-items:center"><button class="ghost" onclick="newSession()">+ Новая сессия</button><span class="status" id="status"></span></div>
     </div>
     <div class="row">
       <div><label>Имя</label><input type="text" id="f-name" placeholder="Светлана"></div>
@@ -221,7 +221,7 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
       <div style="flex:2"><label>Тема сессии</label><input type="text" id="f-topic" placeholder="напр. Осознанность — навыки «как»"></div>
     </div>
     <div id="skillpicker"></div>
-    <p class="hint no-print">Отметь навыки, которые заданы на дом после этой сессии. Чек-лист, календарь и теория покажут только их. Всё сохраняется автоматически. Когда неделя закончена — «Составить отчёт»: PDF уйдёт в архив, сессия закроется, откроется чистая. Закрытую сессию всегда можно вернуть из архива. <span id="cloudHint"></span></p>
+    <p class="hint no-print">Отметь навыки, которые заданы на дом после этой сессии. Чек-лист, календарь и теория покажут только их. Всё сохраняется автоматически. <span id="cloudHint"></span></p>
   </div>
 
   <div class="card c-rose">
@@ -265,6 +265,11 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
     <textarea data-k="wise" placeholder="Даже маленькие считаются."></textarea>
     <label style="margin-top:12px">Вопросы и заметки для терапевта</label>
     <textarea data-k="notes" placeholder="Что хочу обсудить на следующей встрече"></textarea>
+  </div>
+
+  <div class="card c-sage no-print" id="finishCard">
+    <div class="hdr"><div><h2>Неделя закончена?</h2><p class="hint" style="margin:0">Соберу PDF в архив отчётов, перенесу сессию в «Завершённые» и открою чистую. Ничего не удаляется — вернуть сессию в работу можно из архива в любой момент.</p></div>
+      <button class="primary" id="finishBtn" onclick="finishSession()" style="padding:14px 24px;font-size:13px">✓ Составить отчёт</button></div>
   </div>
   <footer>Структура по рабочим листам DBT (M. Linehan, DBT Skills Training Handouts and Worksheets, 2nd ed.). Личный инструмент, не заменяет терапию.</footer>
 </section>
@@ -549,7 +554,7 @@ function fillSummary(){
   document.getElementById('f-topic').value=s.topic||'';
   document.querySelectorAll('[data-k]').forEach(el=>{ if(el.type==='checkbox') el.checked=!!s[el.dataset.k]; else el.value=s[el.dataset.k]||''; });
   document.getElementById('subtitle').textContent = 'Сессия '+fmt(s.date)+(s.topic?' · '+s.topic:'')+(s.archived?' · завершена':'');
-  const fb=document.getElementById('finishBtn'); if(fb) fb.style.display=s.archived?'none':'';
+  const fb=document.getElementById('finishCard'); if(fb) fb.style.display=s.archived?'none':'';
 }
 function renderAll(){ fillSummary(); renderSkillPicker(); renderChecklist(); renderCalendar(); autosizeAll(); }
 
