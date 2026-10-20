@@ -118,7 +118,7 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
 #report .rp-head h1{font-size:26pt;color:var(--sage-d)}
 #report .rp-head .meta{text-align:right;font-size:10pt;color:#5e6b58;line-height:1.4}
 #report .rp-head .meta b{color:#2f3a2c}
-#report .rp-h2{font-family:"Instrument Serif",serif;font-weight:400;font-size:17pt;color:var(--sage-d);margin:22px 0 8px;break-after:avoid}
+#report .rp-h2{font-family:"Instrument Serif",serif;font-weight:400;font-size:18pt;color:#fff;background:var(--sage-d);padding:6px 14px;border-radius:8px;margin:24px 0 10px;break-after:avoid}
 #report .rp-skills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:4px}
 #report .rp-skill{background:var(--sage-l);border-radius:999px;padding:4px 12px;font-size:10pt;font-weight:600;color:var(--sage-d)}
 #report .rp-skill i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}
@@ -132,16 +132,17 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
 #report .rp-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--sage-d);margin-left:3px}
 #report .rp-dot.e{background:transparent;border:1px solid #8f9a8a;width:7px;height:7px}
 #report .rp-group td.g{background:var(--sage-l);font-weight:600;color:var(--sage-d);padding:6px 8px;border:0}
-#report .rp-day{break-inside:avoid;border-left:4px solid var(--sky);padding:6px 0 6px 14px;margin:0 0 12px}
+#report .rp-day{margin:0 0 14px}
 #report .rp-day:nth-of-type(even){border-left-color:var(--sage)}
-#report .rp-day .dh{font-family:"Instrument Serif",serif;font-size:14pt;color:var(--sage-d);margin-bottom:2px}
+#report .rp-day .dh{font-family:"Instrument Serif",serif;font-size:15pt;color:var(--sage-d);margin-bottom:6px;padding:5px 12px;background:var(--sky-l);border-radius:8px}
 #report .rp-day .dh small{font-family:Manrope,sans-serif;font-size:9.5pt;color:#7d8a76;margin-left:8px}
-#report .rp-entry{margin:6px 0 10px;padding-left:10px;border-left:1px solid var(--line)}
+#report .rp-entry{margin:6px 0 10px;padding:8px 12px;background:#fff;border-radius:8px;border:1px solid var(--line);border-left:4px solid var(--sage-d)}
 #report .rp-entry:last-child{margin-bottom:0}
-#report .rp-entry .sk{display:inline-block;font-family:Manrope,sans-serif;font-size:9pt;font-weight:600;background:var(--sand-l);border-radius:999px;padding:2px 10px;margin-bottom:4px;color:#6f6137}
-#report .rp-day{break-inside:auto} .rp-entry{break-inside:avoid}
+#report .rp-entry .sk{display:inline-block;font-family:Manrope,sans-serif;font-size:9.5pt;font-weight:700;background:var(--sage-d);border-radius:999px;padding:3px 12px;margin-bottom:6px;color:#fff}
+#report .rp-day{break-inside:auto} #report .rp-entry,#report .rp-dayhead{break-inside:avoid}
 #report .rp-f{margin:4px 0}
-#report .rp-f b{display:block;font-size:9pt;letter-spacing:.06em;text-transform:uppercase;color:#5e6b58;font-weight:600}
+#report .rp-f b{display:inline-block;font-size:8.5pt;letter-spacing:.08em;text-transform:uppercase;color:var(--sage-d);font-weight:700;background:#fff;border:1.5px solid var(--sage-d);border-radius:6px;padding:2px 8px;margin:6px 0 3px}
+#report .rp-f p{padding-left:4px}
 #report .rp-f p{margin:0;white-space:pre-wrap}
 #report .rp-empty{color:#6c7a67;font-style:italic;font-size:10pt;margin:0 0 10px}
 #report .rp-helped{display:grid;grid-template-columns:1fr 1fr;gap:3px 20px;font-size:10.5pt;margin-bottom:8px}
@@ -775,17 +776,17 @@ function buildReport(){
     h+=`</table>`;
   }
   // calendar
-  h+=`<div class="rp-h2">Записи по дням</div>`;
-  let any=false;
+  let any=false; let daysH2=`<div class="rp-h2">Записи по дням</div>`;
   for(let i=0;i<7;i++){ const d=s.days[i]; const es=d.entries.filter(e=>e.how||e.feel||e.now); if(!es.length) continue; any=true; const dt=addDays(s.date,i);
-    h+=`<div class="rp-day"><div class="dh">${dayName(dt)}<small>${fmtShort(dt)}${i===0?' · день сессии':''}</small></div>`;
-    es.forEach(e=>{ h+=`<div class="rp-entry">${e.skill&&SK[e.skill]?`<span class="sk">${SK[e.skill].name}</span>`:''}`;
-      if(e.how) h+=`<div class="rp-f"><b>Как практиковала</b><p>${esc(e.how)}</p></div>`;
-      if(e.feel) h+=`<div class="rp-f"><b>Во время практики (тело, эмоции, мысли)</b><p>${esc(e.feel)}</p></div>`;
-      if(e.now) h+=`<div class="rp-f"><b>Сейчас, после практики</b><p>${esc(e.now)}</p></div>`;
-      h+=`</div>`; });
-    h+=`</div>`; }
-  if(!any) h+=`<p class="rp-empty">Записей по дням пока нет</p>`;
+    h+=`<div class="rp-day">`;
+    es.forEach((e,j)=>{ if(j===1) daysH2=''; let en=`<div class="rp-entry">${e.skill&&SK[e.skill]?`<span class="sk">${SK[e.skill].name}</span>`:''}`;
+      if(e.how) en+=`<div class="rp-f"><b>Как практиковала</b><p>${esc(e.how)}</p></div>`;
+      if(e.feel) en+=`<div class="rp-f"><b>Во время практики (тело, эмоции, мысли)</b><p>${esc(e.feel)}</p></div>`;
+      if(e.now) en+=`<div class="rp-f"><b>Сейчас, после практики</b><p>${esc(e.now)}</p></div>`;
+      en+=`</div>`;
+      if(j===0) h+=`<div class="rp-dayhead">${daysH2}<div class="dh">${dayName(dt)}<small>${fmtShort(dt)}${i===0?' · день сессии':''}</small></div>${en}</div>`; else h+=en; });
+    daysH2=''; h+=`</div>`; }
+  if(!any) h+=daysH2+`<p class="rp-empty">Записей по дням пока нет</p>`;
   // summary
   h+=`<div class="rp-h2">Итоги недели</div><div class="rp-block"><div class="rp-f"><b>Помогла ли практика</b></div><div class="rp-helped">${HELPED.map((t,i)=>`<span class="${s['h'+(i+1)]?'y':''}">${t}</span>`).join('')}</div></div>`;
   const fld=(k,t)=> s[k]? `<div class="rp-block rp-f"><b>${t}</b><p>${esc(s[k])}</p></div>` : '';
@@ -801,7 +802,7 @@ async function printReport(){
   try{
     if(typeof html2pdf==='undefined') throw new Error('nolib');
     await document.fonts.ready;
-    const blob=await html2pdf().set({margin:[12,0,14,0],filename:name,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy'],avoid:['.rp-entry','.rp-block','.rp-notes','tr','.rp-h2']}}).from(el).outputPdf('blob');
+    const blob=await html2pdf().set({margin:[12,0,14,0],filename:name,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy'],avoid:['.rp-dayhead','.rp-entry','.rp-block','.rp-notes','tr','.rp-h2']}}).from(el).outputPdf('blob');
     el.classList.remove('gen'); document.body.classList.remove('pdfmode');
     await saveReport(blob,s,name); if(document.getElementById('view-archive').classList.contains('active')) renderReports();
     await deliver(blob,name);
