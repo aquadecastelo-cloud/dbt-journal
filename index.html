@@ -139,7 +139,7 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
 #report .rp-entry{margin:6px 0 10px;padding:8px 12px;background:#fff;border-radius:8px;border:1px solid var(--line);border-left:4px solid var(--sage-d)}
 #report .rp-entry:last-child{margin-bottom:0}
 #report .rp-entry .sk{display:inline-block;font-family:Manrope,sans-serif;font-size:9.5pt;font-weight:700;background:var(--sage-d);border-radius:999px;padding:3px 12px;margin-bottom:6px;color:#fff}
-#report .rp-day{break-inside:auto} #report .rp-entry,#report .rp-dayhead{break-inside:avoid}
+#report .rp-day{break-inside:auto} #report .rp-entry{break-inside:auto} #report .rp-entry .rp-f,#report .rp-dayhead{break-inside:avoid}
 #report .rp-f{margin:4px 0}
 #report .rp-f b{display:inline-block;font-size:8.5pt;letter-spacing:.08em;text-transform:uppercase;color:var(--sage-d);font-weight:700;background:#fff;border:1.5px solid var(--sage-d);border-radius:6px;padding:2px 8px;margin:6px 0 3px}
 #report .rp-f p{padding-left:4px}
@@ -155,6 +155,19 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
 #report .rp-notes{background:var(--sand-l);border-radius:12px;padding:12px 16px;break-inside:avoid}
 #report .rp-notes .rp-f b{color:#6f6137}
 /* worksheets */
+.vis-stop{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin:6px 0 4px}
+.vis-steps{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px;flex:1;min-width:260px}
+.vis-steps div{font-size:14px;color:var(--ink)} .vis-steps b{font-family:"Instrument Serif",serif;font-size:24px;color:var(--sage-d);margin-right:2px}
+.vis-steps small{display:block;color:var(--muted);font-size:12px}
+.vis-bars{display:grid;gap:6px;margin:6px 0 2px;max-width:520px}
+.vis-bar{display:grid;grid-template-columns:48px 1fr 36px;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.vis-bar i{display:block;height:12px;border-radius:999px;background:var(--sage-l);overflow:hidden} .vis-bar em{display:block;height:100%;background:var(--sage-d);border-radius:999px;transition:width .2s}
+.vis-bar b{color:var(--sage-d)}
+.ws-f.num{display:grid;grid-template-columns:44px 1fr;gap:10px;align-items:start}
+.ws-f.num .bignum{font-family:"Instrument Serif",serif;font-size:40px;line-height:1;color:var(--sage-d);border:2px solid var(--sage-d);border-radius:10px;text-align:center;padding:4px 0}
+#report .ws-f.num .bignum{font-size:26pt;padding:2px 0}
+#report .vis-stop svg{width:72px;height:72px} #report .vis-steps div{font-size:10.5pt} #report .vis-steps b{font-size:18pt} #report .vis-steps small{font-size:9pt}
+#report .vis-bar{font-size:10pt} #report .vis-bar em{-webkit-print-color-adjust:exact}
 .ws{margin-top:18px}
 .ws h3{display:flex;align-items:center;gap:8px;margin-bottom:2px}
 .ws .sheet{font-size:12px;color:var(--muted);margin-bottom:8px}
@@ -288,15 +301,9 @@ table.ws-grid input{margin-bottom:4px;padding:6px 10px;border-radius:8px}
     <div id="checklist"></div>
   </div>
 
-  <div class="card" id="wsCard" style="display:none">
-    <h2>Рабочие листы</h2>
-    <p class="hint">Структурированные листы для навыков, у которых домашка — не «сколько раз», а разбор ситуаций. Появляются, когда такой навык выбран в блоке «Сессия».</p>
-    <div id="worksheets"></div>
-  </div>
-
   <div class="card">
     <h2>2. Календарь по дням</h2>
-    <p class="hint">Семь дней от сессии до следующей. Записи делай после практики, но как можно внимательнее.</p>
+    <p class="hint">Семь дней от сессии до следующей. Записи делай после практики, но как можно внимательнее. Для навыков с рабочим листом (СТОП, «за» и «против», сильные эмоции, устранение трудностей) в дне раскрывается сам лист.</p>
     <div id="calendar"></div>
   </div>
 
@@ -425,7 +432,7 @@ let SKILLS = [
    tip:'<strong>Домашка (рабочий лист 2):</strong> опиши две кризисные ситуации за неделю и как применяла СТОП — уровень дистресса до и после (0–100), побуждающее событие (кто, что, когда, где), поведение, которое пыталась остановить, какие шаги сделала, результат и оценка эффективности по шкале 1–5.',
    ideas:['Заметила сильное побуждение — замерла на несколько секунд и ничего не сделала.','Вышла из комнаты, сделала глубокий вдох-выдох, прежде чем отвечать.','Понаблюдала: что происходит в теле, какие мысли, что делают другие.','Спросила мудрый разум: какой шаг улучшит ситуацию, а какой ухудшит?','Проговорила про себя «Стой — отступи — осмотрись — действуй осознанно».'],
    items:['Применила навык СТОП в кризисной ситуации','С: остановилась и не отреагировала импульсивно','Т: отступила на шаг назад, сделала вдох-выдох','О: осмотрелась — что внутри и снаружи','П: действовала осознанно, спросив мудрый разум'],
-   form:{title:'Практика навыка СТОП', multi:true, entryName:'Кризисное событие', sheet:'Стрессоустойчивость: рабочий лист 2', fields:[
+   form:{title:'Практика навыка СТОП', visual:'stop', multi:true, entryName:'Кризисное событие', sheet:'Стрессоустойчивость: рабочий лист 2', fields:[
      {k:'before',type:'number',label:'Уровень дистресса до (0–100)',min:0,max:100},
      {k:'after',type:'number',label:'Уровень дистресса после (0–100)',min:0,max:100},
      {k:'trigger',type:'textarea',label:'Побуждающее событие для моего дистресса (кто, что, когда, где). Что вызвало состояние кризиса?'},
@@ -455,7 +462,7 @@ let SKILLS = [
    tip:'<strong>Мои признаки точки срыва</strong> — наблюдай и запоминай их заранее, когда спокойна: по ним легче понять в моменте, что сложные навыки сейчас не сработают и надо начинать с шага 1.',
    ideas:['Описала заранее, как выгляжу и что чувствую в точке срыва.','В сильной эмоции проверила факты: я правда разваливаюсь — или могу применить навык?','Начала с навыков переживания кризиса, а не с решения проблемы.','После того как волна спала, вернулась к осознанности текущей эмоции.'],
    items:['Заметила признаки точки срыва навыков','Проверила факты: действительно ли я в точке срыва','Шаг 1: применила навыки переживания кризиса','Шаг 2: вернулась к осознанности текущих эмоций','Шаг 3: применила другие навыки эмоциональной регуляции'],
-   form:{title:'Эпизод чрезмерно сильной эмоции', multi:true, entryName:'Эпизод', sheet:'Эмоциональная регуляция: раздаточный материал 23', fields:[
+   form:{title:'Эпизод чрезмерно сильной эмоции', visual:'bars', multi:true, entryName:'Эпизод', sheet:'Эмоциональная регуляция: раздаточный материал 23', fields:[
      {k:'situation',type:'textarea',label:'Ситуация и эмоция (что произошло, что чувствовала)'},
      {k:'before',type:'number',label:'Интенсивность до (0–100)',min:0,max:100},
      {k:'after',type:'number',label:'Интенсивность после (0–100)',min:0,max:100},
@@ -472,7 +479,7 @@ let SKILLS = [
    tip:'<strong>Порядок важен:</strong> сначала тело (1), потом навыки (2), потом то, что эмоцию удерживает (3–4), потом перегрузка (5) и мифы (6). Не нужно проходить все шесть, если на одном из шагов нашлась причина.',
    ideas:['Когда навык «не сработал», не ругала себя, а прошла по списку проверок.','Проверила сон, еду, движение и болезни — навыки ЗАБОТА.','Спросила себя, что эта эмоция мне даёт (подкрепления).','Поймала миф об эмоциях и опровергла его фактами.'],
    items:['Прошла проверки 1–6 при трудности с эмоцией','1: проверила биологическую уязвимость (ЗАБОТА)','2: проверила, какие навыки пробовала и как','3: проверила подкрепления эмоции','4: проверила настроение — готова ли работать','5: проверила эмоциональную перегруженность','6: проверила мифы об эмоциях'],
-   form:{title:'Устранение трудностей в регуляции эмоций', multi:true, entryName:'Трудность', sheet:'Эмоциональная регуляция: рабочий лист 16', fields:[
+   form:{title:'Устранение трудностей в регуляции эмоций', numbered:true, multi:true, entryName:'Трудность', sheet:'Эмоциональная регуляция: рабочий лист 16', fields:[
      {k:'problem',type:'textarea',label:'Какую эмоцию не получалось регулировать, что пробовала и что не сработало'},
      {k:'c1',type:'textarea',label:'1. Биологическая уязвимость',hint:'Стала ли я более уязвимой? Болезни, дистресс, питание, сон, движение, вещества. Что сделала по ЗАБОТА'},
      {k:'c2',type:'textarea',label:'2. Навыки',hint:'Пыталась ли применять эффективные навыки? Следовала ли инструкциям? Какие другие навыки применила, нужен ли коучинг'},
@@ -567,7 +574,7 @@ function blankSession(date){
 }
 function cur(){ return store.sessions[store.current]; }
 function normalize(){ Object.values(store.sessions).forEach(ss=>{ ss.forms=ss.forms||{}; ss.days=ss.days.map(d=>{ if(d&&d.entries) return d; const e=(d&&(d.how||d.feel||d.now||d.skill))?[{skill:d.skill||'',how:d.how||'',feel:d.feel||'',now:d.now||''}]:[]; return {entries:e}; }); while(ss.days.length<7) ss.days.push({entries:[]}); }); }
-function dayHas(d){ return d.entries.some(e=>e.how||e.feel||e.now); }
+function dayHas(d){ return d.entries.some(e=>e.how||e.feel||e.now||wsHas(e.ws)); }
 function fmt(d){ return new Date(d+'T12:00').toLocaleDateString('ru',{day:'numeric',month:'long',year:'numeric'}); }
 function fmtShort(d){ return new Date(d+'T12:00').toLocaleDateString('ru',{day:'numeric',month:'short'}); }
 function addDays(d,n){ const x=new Date(d+'T12:00'); x.setDate(x.getDate()+n); return iso(x); }
@@ -594,7 +601,7 @@ function renderSkillPicker(){
 function toggleSkill(id){
   const s=cur(); const i=s.skills.indexOf(id);
   if(i>=0) s.skills.splice(i,1); else s.skills.push(id);
-  renderSkillPicker(); renderChecklist(); renderWorksheets(); renderCalendar(); save();
+  renderSkillPicker(); renderChecklist(); renderCalendar(); save();
 }
 
 function renderChecklist(){
@@ -627,11 +634,11 @@ function renderCalendar(){
       h+=`<div class="entry"><div class="eh">
         <select data-day="${i}" data-e="${j}" data-f="skill"><option value="">— навык —</option>${active.map(x=>`<option value="${x.id}" ${e.skill===x.id?'selected':''}>${x.name}</option>`).join('')}</select>
         <button class="x no-print" title="удалить запись" data-del="${i}:${j}">×</button></div>
-        <div class="row">
+        ${SK[e.skill]&&SK[e.skill].form ? `<div class="sheet" style="font-size:12px;color:var(--muted);margin:-4px 0 6px">${SK[e.skill].form.title} · ${SK[e.skill].form.sheet}</div>`+wsFormHtml(SK[e.skill],wsRef(i,j),(e.ws=e.ws||{})) : `<div class="row">
           <div><label>Как практиковала</label><textarea data-day="${i}" data-e="${j}" data-f="how">${esc(e.how)}</textarea></div>
           <div><label>Что переживала во время практики (тело, эмоции, мысли)</label><textarea data-day="${i}" data-e="${j}" data-f="feel">${esc(e.feel)}</textarea></div>
           <div><label>Что переживаю сейчас, после</label><textarea data-day="${i}" data-e="${j}" data-f="now">${esc(e.now)}</textarea></div>
-        </div></div>`;
+        </div>`}</div>`;
     });
     h+=`<button class="ghost no-print" style="padding:6px 14px" data-add="${i}">+ добавить навык</button>`;
     div.innerHTML=h; c.appendChild(div);
@@ -640,7 +647,7 @@ function renderCalendar(){
 }
 function addEntry(i){ const s=cur(); const def=s.skills.length===1?s.skills[0]:''; s.days[i].entries.push({skill:def,how:'',feel:'',now:''}); renderCalendar(); save();
   const t=document.querySelector(`textarea[data-day="${i}"][data-e="${s.days[i].entries.length-1}"][data-f="how"]`); if(t) t.focus(); }
-function delEntry(i,j){ const e=cur().days[i].entries[j]; if((e.how||e.feel||e.now)&&!confirm('Удалить эту запись?')) return; cur().days[i].entries.splice(j,1); renderCalendar(); save(); }
+function delEntry(i,j){ const e=cur().days[i].entries[j]; if((e.how||e.feel||e.now||wsHas(e.ws))&&!confirm('Удалить эту запись?')) return; cur().days[i].entries.splice(j,1); renderCalendar(); save(); }
 function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
 
 function renderTheory(){
@@ -663,7 +670,7 @@ function renderTheory(){
         <h2>${sk.name}</h2><p class="lead">${sk.lead}</p><p>${sk.text}</p>
         ${sk.tip?`<div class="tips">${sk.tip}</div>`:''}
         ${sk.ideas&&sk.ideas.length?`<details><summary>Идеи для практики (${sk.ideas.length})</summary><ul>${sk.ideas.map(i=>`<li>${i}</li>`).join('')}</ul></details>`:''}
-        ${sk.form?`<p class="hint" style="margin-top:10px">📝 Рабочий лист: ${sk.form.sheet} — заполняется на странице «Практика».</p>`:''}`;
+        ${sk.form?`<p class="hint" style="margin-top:10px">📝 Рабочий лист: ${sk.form.sheet} — раскрывается в календаре, когда выбираешь этот навык в дне.</p>`:''}`;
       grid.appendChild(card);
     });
     c.appendChild(grid);
@@ -681,7 +688,7 @@ function fillSummary(){
   document.getElementById('subtitle').textContent = 'Сессия '+fmt(s.date)+(s.topic?' · '+s.topic:'')+(s.archived?' · завершена':'');
   const fb=document.getElementById('finishCard'); if(fb) fb.style.display=s.archived?'none':'';
 }
-function renderAll(){ fillSummary(); renderSkillPicker(); renderChecklist(); renderWorksheets(); renderCalendar(); autosizeAll(); }
+function renderAll(){ fillSummary(); renderSkillPicker(); renderChecklist(); renderCalendar(); autosizeAll(); }
 
 function bind(){
   document.getElementById('f-name').addEventListener('input',e=>{store.name=e.target.value;save();});
@@ -703,7 +710,7 @@ function bind(){
     if(el.tagName==='TEXTAREA') autosize(el);
     save();
   });
-  document.addEventListener('change',e=>{ const el=e.target; if(el.dataset.day!==undefined){ cur().days[+el.dataset.day].entries[+el.dataset.e][el.dataset.f]=el.value; save(); } });
+  document.addEventListener('change',e=>{ const el=e.target; if(el.dataset.day!==undefined){ cur().days[+el.dataset.day].entries[+el.dataset.e][el.dataset.f]=el.value; if(el.dataset.f==='skill') renderCalendar(); save(); } });
   document.getElementById('calendar').addEventListener('click',e=>{ const a=e.target.closest('[data-add]'); if(a){ addEntry(+a.dataset.add); return; } const d=e.target.closest('[data-del]'); if(d){ const [i,j]=d.dataset.del.split(':').map(Number); delEntry(i,j); } });
 }
 function autosize(el){ el.style.height='auto'; el.style.height=Math.max(el.scrollHeight,56)+'px'; }
@@ -807,61 +814,63 @@ function importJSON(inp){
 }
 
 // ============ WORKSHEETS ============
-function wsSkills(){ const s=cur(); return SKILLS.filter(x=>x.form&&s.skills.includes(x.id)); }
-function wsEntries(s,skId){ s.forms=s.forms||{}; if(!s.forms[skId]) s.forms[skId]=[]; return s.forms[skId]; }
+function wsRef(i,j){ return i+'|'+j; }
+function wsGet(ref){ const [i,j]=ref.split('|').map(Number); const en=cur().days[i]&&cur().days[i].entries[j]; if(!en) return null; en.ws=en.ws||{}; return en.ws; }
+function wsHas(ws){ return !!ws&&Object.values(ws).some(v=>Array.isArray(v)?v.length:(v&&typeof v==='object'?Object.values(v).some(a=>(a||[]).some(x=>x)):v!==''&&v!=null)); }
 function blankEntry(sk){ const e={}; sk.form.fields.forEach(f=>{ e[f.k]= f.type==='checks'?[] : f.type==='grid'?{} : ''; }); return e; }
-function addWs(skId){ const sk=SK[skId]; if(!sk||!sk.form) return; wsEntries(cur(),skId).push(blankEntry(sk)); renderWorksheets(); save(); }
-function delWs(skId,i){ const es=wsEntries(cur(),skId); const e=es[i]; const has=Object.values(e).some(v=>Array.isArray(v)?v.length:(typeof v==='object'?Object.values(v).some(x=>x):v)); if(has&&!confirm('Удалить эту запись?')) return; es.splice(i,1); renderWorksheets(); save(); }
-function renderWorksheets(){
-  const card=document.getElementById('wsCard'); const c=document.getElementById('worksheets'); const s=cur(); const list=wsSkills();
-  if(!list.length){ card.style.display='none'; c.innerHTML=''; return; }
-  card.style.display='';
-  c.innerHTML=list.map(sk=>{ const m=MODULES[sk.module]||MODULES.mind; const es=wsEntries(s,sk.id);
-    return `<div class="ws"><h3><span class="swatch" style="background:${m.color}"></span>${sk.form.title}</h3><div class="sheet">${sk.form.sheet}</div>
-      ${es.length?es.map((e,i)=>wsEntryHtml(sk,e,i)).join(''):`<p class="hint" style="margin:0 0 8px">Записей пока нет.</p>`}
-      <button class="ghost no-print" style="padding:6px 14px" data-wsadd="${sk.id}">+ ${sk.form.entryName.toLowerCase()}</button></div>`; }).join('');
-  autosizeAll();
-}
-function wsEntryHtml(sk,e,i){
-  const id=sk.id; let h=`<div class="ws-entry"><div class="eh"><b>${sk.form.entryName} ${i+1}</b><button class="x no-print" title="удалить" data-wsdel="${id}:${i}">×</button></div>`;
-  const nums=[]; const rest=[];
-  sk.form.fields.forEach(f=>{ (f.type==='number'?nums:rest).push(f); });
-  if(nums.length) h+=`<div class="ws-nums">${nums.map(f=>wsFieldHtml(id,i,f,e)).join('')}</div>`;
-  h+=rest.map(f=>wsFieldHtml(id,i,f,e)).join('');
+function wsFormHtml(sk,ref,e){
+  const nums=sk.form.fields.filter(f=>f.type==='number'), rest=sk.form.fields.filter(f=>f.type!=='number');
+  let h=`<div class="ws-form">`+visualHtml(sk,e);
+  if(nums.length) h+=`<div class="ws-nums">${nums.map(f=>wsFieldHtml(ref,f,e)).join('')}</div>`;
+  let n=0; rest.forEach(f=>{ const numbered=sk.form.numbered&&/^c\d$/.test(f.k); h+=wsFieldHtml(ref,f,e,numbered?++n:0); });
   return h+`</div>`;
 }
-function wsFieldHtml(id,i,f,e){
-  const v=e[f.k]; const d=`data-ws="${id}|${i}|${f.k}"`;
+function wsFieldHtml(ref,f,e,num){
+  const v=e[f.k]; const d=`data-ws="${ref}|${f.k}"`; const id=ref.replace('|','-'), i='';
   let inner='';
   if(f.type==='text') inner=`<input type="text" ${d} value="${esc(v||'')}">`;
   else if(f.type==='textarea') inner=`<textarea ${d} placeholder="${esc(f.hint||'')}">${esc(v||'')}</textarea>`;
   else if(f.type==='number') inner=`<input type="number" ${d} min="${f.min}" max="${f.max}" value="${v===''||v==null?'':v}">`;
   else if(f.type==='checks') inner=`<div class="ws-opts">${f.opts.map(o=>`<label class="chk"><input type="checkbox" ${d} data-opt="${esc(o)}" ${(v||[]).includes(o)?'checked':''}> ${o}</label>`).join('')}</div>`;
-  else if(f.type==='choice') inner=`<div class="ws-opts">${f.opts.map(o=>`<label class="chk"><input type="radio" name="r-${id}-${i}-${f.k}" ${d} data-opt="${esc(o)}" ${v===o?'checked':''}> ${o}</label>`).join('')}</div>`;
-  else if(f.type==='scale'){ const L=f.labels||{}; inner=`<div class="ws-scale">${Array.from({length:f.max-f.min+1},(_,k)=>f.min+k).map(n=>`<button type="button" class="${+v===n?'on':''}" data-wsscale="${id}|${i}|${f.k}" data-v="${n}">${n}</button>`).join('')}</div>
+  else if(f.type==='choice') inner=`<div class="ws-opts">${f.opts.map(o=>`<label class="chk"><input type="radio" name="r-${id}-${f.k}" ${d} data-opt="${esc(o)}" ${v===o?'checked':''}> ${o}</label>`).join('')}</div>`;
+  else if(f.type==='scale'){ const L=f.labels||{}; inner=`<div class="ws-scale">${Array.from({length:f.max-f.min+1},(_,k)=>f.min+k).map(n=>`<button type="button" class="${+v===n?'on':''}" data-wsscale="${ref}|${f.k}" data-v="${n}">${n}</button>`).join('')}</div>
     <div class="ws-scale-l"><span>${L[f.min]||''}</span><span>${L[Math.round((f.min+f.max)/2)]||''}</span><span>${L[f.max]||''}</span></div>`; }
-  else if(f.type==='grid'){ const g=v||{}; inner=`<table class="ws-grid"><tr><th></th>${f.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${f.rows.map((r,ri)=>`<tr><td class="rh">${r}</td>${f.cols.map((c,ci)=>`<td>${Array.from({length:f.n},(_,k)=>`<input type="text" data-wsgrid="${id}|${i}|${f.k}|${ri}|${ci}|${k}" placeholder="${k+1}." value="${esc((g[ri+'_'+ci]||[])[k]||'')}">`).join('')}</td>`).join('')}</tr>`).join('')}</table>`; }
-  return `<div class="ws-f"><label>${f.label}</label>${f.hint&&f.type!=='textarea'?`<div class="fh">${f.hint}</div>`:''}${inner}</div>`;
+  else if(f.type==='grid'){ const g=v||{}; inner=`<table class="ws-grid"><tr><th></th>${f.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${f.rows.map((r,ri)=>`<tr><td class="rh">${r}</td>${f.cols.map((c,ci)=>`<td>${Array.from({length:f.n},(_,k)=>`<input type="text" data-wsgrid="${ref}|${f.k}|${ri}|${ci}|${k}" placeholder="${k+1}." value="${esc((g[ri+'_'+ci]||[])[k]||'')}">`).join('')}</td>`).join('')}</tr>`).join('')}</table>`; }
+  const body=`<label>${f.label}</label>${f.hint&&f.type!=='textarea'?`<div class="fh">${f.hint}</div>`:''}${inner}`;
+  return num?`<div class="ws-f num"><div class="bignum">${num}</div><div>${body}</div></div>`:`<div class="ws-f">${body}</div>`;
 }
 function wsBind(){
-  const root=document.getElementById('worksheets');
+  const root=document.getElementById('calendar');
   root.addEventListener('click',e=>{
-    const a=e.target.closest('[data-wsadd]'); if(a){ addWs(a.dataset.wsadd); return; }
-    const d=e.target.closest('[data-wsdel]'); if(d){ const [id,i]=d.dataset.wsdel.split(':'); delWs(id,+i); return; }
-    const sc=e.target.closest('[data-wsscale]'); if(sc){ const [id,i,k]=sc.dataset.wsscale.split('|'); const e2=wsEntries(cur(),id)[+i]; e2[k]= e2[k]==+sc.dataset.v?'':+sc.dataset.v; sc.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.v===+e2[k])); save(); }
+    const sc=e.target.closest('[data-wsscale]'); if(sc){ const [i,j,k]=sc.dataset.wsscale.split('|'); const e2=wsGet(i+'|'+j); if(!e2) return; e2[k]= e2[k]==+sc.dataset.v?'':+sc.dataset.v; sc.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.v===+e2[k])); save(); }
   });
   root.addEventListener('input',e=>{
     const el=e.target;
-    if(el.dataset.ws){ const [id,i,k]=el.dataset.ws.split('|'); const e2=wsEntries(cur(),id)[+i]; if(!e2) return;
+    if(el.dataset.ws){ const [i,j,k]=el.dataset.ws.split('|'); const e2=wsGet(i+'|'+j); if(!e2) return;
       if(el.type==='checkbox'){ const set=new Set(e2[k]||[]); el.checked?set.add(el.dataset.opt):set.delete(el.dataset.opt); e2[k]=[...set]; }
       else if(el.type==='radio'){ e2[k]=el.dataset.opt; }
-      else if(el.type==='number'){ e2[k]=el.value===''?'':Math.max(+el.min,Math.min(+el.max,+el.value)); }
+      else if(el.type==='number'){ e2[k]=el.value===''?'':Math.max(+el.min,Math.min(+el.max,+el.value)); const bars=el.closest('.entry')&&el.closest('.entry').querySelector('.vis-bars'); if(bars){ const sk=SK[cur().days[+i].entries[+j].skill]; bars.outerHTML=visualHtml(sk,e2); } }
       else { e2[k]=el.value; if(el.tagName==='TEXTAREA') autosize(el); }
       save(); }
-    else if(el.dataset.wsgrid){ const [id,i,k,ri,ci,n]=el.dataset.wsgrid.split('|'); const e2=wsEntries(cur(),id)[+i]; if(!e2) return; e2[k]=e2[k]||{}; const key=ri+'_'+ci; e2[k][key]=e2[k][key]||[]; e2[k][key][+n]=el.value; save(); }
+    else if(el.dataset.wsgrid){ const [i,j,k,ri,ci,n]=el.dataset.wsgrid.split('|'); const e2=wsGet(i+'|'+j); if(!e2) return; e2[k]=e2[k]||{}; const key=ri+'_'+ci; e2[k][key]=e2[k][key]||[]; e2[k][key][+n]=el.value; save(); }
   });
 }
-function wsReport(s){
+function wsParts(sk,e){ const parts=[];
+  const nums=sk.form.fields.filter(f=>f.type==='number'&&e[f.k]!==''&&e[f.k]!=null);
+  const vis=visualHtml(sk,e); if(vis) parts.push(vis);
+  if(nums.length&&sk.form.visual!=='bars') parts.push(`<div class="rp-nums">${nums.map(f=>`<span>${f.label.replace(/\s*\(.*\)/,'')}: <b>${e[f.k]}</b></span>`).join('')}</div>`);
+  let n=0;
+  sk.form.fields.forEach(f=>{ const v=e[f.k]; if(f.type==='number') return; const numbered=sk.form.numbered&&/^c\d$/.test(f.k); const nn=numbered?++n:0;
+    const wrap=x=>nn?`<div class="rp-f ws-f num"><div class="bignum">${nn}</div><div>${x}</div></div>`:`<div class="rp-f">${x}</div>`;
+    if(f.type==='text'||f.type==='textarea'){ if(v) parts.push(wrap(`<b>${f.label}</b><p>${esc(v)}</p>`)); }
+    else if(f.type==='checks'){ if((v||[]).length) parts.push(wrap(`<b>${f.label}</b><div class="rp-checks">${f.opts.map(o=>`<span class="${(v||[]).includes(o)?'y':''}">${o}</span>`).join('')}</div>`)); }
+    else if(f.type==='choice'){ if(v) parts.push(wrap(`<b>${f.label}</b><p>${esc(v)}</p>`)); }
+    else if(f.type==='scale'){ if(v) parts.push(wrap(`<b>${f.label}</b><div class="rp-scale">${Array.from({length:f.max-f.min+1},(_,k)=>f.min+k).map(n=>`<i class="${+v===n?'on':''}">${n}</i>`).join('')}<small>${(f.labels||{})[v]||''}</small></div>`)); }
+    else if(f.type==='grid'){ const g=v||{}; const any=Object.values(g).some(a=>(a||[]).some(x=>x)); if(any) parts.push(wrap(`<b>${f.label}</b><table class="rp-grid"><tr><th></th>${f.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${f.rows.map((r,ri)=>`<tr><td class="rh">${r}</td>${f.cols.map((c,ci)=>`<td><ol>${(g[ri+'_'+ci]||[]).filter(x=>x).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></td>`).join('')}</tr>`).join('')}</table>`)); }
+  });
+  return parts; }
+function wsReport(s){ return ''; }
+function wsReportOld(s){
   const list=SKILLS.filter(x=>x.form&&s.skills.includes(x.id)&&(s.forms&&s.forms[x.id]||[]).length);
   if(!list.length) return '';
   let h=''; let wsH2=`<div class="rp-h2">Рабочие листы</div>`;
@@ -894,6 +903,16 @@ const CHAIN_STEPS=[
  ['s6','Адаптивное поведение','Какими навыками заменить проблемные звенья','soft'],
  ['s7','План по предотвращению','Как снизить уязвимость','soft'],
  ['s8','Устранение последствий','Как исправить самое серьёзное','soft']];
+const STOP_SVG=`<svg viewBox="0 0 120 120" width="96" height="96" aria-hidden="true"><polygon points="35,4 85,4 116,35 116,85 85,116 35,116 4,85 4,35" fill="#4f6349" stroke="#fffffb" stroke-width="4"/><text x="60" y="72" text-anchor="middle" font-family="Manrope,sans-serif" font-weight="800" font-size="34" fill="#fffffb">СТОП</text></svg>`;
+const STOP_STEPS=[['С','тойте','Не реагируй. Замри.'],['Т','олько шаг назад','Отступи, вдох-выдох.'],['О','смотритесь','Что внутри и снаружи?'],['П','опытайтесь действовать осознанно','Спроси мудрый разум.']];
+function visualHtml(sk,e){
+  if(!sk.form||!sk.form.visual) return '';
+  if(sk.form.visual==='stop') return `<div class="vis-stop">${STOP_SVG}<div class="vis-steps">${STOP_STEPS.map(x=>`<div><b>${x[0]}</b>${x[1]}<small>${x[2]}</small></div>`).join('')}</div></div>`;
+  if(sk.form.visual==='bars'){ const a=e.before===''||e.before==null?null:+e.before, b=e.after===''||e.after==null?null:+e.after;
+    const bar=(v,l)=>`<div class="vis-bar"><span>${l}</span><i><em style="width:${v==null?0:v}%"></em></i><b>${v==null?'—':v}</b></div>`;
+    return `<div class="vis-bars">${bar(a,'до')}${bar(b,'после')}</div>`; }
+  return '';
+}
 const CHAIN_SVG=`<svg viewBox="0 0 760 120" width="680" height="107" style="max-width:100%;height:auto;display:block" aria-hidden="true">
       <g fill="none" stroke="#4f6349" stroke-width="2.5">
         <ellipse cx="95" cy="60" rx="38" ry="22" stroke="#8a9a84" stroke-dasharray="5 4"/>
@@ -997,14 +1016,17 @@ function buildReport(){
   h+=wsReport(s);
   // calendar
   let any=false; let daysH2=`<div class="rp-h2">Записи по дням</div>`;
-  for(let i=0;i<7;i++){ const d=s.days[i]; const es=d.entries.filter(e=>e.how||e.feel||e.now); if(!es.length) continue; any=true; const dt=addDays(s.date,i);
+  for(let i=0;i<7;i++){ const d=s.days[i]; const es=d.entries.filter(e=>e.how||e.feel||e.now||wsHas(e.ws)); if(!es.length) continue; any=true; const dt=addDays(s.date,i);
     h+=`<div class="rp-day">`;
-    es.forEach((e,j)=>{ if(j===1) daysH2=''; let en=`<div class="rp-entry">${e.skill&&SK[e.skill]?`<span class="sk">${SK[e.skill].name}</span>`:''}`;
-      if(e.how) en+=`<div class="rp-f"><b>Как практиковала</b><p>${esc(e.how)}</p></div>`;
+    es.forEach((e,j)=>{ if(j===1) daysH2=''; const skf=e.skill&&SK[e.skill]&&SK[e.skill].form?SK[e.skill]:null;
+      let en=`<div class="rp-entry">${e.skill&&SK[e.skill]?`<span class="sk">${SK[e.skill].name}</span>`:''}${skf?`<small style="color:#7d8a76;margin-left:8px">${skf.form.title} · ${skf.form.sheet}</small>`:''}`;
+      let tail='';
+      if(skf){ const parts=wsParts(skf,e.ws||{}); en+=parts[0]||''; en=en.replace('<div class="rp-entry">','<div class="rp-entry" style="border-radius:8px 8px 0 0;border-bottom:0;margin-bottom:0;padding-bottom:4px">'); tail=`<div class="rp-entry" style="margin-top:0;border-top:0;border-radius:0 0 8px 8px;padding-top:0">${parts.slice(1).join('')}</div>`; }
+      else { if(e.how) en+=`<div class="rp-f"><b>Как практиковала</b><p>${esc(e.how)}</p></div>`;
       if(e.feel) en+=`<div class="rp-f"><b>Во время практики (тело, эмоции, мысли)</b><p>${esc(e.feel)}</p></div>`;
-      if(e.now) en+=`<div class="rp-f"><b>Сейчас, после практики</b><p>${esc(e.now)}</p></div>`;
+      if(e.now) en+=`<div class="rp-f"><b>Сейчас, после практики</b><p>${esc(e.now)}</p></div>`; }
       en+=`</div>`;
-      if(j===0) h+=`<div class="rp-dayhead">${daysH2}<div class="dh">${dayName(dt)}<small>${fmtShort(dt)}${i===0?' · день сессии':''}</small></div>${en}</div>`; else h+=en; });
+      if(j===0) h+=`<div class="rp-dayhead">${daysH2}<div class="dh">${dayName(dt)}<small>${fmtShort(dt)}${i===0?' · день сессии':''}</small></div>${en}</div>${tail}`; else h+=`<div class="rp-keep">${en}</div>${tail}`; });
     daysH2=''; h+=`</div>`; }
   if(!any) h+=`<div class="rp-keep">`+daysH2+`<p class="rp-empty">Записей по дням пока нет</p></div>`;
   // summary
@@ -1022,7 +1044,7 @@ async function printReport(){
   try{
     if(typeof html2pdf==='undefined') throw new Error('nolib');
     await document.fonts.ready;
-    const blob=await html2pdf().set({margin:[12,0,14,0],filename:name,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy'],avoid:['.rp-dayhead','.rp-entry','.rp-block','.rp-notes','tr','.rp-h2','.rp-keep','.rp-ws-entry .rp-f']}}).from(el).outputPdf('blob');
+    const blob=await html2pdf().set({margin:[12,0,14,0],filename:name,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy'],avoid:['.rp-dayhead','.rp-entry .rp-f','.rp-block','.rp-notes','tr','.rp-h2','.rp-keep']}}).from(el).outputPdf('blob');
     el.classList.remove('gen'); document.body.classList.remove('pdfmode');
     await saveReport(blob,s,name); if(document.getElementById('view-archive').classList.contains('active')) renderReports();
     await deliver(blob,name); return true;
