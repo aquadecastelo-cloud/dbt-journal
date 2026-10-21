@@ -53,7 +53,7 @@ summary{cursor:pointer;font-weight:600;font-size:12px;letter-spacing:.08em;text-
 summary::before{content:"▸ ";} details[open] summary::before{content:"▾ ";}
 .tips{background:rgba(255,255,255,.55);border-radius:12px;padding:12px 14px;margin-top:10px;font-size:14px}
 label{font-weight:600;font-size:13px;color:var(--muted);display:block;margin-bottom:4px}
-input[type=text],input[type=date],textarea,select{font:inherit;width:100%;border:1px solid var(--line);border-radius:12px;padding:9px 12px;background:#fffffb;color:var(--ink)}
+input[type=text],input[type=date],input[type=number],textarea,select{font:inherit;width:100%;border:1px solid var(--line);border-radius:12px;padding:9px 12px;background:#fffffb;color:var(--ink)}
 textarea{min-height:64px;resize:vertical}
 input:focus,textarea:focus,select:focus{outline:2px solid var(--sky);border-color:var(--sky)}
 .row{display:flex;gap:14px;flex-wrap:wrap}
@@ -154,6 +154,54 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
 #report .rp-block{break-inside:avoid;margin-bottom:12px}
 #report .rp-notes{background:var(--sand-l);border-radius:12px;padding:12px 16px;break-inside:avoid}
 #report .rp-notes .rp-f b{color:#6f6137}
+/* worksheets */
+.ws{margin-top:18px}
+.ws h3{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.ws .sheet{font-size:12px;color:var(--muted);margin-bottom:8px}
+.ws-entry{background:rgba(255,255,255,.55);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin-bottom:10px}
+.ws-entry .eh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.ws-entry .eh b{font-family:"Instrument Serif",serif;font-weight:400;font-size:18px;color:var(--sage-d)}
+.ws-f{margin-top:10px}
+.ws-f label{margin-bottom:4px}
+.ws-f .fh{font-size:12px;color:var(--muted);margin:-2px 0 4px}
+.ws-f input[type=number]{max-width:120px}
+.ws-nums{display:flex;gap:14px;flex-wrap:wrap}
+.ws-nums .ws-f{flex:1;min-width:160px;margin-top:10px}
+.ws-opts{display:flex;flex-direction:column;gap:4px}
+.ws-opts .chk{margin:2px 0}
+.ws-scale{display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap}
+.ws-scale button{width:40px;height:40px;border-radius:50%;padding:0;font-size:15px;background:#fffffb;border:1.5px solid var(--line)}
+.ws-scale button.on{background:var(--sage-d);color:#fff;border-color:var(--sage-d)}
+.ws-scale-l{font-size:12px;color:var(--muted);margin-top:4px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.ws-scale-l span:nth-child(2){text-align:center} .ws-scale-l span:nth-child(3){text-align:right}
+table.ws-grid{width:100%;border-collapse:separate;border-spacing:0;margin-top:4px}
+table.ws-grid th{font-size:12px;font-weight:600;color:var(--sage-d);text-align:left;padding:6px 8px;background:var(--sage-l)}
+table.ws-grid th:first-child{border-radius:10px 0 0 0} table.ws-grid th:last-child{border-radius:0 10px 0 0}
+table.ws-grid td{vertical-align:top;padding:6px 8px;border-bottom:1px solid var(--line)}
+table.ws-grid td.rh{font-weight:600;font-size:13px;width:160px;color:var(--ink)}
+table.ws-grid input{margin-bottom:4px;padding:6px 10px;border-radius:8px}
+/* report worksheets */
+#report .rp-ws{margin-bottom:14px}
+#report .rp-ws-entry{background:#fff;border:1px solid var(--line);border-left:4px solid var(--sage-d);border-radius:8px;padding:8px 12px;margin:6px 0 10px;break-inside:auto}
+#report .rp-ws-entry .rp-f,#report .rp-keep{break-inside:avoid}
+#report .rp-keep .rp-ws-entry{border-radius:8px 8px 0 0;border-bottom:0;margin-bottom:0;padding-bottom:0}
+#report .rp-ws-title{font-family:"Instrument Serif",serif;font-size:14pt;color:var(--sage-d);padding:5px 12px;background:var(--sky-l);border-radius:8px;margin:8px 0 4px}
+#report .rp-ws-title small{font-family:Manrope,sans-serif;font-size:9pt;color:#7d8a76;margin-left:8px}
+#report .rp-ws-entry h4{font-family:"Instrument Serif",serif;font-weight:400;font-size:13pt;color:var(--sage-d);margin:0 0 4px}
+#report .rp-nums{display:flex;gap:18px;font-size:10.5pt;margin:4px 0}
+#report .rp-nums b{color:var(--sage-d)}
+#report .rp-checks{margin:2px 0 4px;font-size:10.5pt}
+#report .rp-checks span{display:block}
+#report .rp-checks span::before{content:"☐ ";color:#9aa394} #report .rp-checks span.y::before{content:"☑ ";color:var(--sage-d)}
+#report .rp-scale{display:flex;gap:5px;align-items:center;margin:4px 0}
+#report .rp-scale i{display:inline-flex;width:22px;height:22px;border-radius:50%;border:1.5px solid #b5bdb0;align-items:center;justify-content:center;font-size:9pt;font-style:normal;color:#7d8a76}
+#report .rp-scale i.on{background:var(--sage-d);border-color:var(--sage-d);color:#fff;font-weight:700}
+#report .rp-scale small{margin-left:8px;color:#5e6b58}
+#report table.rp-grid{width:100%;border-collapse:collapse;font-size:10pt;margin:4px 0 6px}
+#report table.rp-grid th{background:var(--sage-l);color:var(--sage-d);text-align:left;padding:4px 8px;font-size:9pt;letter-spacing:.06em;text-transform:uppercase}
+#report table.rp-grid td{vertical-align:top;padding:5px 8px;border-bottom:1px solid #e0ddd0}
+#report table.rp-grid td.rh{font-weight:700;width:150px;color:var(--sage-d)}
+#report table.rp-grid ol{margin:0;padding-left:18px}
 /* chain rings */
 .ring{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:2.5px solid var(--sage-d);background:#fffffb;font-family:Manrope,sans-serif;font-weight:700;font-size:12px;color:var(--sage-d);flex-shrink:0;box-sizing:border-box}
 .ring.fill{background:var(--sage-d);color:#fff}
@@ -238,6 +286,12 @@ body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
     <h2>1. Чек-лист практик</h2>
     <p class="hint">Один кружок — один раз, когда практиковала за эту неделю.</p>
     <div id="checklist"></div>
+  </div>
+
+  <div class="card" id="wsCard" style="display:none">
+    <h2>Рабочие листы</h2>
+    <p class="hint">Структурированные листы для навыков, у которых домашка — не «сколько раз», а разбор ситуаций. Появляются, когда такой навык выбран в блоке «Сессия».</p>
+    <div id="worksheets"></div>
   </div>
 
   <div class="card">
@@ -359,7 +413,76 @@ let SKILLS = [
    text:'Фокус на том, чего я хочу достичь в этой ситуации, — а не на справедливости, правоте или «так должно быть». Два главных врага эффективности: желание быть правой и своеволие (упёртость, «назло», «не буду, и всё»). Ключевой вопрос в любой момент: <em>«Это эффективно?»</em>',
    tip:'<strong>Ладони готовности:</strong> разжать кулаки, развернуть ладони вверх (на коленях или вдоль тела) — тело сигналит уму «я открыта, я принимаю», и упёртость ослабевает.',
    ideas:['Начинаю злиться или чувствовать враждебность → спросить себя: «Это эффективно?»','Замечаю, что хочу быть правой, а не эффективной → отпустить правоту.','Отметить своеволие внутри → «Это эффективно?»','Отбросить своеволие и сделать эффективное действие; заметить разницу.','Злость, враждебность, или вот-вот сделаю что-то неэффективное → «ладони готовности».'],
-   items:['Отказ от стремления всегда быть правой','Отказ от своеволия','Делала то, что эффективно']}
+   items:['Отказ от стремления всегда быть правой','Отказ от своеволия','Делала то, что эффективно']},
+  // ---------- СТРЕССОУСТОЙЧИВОСТЬ ----------
+  {id:'dist-intro', module:'dist', intro:true, name:'О модуле: навыки переживания кризиса', lead:'Пережить кризис, не усугубив его.',
+   text:'<strong>Три задачи навыков стрессоустойчивости</strong> (раздаточный материал 1):<br>1) <strong>Пережить кризисную ситуацию</strong>, не усугубив её.<br>2) <strong>Принять реальность</strong> — заменить страдания и застревание в них обычной болью и возможностью двигаться вперёд.<br>3) <strong>Стать свободной</strong> от необходимости немедленно потакать своим сильным желаниям, побуждениям и сильным эмоциям.<br><br><strong>Обзор навыков переживания кризиса</strong> (раздаточный материал 2) — это навыки для перенесения болезненных событий, побуждений и эмоций в случае, если ситуацию нельзя исправить немедленно: навык СТОП · «За» и «против» · Изменение состояния тела (навыки ТРУД) · Отвлечение (ПЕРЕЖИТЬ с мудрым разумом) · Самоуспокоение посредством пяти органов чувств · ПОПРАВЬте момент.',
+   tip:'<strong>Когда применять</strong> (раздаточный материал 3).<br><strong>Я в кризисе, когда ситуация:</strong> крайне стрессовая; краткосрочная (не продлится долго); вызывает интенсивную потребность разрешить кризис <em>немедленно</em>.<br><strong>Применяю навыки переживания кризиса, когда:</strong> 1) страдаю от сильной боли, которую не получается быстро облегчить; 2) хочу действовать в соответствии с эмоциями, но это только усугубит ситуацию; 3) эмоциональные страдания становятся невыносимыми; 4) эмоционально перегружена, но нужно выполнять требования ситуации; 5) чрезмерно эмоционально возбуждена, а проблемы не могут быть разрешены немедленно.<br><strong>Не применяю их для:</strong> решения повседневных проблем; решения всех жизненных проблем; создания жизни, достойной того, чтобы жить.',
+   ideas:[], items:[], order:0},
+
+  {id:'stop', module:'dist', name:'Навык СТОП', lead:'Не реагируй. Остановись, отступи, осмотрись — и действуй осознанно.',
+   text:'Навык для первых секунд кризиса, когда эмоции пытаются заставить действовать бездумно. Четыре шага по буквам:<br><strong>С — Стойте.</strong> Просто не реагируйте. Остановитесь! Замрите! Не шевелитесь! Эмоции могут попытаться заставить действовать бездумно. Сохраняйте контроль!<br><strong>Т — отступите Только шаг назад.</strong> Отступите на шаг от ситуации. Сделайте перерыв. Отпустите ситуацию. Сделайте глубокий вдох и выдох. Не позволяйте своим чувствам заставить действовать импульсивно.<br><strong>О — Осмотритесь.</strong> Понаблюдайте за тем, что происходит внутри вас и снаружи. Какова ситуация? О чём вы думаете и что чувствуете? Что говорят или делают окружающие?<br><strong>П — Попытайтесь действовать осознанно.</strong> Прежде чем решить, что делать, рассмотрите свои мысли и чувства, ситуацию, мысли и чувства других людей. Подумайте о своих целях. Спросите свой мудрый разум: какие действия могут улучшить или ухудшить ситуацию?',
+   tip:'<strong>Домашка (рабочий лист 2):</strong> опиши две кризисные ситуации за неделю и как применяла СТОП — уровень дистресса до и после (0–100), побуждающее событие (кто, что, когда, где), поведение, которое пыталась остановить, какие шаги сделала, результат и оценка эффективности по шкале 1–5.',
+   ideas:['Заметила сильное побуждение — замерла на несколько секунд и ничего не сделала.','Вышла из комнаты, сделала глубокий вдох-выдох, прежде чем отвечать.','Понаблюдала: что происходит в теле, какие мысли, что делают другие.','Спросила мудрый разум: какой шаг улучшит ситуацию, а какой ухудшит?','Проговорила про себя «Стой — отступи — осмотрись — действуй осознанно».'],
+   items:['Применила навык СТОП в кризисной ситуации','С: остановилась и не отреагировала импульсивно','Т: отступила на шаг назад, сделала вдох-выдох','О: осмотрелась — что внутри и снаружи','П: действовала осознанно, спросив мудрый разум'],
+   form:{title:'Практика навыка СТОП', multi:true, entryName:'Кризисное событие', sheet:'Стрессоустойчивость: рабочий лист 2', fields:[
+     {k:'before',type:'number',label:'Уровень дистресса до (0–100)',min:0,max:100},
+     {k:'after',type:'number',label:'Уровень дистресса после (0–100)',min:0,max:100},
+     {k:'trigger',type:'textarea',label:'Побуждающее событие для моего дистресса (кто, что, когда, где). Что вызвало состояние кризиса?'},
+     {k:'behavior',type:'text',label:'Поведение, которое я пыталась остановить'},
+     {k:'steps',type:'checks',label:'Шаги, которые я предприняла',opts:['Стойте','Отступите только шаг назад','Осмотритесь','Попытайтесь действовать осознанно']},
+     {k:'did',type:'textarea',label:'Что я сделала'},
+     {k:'result',type:'textarea',label:'Результат применения навыка'},
+     {k:'eff',type:'scale',label:'Насколько эффективным оказался навык, чтобы пережить кризис и не усугубить ситуацию',min:1,max:5,labels:{1:'Мне так и не удалось выдержать ситуацию, даже в течение одной минуты',3:'Мне удалось совладать по крайней мере на некоторое время. Это несколько помогло',5:'Мне удалось применить навыки, сохранить стрессоустойчивость и не пойти на поводу у проблемных побуждений'}}
+   ]}, order:10},
+
+  {id:'proscons', module:'dist', name:'«За» и «против»', lead:'Взвесить обе дороги до того, как кризис выберет за меня.',
+   text:'Взвесьте все «за» и «против» в любой момент, когда нужно выбирать между двумя планами действий.<br>• Побуждение к действию можно назвать кризисом, когда оно очень сильное и когда действие в соответствии с ним ухудшит ситуацию в долгосрочной перспективе.<br>• Составьте список «за» и «против» действий в соответствии с кризисным побуждением (это может быть побуждение к опасному, зависимому или причиняющему вред поведению, либо побуждение уступить, сдаться или избежать делать то, что необходимо для построения достойной жизни).<br>• Составьте другой список — «за» и «против» того, чтобы сопротивляться кризисным побуждениям, то есть сохранять стрессоустойчивость и не поддаваться побуждениям.<br>• Определите, какие «за» и «против» краткосрочные (только на сегодня), а какие — долгосрочные (выходящие за пределы сегодняшнего дня). Тогда спросите свой мудрый разум: <em>«Я предпочту хороший день или хорошую жизнь?»</em> Сделайте осознанный выбор в отношении своего поведения.',
+   tip:'<strong>До того как произойдёт кризисная ситуация:</strong> составь свой список «за» и «против»; всегда держи его при себе; повторяй свои «за» и «против» снова и снова.<br><strong>Когда кризисная ситуация произойдёт:</strong> достань список и перечитай его; представь положительные последствия сопротивления побуждению; подумай об отрицательных последствиях вовлечения в проблемное поведение; вспомни из прошлого опыта последствия действий в соответствии с кризисными побуждениями.',
+   ideas:['Составила таблицу «за / против» для одного проблемного поведения и сохранила там, где найду в кризис.','Перечитала список, когда появилось побуждение.','Представила положительные последствия сопротивления.','Вспомнила, чем кончалось раньше, когда шла на поводу у побуждения.','Спросила себя: хороший день или хорошая жизнь?'],
+   items:['Составила список «за» и «против»','Перечитала список, когда появилось побуждение','Представила положительные последствия сопротивления','Вспомнила прошлые последствия действий по побуждению','Сделала осознанный выбор мудрым разумом'],
+   form:{title:'«За» и «против» действий в соответствии с кризисным побуждением', multi:true, entryName:'Проблемное поведение', sheet:'Стрессоустойчивость: рабочий лист 3', fields:[
+     {k:'behavior',type:'text',label:'Проблемное поведение, которое я пытаюсь прекратить'},
+     {k:'grid',type:'grid',label:'Таблица «за» и «против»',rows:['Действовать в соответствии с кризисным побуждением','Противостоять кризисному побуждению'],cols:['За','Против'],n:5},
+     {k:'terms',type:'textarea',label:'Какие «за» и «против» краткосрочные (только на сегодня), а какие — долгосрочные (за пределами сегодняшнего дня)'},
+     {k:'wise',type:'textarea',label:'Мудрый разум: «Я предпочту хороший день или хорошую жизнь?» — мой осознанный выбор'},
+     {k:'used',type:'checks',label:'Как использовала список на этой неделе',opts:['Перечитывала список, когда появлялось побуждение','Представляла положительные последствия сопротивления','Думала об отрицательных последствиях проблемного поведения','Вспоминала прошлый опыт действий по побуждению']}
+   ]}, order:20},
+
+  // ---------- ЭМОЦИОНАЛЬНАЯ РЕГУЛЯЦИЯ ----------
+  {id:'extreme', module:'emo', name:'Управление чрезмерно сильными эмоциями', lead:'Сначала сбить волну — потом разбираться.',
+   text:'Эти советы для случаев, когда интенсивность эмоций <strong>чрезмерна</strong> — настолько высока, что способность применять навыки нарушается.<br><strong>Заранее понаблюдайте и опишите, что с вами происходит в точке срыва навыков:</strong> у вас очень сильный дистресс; вы ошеломлены; вы ни на чём не можете сосредоточить свой разум, кроме самой эмоции; ваш разум закрывается, мозг прекращает обрабатывать информацию; вы не можете решать проблемы или применять сложные навыки.<br><strong>Теперь проверьте факты.</strong> Вы действительно «разваливаетесь на части» при таком уровне дистресса? Если нет — <strong>примените свои навыки</strong>. Если да — вы в точке срыва навыков, приступайте к шагу 1.<br><strong>Шаг 1.</strong> Примените навыки переживания кризиса, чтобы снизить интенсивность возбуждения: навыки ТРУД; ПЕРЕЖИТЬ с мудрым разумом; самоуспокоение с помощью пяти органов чувств; ПОПРАВЬ момент (см. Стрессоустойчивость: раздаточный материал 6–9а).<br><strong>Шаг 2.</strong> Вернитесь к осознанности к текущим эмоциям (см. Эмоциональная регуляция: раздаточный материал 22).<br><strong>Шаг 3.</strong> Попробуйте применить другие навыки эмоциональной регуляции (при необходимости).',
+   tip:'<strong>Мои признаки точки срыва</strong> — наблюдай и запоминай их заранее, когда спокойна: по ним легче понять в моменте, что сложные навыки сейчас не сработают и надо начинать с шага 1.',
+   ideas:['Описала заранее, как выгляжу и что чувствую в точке срыва.','В сильной эмоции проверила факты: я правда разваливаюсь — или могу применить навык?','Начала с навыков переживания кризиса, а не с решения проблемы.','После того как волна спала, вернулась к осознанности текущей эмоции.'],
+   items:['Заметила признаки точки срыва навыков','Проверила факты: действительно ли я в точке срыва','Шаг 1: применила навыки переживания кризиса','Шаг 2: вернулась к осознанности текущих эмоций','Шаг 3: применила другие навыки эмоциональной регуляции'],
+   form:{title:'Эпизод чрезмерно сильной эмоции', multi:true, entryName:'Эпизод', sheet:'Эмоциональная регуляция: раздаточный материал 23', fields:[
+     {k:'situation',type:'textarea',label:'Ситуация и эмоция (что произошло, что чувствовала)'},
+     {k:'before',type:'number',label:'Интенсивность до (0–100)',min:0,max:100},
+     {k:'after',type:'number',label:'Интенсивность после (0–100)',min:0,max:100},
+     {k:'signs',type:'checks',label:'Что происходило со мной (признаки точки срыва навыков)',opts:['Очень сильный дистресс','Я ошеломлена','Не могу сосредоточиться ни на чём, кроме самой эмоции','Разум закрывается, мозг прекращает обрабатывать информацию','Не могу решать проблемы или применять сложные навыки']},
+     {k:'facts',type:'choice',label:'Проверка фактов: я действительно «разваливаюсь на части» при таком уровне дистресса?',opts:['Да — я в точке срыва навыков, начинаю с шага 1','Нет — могу применить свои навыки']},
+     {k:'step1',type:'checks',label:'Шаг 1. Навыки переживания кризиса, которые применила',opts:['Навыки ТРУД','ПЕРЕЖИТЬ с мудрым разумом','Самоуспокоение с помощью пяти органов чувств','ПОПРАВЬ момент']},
+     {k:'step2',type:'textarea',label:'Шаг 2. Осознанность к текущим эмоциям — что заметила, когда вернулась к эмоции'},
+     {k:'step3',type:'textarea',label:'Шаг 3. Другие навыки эмоциональной регуляции (если понадобились)'},
+     {k:'result',type:'textarea',label:'Результат'}
+   ]}, order:10},
+
+  {id:'troubleshoot', module:'emo', name:'Устранение трудностей в регуляции эмоций', lead:'Если навык не сработал — пройти шесть проверок.',
+   text:'Когда регулировать эмоцию не получается, пройди по шести проверкам (раздаточный материал 24, рабочий лист 16).<br><strong>1. Проверьте свою биологическую уязвимость.</strong> Спросите себя: стала ли я более биологически уязвимой? Страдаю ли от невылеченных физических болезней или дистресса? Сбалансировано ли моё питание? Полноценен ли сон? Достаточна ли физическая активность? Принимаю ли изменяющие состояние сознания вещества? Поработайте над навыками ЗАБОТА: вылечите физические болезни или избавьтесь от дистресса; принимайте только предписанные врачом препараты, убедитесь, что остальные необходимы; попробуйте снова.<br><strong>2. Проверьте свои навыки.</strong> Просмотрите то, что уже пробовали: пытались ли применять эффективные навыки? следовали ли инструкциям по их применению? Поработайте над навыками: просмотрите и примените другие навыки; получите коучинг, если нуждаетесь; попробуйте снова.<br><strong>3. Проверьте подкрепления.</strong> Спросите себя: сообщают ли мои эмоции нечто важное и влияют ли на людей? Мотивируют ли меня делать то, что считаю важным? Валидируют ли мои убеждения и идентичность? Делают ли меня счастливой? Если да: практикуйте навыки межличностной эффективности при общении; найдите новые подкрепления, чтобы мотивировать себя; практикуйте самовалидацию; взвесьте «за» и «против» изменения эмоций (рабочий лист 1).<br><strong>4. Проверьте своё настроение.</strong> Спросите себя: «Могу ли я потратить время и усилия на решение моей проблемы?» Если нет: взвесьте «за» и «против» напряжённой работы над навыками; практикуйте навыки радикального принятия и готовности; практикуйте навыки осознанности — участие и эффективность.<br><strong>5. Проверьте эмоциональную перегруженность.</strong> Спросите себя: «Я слишком расстроена, чтобы применять сложные навыки?» Если да, спросите: «Можно ли легко решить проблемы, о которых я беспокоюсь?» Если да — примените решение проблемы (раздаточный материал 9, 12). Если нет — практикуйте осознанность к текущим эмоциям (раздаточный материал 22). Если эмоции запредельно интенсивны, чтобы мыслить здраво — обратитесь к навыкам ТРУД (раздаточный материал 5).<br><strong>6. Проверьте, не встали ли на пути мифы об эмоциях.</strong> Проверьте себя относительно суждений и мифов об эмоциях (например, «некоторые эмоции глупы», «в любой ситуации есть единственный правильный способ реагирования») и убеждений, что эмоции и идентичность одинаковы («мои эмоции — это я»). Если да: проверьте факты; опровергните мифы; начните практиковать безоценочное мышление.',
+   tip:'<strong>Порядок важен:</strong> сначала тело (1), потом навыки (2), потом то, что эмоцию удерживает (3–4), потом перегрузка (5) и мифы (6). Не нужно проходить все шесть, если на одном из шагов нашлась причина.',
+   ideas:['Когда навык «не сработал», не ругала себя, а прошла по списку проверок.','Проверила сон, еду, движение и болезни — навыки ЗАБОТА.','Спросила себя, что эта эмоция мне даёт (подкрепления).','Поймала миф об эмоциях и опровергла его фактами.'],
+   items:['Прошла проверки 1–6 при трудности с эмоцией','1: проверила биологическую уязвимость (ЗАБОТА)','2: проверила, какие навыки пробовала и как','3: проверила подкрепления эмоции','4: проверила настроение — готова ли работать','5: проверила эмоциональную перегруженность','6: проверила мифы об эмоциях'],
+   form:{title:'Устранение трудностей в регуляции эмоций', multi:true, entryName:'Трудность', sheet:'Эмоциональная регуляция: рабочий лист 16', fields:[
+     {k:'problem',type:'textarea',label:'Какую эмоцию не получалось регулировать, что пробовала и что не сработало'},
+     {k:'c1',type:'textarea',label:'1. Биологическая уязвимость',hint:'Стала ли я более уязвимой? Болезни, дистресс, питание, сон, движение, вещества. Что сделала по ЗАБОТА'},
+     {k:'c2',type:'textarea',label:'2. Навыки',hint:'Пыталась ли применять эффективные навыки? Следовала ли инструкциям? Какие другие навыки применила, нужен ли коучинг'},
+     {k:'c3',type:'textarea',label:'3. Подкрепления',hint:'Сообщает ли эмоция что-то важное, влияет ли на людей, мотивирует, валидирует убеждения, делает ли счастливой? Что сделала: межличностная эффективность, новые подкрепления, самовалидация, «за/против» изменения эмоции'},
+     {k:'c4',type:'textarea',label:'4. Настроение',hint:'Могу ли потратить время и усилия на решение проблемы? Если нет: «за/против» работы над навыками, радикальное принятие и готовность, участие и эффективность'},
+     {k:'c5',type:'textarea',label:'5. Эмоциональная перегруженность',hint:'Слишком расстроена для сложных навыков? Легко ли решить проблему → решение проблемы; нет → осознанность к текущей эмоции; запредельно → ТРУД'},
+     {k:'c6',type:'textarea',label:'6. Мифы об эмоциях',hint:'Какие суждения или мифы об эмоциях встали на пути? Проверила факты, опровергла, безоценочное мышление'},
+     {k:'found',type:'choice',label:'На какой проверке нашлась причина',opts:['1 — уязвимость','2 — навыки','3 — подкрепления','4 — настроение','5 — перегруженность','6 — мифы','Не нашла']},
+     {k:'result',type:'textarea',label:'Что изменилось после'}
+   ]}, order:20},
 ];
 let SK = Object.fromEntries(SKILLS.map(s=>[s.id,s]));
 // Навыки из облака (коллекция `skills`): документ = {id, module, name, lead, text, tip, ideas[], items[], order, hidden}
@@ -425,7 +548,7 @@ async function connectCloud(){
     Object.keys(remote).forEach(id=>{ if(!store.sessions[id]) store.sessions[id]=remote[id]; });
     if(meta){ if(meta.name&&!store.name) store.name=meta.name; if(meta.theoryMode) store.theoryMode=meta.theoryMode; if(meta.current&&store.sessions[meta.current]&&(!store.current||!store.sessions[store.current]||(meta.updated||0)>(store.updatedMeta||0))) store.current=meta.current; }
     // a fresh blank session created at load should not overwrite cloud if cloud has sessions
-    pushLocal=pushLocal.filter(id=>{ const ss=store.sessions[id]; const empty=!ss.topic&&!ss.skills.length&&!Object.values(ss.checks||{}).some(v=>v)&&!ss.days.some(dayHas)&&!ss.reflect&&!ss.wise&&!ss.notes; if(empty&&Object.keys(remote).length){ if(store.current===id){ delete store.sessions[id]; store.current=sortedIds()[0]; } else delete store.sessions[id]; return false; } return true; });
+    pushLocal=pushLocal.filter(id=>{ const ss=store.sessions[id]; const empty=!ss.topic&&!ss.skills.length&&!Object.values(ss.checks||{}).some(v=>v)&&!ss.days.some(dayHas)&&!ss.reflect&&!ss.wise&&!ss.notes&&!Object.values(ss.forms||{}).some(a=>a.length); if(empty&&Object.keys(remote).length){ if(store.current===id){ delete store.sessions[id]; store.current=sortedIds()[0]; } else delete store.sessions[id]; return false; } return true; });
     normalize(); if(!store.current||!store.sessions[store.current]){ store.current=sortedIds()[0]; if(!store.current){ const n=blankSession(today()); store.sessions[n.id]=n; store.current=n.id; pushLocal.push(n.id); } }
     pushLocal.forEach(markSession); metaDirty=true;
     renderAll(); renderChains(); if(document.getElementById('view-theory').classList.contains('active')) renderTheory(); if(document.getElementById('view-archive').classList.contains('active')) renderArchive();
@@ -437,13 +560,13 @@ function setStatus(s){ document.getElementById('status').textContent=s; }
 function iso(d){ return d.toISOString().slice(0,10); }
 function today(){ const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return iso(d); }
 function blankSession(date){
-  const s={id:date+'-'+Math.random().toString(36).slice(2,6), date, topic:'', skills:[], checks:{}, days:[], reflect:'',wise:'',notes:'',obs_what:'',obs_insight:'',obs_feel:''};
+  const s={id:date+'-'+Math.random().toString(36).slice(2,6), date, topic:'', skills:[], checks:{}, days:[], reflect:'',wise:'',notes:'',obs_what:'',obs_insight:'',obs_feel:'',forms:{}};
   for(let i=1;i<=8;i++) s['h'+i]=false;
   for(let i=0;i<7;i++) s.days.push({entries:[]});
   return s;
 }
 function cur(){ return store.sessions[store.current]; }
-function normalize(){ Object.values(store.sessions).forEach(ss=>{ ss.days=ss.days.map(d=>{ if(d&&d.entries) return d; const e=(d&&(d.how||d.feel||d.now||d.skill))?[{skill:d.skill||'',how:d.how||'',feel:d.feel||'',now:d.now||''}]:[]; return {entries:e}; }); while(ss.days.length<7) ss.days.push({entries:[]}); }); }
+function normalize(){ Object.values(store.sessions).forEach(ss=>{ ss.forms=ss.forms||{}; ss.days=ss.days.map(d=>{ if(d&&d.entries) return d; const e=(d&&(d.how||d.feel||d.now||d.skill))?[{skill:d.skill||'',how:d.how||'',feel:d.feel||'',now:d.now||''}]:[]; return {entries:e}; }); while(ss.days.length<7) ss.days.push({entries:[]}); }); }
 function dayHas(d){ return d.entries.some(e=>e.how||e.feel||e.now); }
 function fmt(d){ return new Date(d+'T12:00').toLocaleDateString('ru',{day:'numeric',month:'long',year:'numeric'}); }
 function fmtShort(d){ return new Date(d+'T12:00').toLocaleDateString('ru',{day:'numeric',month:'short'}); }
@@ -462,7 +585,7 @@ function showView(v){
 function renderSkillPicker(){
   const s=cur(); const c=document.getElementById('skillpicker'); c.innerHTML='';
   Object.entries(MODULES).forEach(([mid,m])=>{
-    const list=SKILLS.filter(x=>x.module===mid); if(!list.length) return;
+    const list=SKILLS.filter(x=>x.module===mid&&!x.intro); if(!list.length) return;
     const div=document.createElement('div'); div.className='mod';
     div.innerHTML=`<div class="mod-h">${m.name}</div><div class="chips">${list.map(x=>`<span class="chip ${s.skills.includes(x.id)?'on':''}" data-skill="${x.id}"><span class="sw" style="background:${m.color}"></span>${x.name}</span>`).join('')}</div>`;
     c.appendChild(div);
@@ -471,7 +594,7 @@ function renderSkillPicker(){
 function toggleSkill(id){
   const s=cur(); const i=s.skills.indexOf(id);
   if(i>=0) s.skills.splice(i,1); else s.skills.push(id);
-  renderSkillPicker(); renderChecklist(); renderCalendar(); save();
+  renderSkillPicker(); renderChecklist(); renderWorksheets(); renderCalendar(); save();
 }
 
 function renderChecklist(){
@@ -527,18 +650,20 @@ function renderTheory(){
   const c=document.getElementById('theory'); c.innerHTML='';
   Object.entries(MODULES).forEach(([mid,m])=>{
     let list=SKILLS.filter(x=>x.module===mid);
-    if(mode==='current') list=list.filter(x=>s.skills.includes(x.id));
+    if(mode==='current'){ const anyOn=list.some(x=>s.skills.includes(x.id)); list=list.filter(x=>s.skills.includes(x.id)||(x.intro&&anyOn)); }
     if(!list.length) return;
     const h=document.createElement('div'); h.className='mod-h'; h.style.margin='8px 0 10px'; h.textContent='Модуль · '+m.name; c.appendChild(h);
     const grid=document.createElement('div'); grid.className='theory-grid theory';
     list.forEach(sk=>{
       const on=s.skills.includes(sk.id);
-      const card=document.createElement('div'); card.className='card '+m.cls+(on?'':' off');
-      card.innerHTML=`<div class="hdr"><span class="pill">${on?'в домашке':'не выбран'}</span>
-        <button class="ghost no-print" style="padding:6px 12px" onclick="toggleSkill('${sk.id}');renderTheory()">${on?'убрать':'добавить в домашку'}</button></div>
+      const card=document.createElement('div'); card.className='card '+m.cls+(on||sk.intro?'':' off'); if(sk.intro) card.style.gridColumn='1/-1';
+      card.innerHTML=sk.intro?`<div class="hdr"><span class="pill">о модуле</span></div>`:`<div class="hdr"><span class="pill">${on?'в домашке':'не выбран'}</span>
+        <button class="ghost no-print" style="padding:6px 12px" onclick="toggleSkill('${sk.id}');renderTheory()">${on?'убрать':'добавить в домашку'}</button></div>`;
+      card.innerHTML+=`
         <h2>${sk.name}</h2><p class="lead">${sk.lead}</p><p>${sk.text}</p>
         ${sk.tip?`<div class="tips">${sk.tip}</div>`:''}
-        ${sk.ideas?`<details><summary>Идеи для практики (${sk.ideas.length})</summary><ul>${sk.ideas.map(i=>`<li>${i}</li>`).join('')}</ul></details>`:''}`;
+        ${sk.ideas&&sk.ideas.length?`<details><summary>Идеи для практики (${sk.ideas.length})</summary><ul>${sk.ideas.map(i=>`<li>${i}</li>`).join('')}</ul></details>`:''}
+        ${sk.form?`<p class="hint" style="margin-top:10px">📝 Рабочий лист: ${sk.form.sheet} — заполняется на странице «Практика».</p>`:''}`;
       grid.appendChild(card);
     });
     c.appendChild(grid);
@@ -556,7 +681,7 @@ function fillSummary(){
   document.getElementById('subtitle').textContent = 'Сессия '+fmt(s.date)+(s.topic?' · '+s.topic:'')+(s.archived?' · завершена':'');
   const fb=document.getElementById('finishCard'); if(fb) fb.style.display=s.archived?'none':'';
 }
-function renderAll(){ fillSummary(); renderSkillPicker(); renderChecklist(); renderCalendar(); autosizeAll(); }
+function renderAll(){ fillSummary(); renderSkillPicker(); renderChecklist(); renderWorksheets(); renderCalendar(); autosizeAll(); }
 
 function bind(){
   document.getElementById('f-name').addEventListener('input',e=>{store.name=e.target.value;save();});
@@ -681,6 +806,84 @@ function importJSON(inp){
   r.readAsText(f);
 }
 
+// ============ WORKSHEETS ============
+function wsSkills(){ const s=cur(); return SKILLS.filter(x=>x.form&&s.skills.includes(x.id)); }
+function wsEntries(s,skId){ s.forms=s.forms||{}; if(!s.forms[skId]) s.forms[skId]=[]; return s.forms[skId]; }
+function blankEntry(sk){ const e={}; sk.form.fields.forEach(f=>{ e[f.k]= f.type==='checks'?[] : f.type==='grid'?{} : ''; }); return e; }
+function addWs(skId){ const sk=SK[skId]; if(!sk||!sk.form) return; wsEntries(cur(),skId).push(blankEntry(sk)); renderWorksheets(); save(); }
+function delWs(skId,i){ const es=wsEntries(cur(),skId); const e=es[i]; const has=Object.values(e).some(v=>Array.isArray(v)?v.length:(typeof v==='object'?Object.values(v).some(x=>x):v)); if(has&&!confirm('Удалить эту запись?')) return; es.splice(i,1); renderWorksheets(); save(); }
+function renderWorksheets(){
+  const card=document.getElementById('wsCard'); const c=document.getElementById('worksheets'); const s=cur(); const list=wsSkills();
+  if(!list.length){ card.style.display='none'; c.innerHTML=''; return; }
+  card.style.display='';
+  c.innerHTML=list.map(sk=>{ const m=MODULES[sk.module]||MODULES.mind; const es=wsEntries(s,sk.id);
+    return `<div class="ws"><h3><span class="swatch" style="background:${m.color}"></span>${sk.form.title}</h3><div class="sheet">${sk.form.sheet}</div>
+      ${es.length?es.map((e,i)=>wsEntryHtml(sk,e,i)).join(''):`<p class="hint" style="margin:0 0 8px">Записей пока нет.</p>`}
+      <button class="ghost no-print" style="padding:6px 14px" data-wsadd="${sk.id}">+ ${sk.form.entryName.toLowerCase()}</button></div>`; }).join('');
+  autosizeAll();
+}
+function wsEntryHtml(sk,e,i){
+  const id=sk.id; let h=`<div class="ws-entry"><div class="eh"><b>${sk.form.entryName} ${i+1}</b><button class="x no-print" title="удалить" data-wsdel="${id}:${i}">×</button></div>`;
+  const nums=[]; const rest=[];
+  sk.form.fields.forEach(f=>{ (f.type==='number'?nums:rest).push(f); });
+  if(nums.length) h+=`<div class="ws-nums">${nums.map(f=>wsFieldHtml(id,i,f,e)).join('')}</div>`;
+  h+=rest.map(f=>wsFieldHtml(id,i,f,e)).join('');
+  return h+`</div>`;
+}
+function wsFieldHtml(id,i,f,e){
+  const v=e[f.k]; const d=`data-ws="${id}|${i}|${f.k}"`;
+  let inner='';
+  if(f.type==='text') inner=`<input type="text" ${d} value="${esc(v||'')}">`;
+  else if(f.type==='textarea') inner=`<textarea ${d} placeholder="${esc(f.hint||'')}">${esc(v||'')}</textarea>`;
+  else if(f.type==='number') inner=`<input type="number" ${d} min="${f.min}" max="${f.max}" value="${v===''||v==null?'':v}">`;
+  else if(f.type==='checks') inner=`<div class="ws-opts">${f.opts.map(o=>`<label class="chk"><input type="checkbox" ${d} data-opt="${esc(o)}" ${(v||[]).includes(o)?'checked':''}> ${o}</label>`).join('')}</div>`;
+  else if(f.type==='choice') inner=`<div class="ws-opts">${f.opts.map(o=>`<label class="chk"><input type="radio" name="r-${id}-${i}-${f.k}" ${d} data-opt="${esc(o)}" ${v===o?'checked':''}> ${o}</label>`).join('')}</div>`;
+  else if(f.type==='scale'){ const L=f.labels||{}; inner=`<div class="ws-scale">${Array.from({length:f.max-f.min+1},(_,k)=>f.min+k).map(n=>`<button type="button" class="${+v===n?'on':''}" data-wsscale="${id}|${i}|${f.k}" data-v="${n}">${n}</button>`).join('')}</div>
+    <div class="ws-scale-l"><span>${L[f.min]||''}</span><span>${L[Math.round((f.min+f.max)/2)]||''}</span><span>${L[f.max]||''}</span></div>`; }
+  else if(f.type==='grid'){ const g=v||{}; inner=`<table class="ws-grid"><tr><th></th>${f.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${f.rows.map((r,ri)=>`<tr><td class="rh">${r}</td>${f.cols.map((c,ci)=>`<td>${Array.from({length:f.n},(_,k)=>`<input type="text" data-wsgrid="${id}|${i}|${f.k}|${ri}|${ci}|${k}" placeholder="${k+1}." value="${esc((g[ri+'_'+ci]||[])[k]||'')}">`).join('')}</td>`).join('')}</tr>`).join('')}</table>`; }
+  return `<div class="ws-f"><label>${f.label}</label>${f.hint&&f.type!=='textarea'?`<div class="fh">${f.hint}</div>`:''}${inner}</div>`;
+}
+function wsBind(){
+  const root=document.getElementById('worksheets');
+  root.addEventListener('click',e=>{
+    const a=e.target.closest('[data-wsadd]'); if(a){ addWs(a.dataset.wsadd); return; }
+    const d=e.target.closest('[data-wsdel]'); if(d){ const [id,i]=d.dataset.wsdel.split(':'); delWs(id,+i); return; }
+    const sc=e.target.closest('[data-wsscale]'); if(sc){ const [id,i,k]=sc.dataset.wsscale.split('|'); const e2=wsEntries(cur(),id)[+i]; e2[k]= e2[k]==+sc.dataset.v?'':+sc.dataset.v; sc.parentElement.querySelectorAll('button').forEach(b=>b.classList.toggle('on',+b.dataset.v===+e2[k])); save(); }
+  });
+  root.addEventListener('input',e=>{
+    const el=e.target;
+    if(el.dataset.ws){ const [id,i,k]=el.dataset.ws.split('|'); const e2=wsEntries(cur(),id)[+i]; if(!e2) return;
+      if(el.type==='checkbox'){ const set=new Set(e2[k]||[]); el.checked?set.add(el.dataset.opt):set.delete(el.dataset.opt); e2[k]=[...set]; }
+      else if(el.type==='radio'){ e2[k]=el.dataset.opt; }
+      else if(el.type==='number'){ e2[k]=el.value===''?'':Math.max(+el.min,Math.min(+el.max,+el.value)); }
+      else { e2[k]=el.value; if(el.tagName==='TEXTAREA') autosize(el); }
+      save(); }
+    else if(el.dataset.wsgrid){ const [id,i,k,ri,ci,n]=el.dataset.wsgrid.split('|'); const e2=wsEntries(cur(),id)[+i]; if(!e2) return; e2[k]=e2[k]||{}; const key=ri+'_'+ci; e2[k][key]=e2[k][key]||[]; e2[k][key][+n]=el.value; save(); }
+  });
+}
+function wsReport(s){
+  const list=SKILLS.filter(x=>x.form&&s.skills.includes(x.id)&&(s.forms&&s.forms[x.id]||[]).length);
+  if(!list.length) return '';
+  let h=''; let wsH2=`<div class="rp-h2">Рабочие листы</div>`;
+  list.forEach(sk=>{ const title=wsH2+`<div class="rp-ws-title">${sk.form.title}<small>${sk.form.sheet}</small></div>`; wsH2='';
+    h+=`<div class="rp-ws">`;
+    s.forms[sk.id].forEach((e,i)=>{ const parts=[];
+      const nums=sk.form.fields.filter(f=>f.type==='number'&&e[f.k]!==''&&e[f.k]!=null);
+      if(nums.length) parts.push(`<div class="rp-nums">${nums.map(f=>`<span>${f.label.replace(/\s*\(.*\)/,'')}: <b>${e[f.k]}</b></span>`).join('')}</div>`);
+      sk.form.fields.forEach(f=>{ const v=e[f.k]; if(f.type==='number') return;
+        if(f.type==='text'||f.type==='textarea'){ if(v) parts.push(`<div class="rp-f"><b>${f.label}</b><p>${esc(v)}</p></div>`); }
+        else if(f.type==='checks'){ parts.push(`<div class="rp-f"><b>${f.label}</b><div class="rp-checks">${f.opts.map(o=>`<span class="${(v||[]).includes(o)?'y':''}">${o}</span>`).join('')}</div></div>`); }
+        else if(f.type==='choice'){ if(v) parts.push(`<div class="rp-f"><b>${f.label}</b><p>${esc(v)}</p></div>`); }
+        else if(f.type==='scale'){ if(v) parts.push(`<div class="rp-f"><b>${f.label}</b><div class="rp-scale">${Array.from({length:f.max-f.min+1},(_,k)=>f.min+k).map(n=>`<i class="${+v===n?'on':''}">${n}</i>`).join('')}<small>${(f.labels||{})[v]||''}</small></div></div>`); }
+        else if(f.type==='grid'){ const g=v||{}; const any=Object.values(g).some(a=>(a||[]).some(x=>x)); if(any) parts.push(`<div class="rp-f"><b>${f.label}</b><table class="rp-grid"><tr><th></th>${f.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${f.rows.map((r,ri)=>`<tr><td class="rh">${r}</td>${f.cols.map((c,ci)=>`<td><ol>${(g[ri+'_'+ci]||[]).filter(x=>x).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></td>`).join('')}</tr>`).join('')}</table></div>`); }
+      });
+      const head=`<h4>${sk.form.entryName} ${i+1}</h4>`;
+      if(i===0) h+=`<div class="rp-keep">${title}<div class="rp-ws-entry">${head}${parts[0]||''}</div></div>`+(parts.length>1?`<div class="rp-ws-entry" style="margin-top:0;border-top:0;border-radius:0 0 8px 8px;padding-top:0">${parts.slice(1).join('')}</div>`:'');
+      else h+=`<div class="rp-keep"><div class="rp-ws-entry">${head}${parts[0]||''}</div></div>`+(parts.length>1?`<div class="rp-ws-entry" style="margin-top:0;border-top:0;border-radius:0 0 8px 8px;padding-top:0">${parts.slice(1).join('')}</div>`:''); });
+    h+=`</div>`; });
+  return h;
+}
+
 // ============ CHAINS ============
 const CHAIN_STEPS=[
  ['s1','Проблемное поведение','Что именно я сделала','fill'],
@@ -791,6 +994,7 @@ function buildReport(){
     });
     h+=`</table>`;
   }
+  h+=wsReport(s);
   // calendar
   let any=false; let daysH2=`<div class="rp-h2">Записи по дням</div>`;
   for(let i=0;i<7;i++){ const d=s.days[i]; const es=d.entries.filter(e=>e.how||e.feel||e.now); if(!es.length) continue; any=true; const dt=addDays(s.date,i);
@@ -802,9 +1006,9 @@ function buildReport(){
       en+=`</div>`;
       if(j===0) h+=`<div class="rp-dayhead">${daysH2}<div class="dh">${dayName(dt)}<small>${fmtShort(dt)}${i===0?' · день сессии':''}</small></div>${en}</div>`; else h+=en; });
     daysH2=''; h+=`</div>`; }
-  if(!any) h+=daysH2+`<p class="rp-empty">Записей по дням пока нет</p>`;
+  if(!any) h+=`<div class="rp-keep">`+daysH2+`<p class="rp-empty">Записей по дням пока нет</p></div>`;
   // summary
-  h+=`<div class="rp-h2">Итоги недели</div><div class="rp-block"><div class="rp-f"><b>Помогла ли практика</b></div><div class="rp-helped">${HELPED.map((t,i)=>`<span class="${s['h'+(i+1)]?'y':''}">${t}</span>`).join('')}</div></div>`;
+  h+=`<div class="rp-keep"><div class="rp-h2">Итоги недели</div><div class="rp-block"><div class="rp-f"><b>Помогла ли практика</b></div><div class="rp-helped">${HELPED.map((t,i)=>`<span class="${s['h'+(i+1)]?'y':''}">${t}</span>`).join('')}</div></div></div>`;
   const fld=(k,t)=> s[k]? `<div class="rp-block rp-f"><b>${t}</b><p>${esc(s[k])}</p></div>` : '';
   h+=fld('reflect','Как навыки помогли (или не помогли)')+fld('wise','Мудрые поступки на этой неделе');
   if(s.notes) h+=`<div class="rp-notes rp-f"><b>Вопросы и заметки для терапевта</b><p>${esc(s.notes)}</p></div>`;
@@ -818,7 +1022,7 @@ async function printReport(){
   try{
     if(typeof html2pdf==='undefined') throw new Error('nolib');
     await document.fonts.ready;
-    const blob=await html2pdf().set({margin:[12,0,14,0],filename:name,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy'],avoid:['.rp-dayhead','.rp-entry','.rp-block','.rp-notes','tr','.rp-h2']}}).from(el).outputPdf('blob');
+    const blob=await html2pdf().set({margin:[12,0,14,0],filename:name,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4'},pagebreak:{mode:['css','legacy'],avoid:['.rp-dayhead','.rp-entry','.rp-block','.rp-notes','tr','.rp-h2','.rp-keep','.rp-ws-entry .rp-f']}}).from(el).outputPdf('blob');
     el.classList.remove('gen'); document.body.classList.remove('pdfmode');
     await saveReport(blob,s,name); if(document.getElementById('view-archive').classList.contains('active')) renderReports();
     await deliver(blob,name); return true;
@@ -837,7 +1041,7 @@ function restoreSession(k){ const s=store.sessions[k]; if(!s) return; s.archived
 window.addEventListener('beforeprint',buildReport);
 
 // ============ INIT ============
-load(); store.chains=store.chains||{}; normalize(); bind(); document.getElementById('chainSvg').innerHTML=CHAIN_SVG;
+load(); store.chains=store.chains||{}; normalize(); bind(); wsBind(); document.getElementById('chainSvg').innerHTML=CHAIN_SVG;
 if(!store.current||!store.sessions[store.current]){ const s=blankSession(today()); store.sessions[s.id]=s; store.current=s.id; }
 renderAll();
 document.querySelector('nav.tabs button[data-v=practice]').classList.add('active');
