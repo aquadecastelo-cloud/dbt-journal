@@ -112,7 +112,7 @@ footer{margin-top:30px;font-size:12px;color:var(--muted)}
 /* ===== REPORT (print only) ===== */
 #report{display:none;font-family:Manrope,system-ui,sans-serif;line-height:1.5;color:#2f3a2c;background:#fff}
 body.pdfmode .wrap{display:none}
-body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden}
+body.pdfmode{background:#fff;width:794px;margin:0;overflow:hidden} body.pdfmode.land{width:1123px}
 #report.gen{display:block;width:794px;margin:0;padding:16px 56px;font-size:11.5pt;box-sizing:border-box}
 #report .rp-head{border-bottom:2px solid var(--sage-d);padding-bottom:10px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
 #report .rp-head h1{font-size:26pt;color:var(--sage-d)}
@@ -215,6 +215,56 @@ table.ws-grid input{margin-bottom:4px;padding:6px 10px;border-radius:8px}
 #report table.rp-grid td{vertical-align:top;padding:5px 8px;border-bottom:1px solid #e0ddd0}
 #report table.rp-grid td.rh{font-weight:700;width:150px;color:var(--sage-d)}
 #report table.rp-grid ol{margin:0;padding-left:18px}
+/* diary card */
+.dc-scroll{overflow-x:auto;padding-bottom:6px}
+table.dc{border-collapse:separate;border-spacing:0;width:100%;min-width:980px;font-size:13px}
+table.dc th{background:var(--sage-l);color:var(--sage-d);font-weight:600;padding:5px 4px;text-align:center;border-bottom:1px solid var(--line);vertical-align:bottom}
+table.dc th.dc-g{font-family:"Instrument Serif",serif;font-weight:400;font-size:15px;border-left:1px solid #fff}
+table.dc th.dc-l{font-size:11px;font-weight:600;height:84px;background:var(--paper);vertical-align:bottom}
+table.dc th.dc-l span{writing-mode:vertical-rl;transform:rotate(180deg);display:inline-block;white-space:nowrap;line-height:1.1}
+table.dc th.dc-l.wide span{writing-mode:horizontal-tb;transform:none}
+table.dc th.dc-s{font-size:10px;color:var(--muted);background:var(--paper);font-weight:500;border-bottom:2px solid var(--sage)}
+table.dc td{padding:3px;border-bottom:1px solid var(--line);text-align:center}
+table.dc th.dc-day{min-width:60px} table.dc td.dc-day{text-align:left;white-space:nowrap;min-width:60px;padding-left:8px;font-family:"Instrument Serif",serif;font-size:16px;color:var(--sage-d)} table.dc td.dc-day small{display:block;font-family:Manrope,sans-serif;font-size:10px;color:var(--muted)}
+table.dc tr.today td{background:var(--sand-l)}
+table.dc input.dc-n{width:46px;padding:5px 4px;text-align:center;border-radius:8px}
+table.dc input.dc-t{min-width:90px;padding:5px 6px;border-radius:8px}
+table.dc td.wide input{min-width:150px}
+table.dc button.yn{width:34px;height:30px;padding:0;border-radius:8px;background:#fffffb;border:1px solid var(--line);color:var(--muted);font-size:13px;letter-spacing:0;text-transform:none}
+table.dc button.yn.y{background:var(--sage-d);color:#fff;border-color:var(--sage-d)} table.dc button.yn.n{background:var(--sage-l);color:var(--sage-d)}
+.dc-legend{display:grid;grid-template-columns:1fr 1fr;gap:3px 14px;font-size:12.5px;color:var(--ink)}
+table.dc-u{width:100%;border-collapse:collapse;font-size:13px} table.dc-u th{font-size:11px;color:var(--muted);font-weight:600;text-align:left;padding:4px 6px} table.dc-u td{padding:4px 6px;border-top:1px solid var(--line)} table.dc-u td:first-child{font-weight:600}
+.dc-abbr{columns:2;column-gap:24px;font-size:12px;color:var(--muted);margin-bottom:14px} .dc-abbr div{break-inside:avoid;margin-bottom:3px} .dc-abbr b{color:var(--sage-d)}
+.dc-mod{margin-bottom:14px} .dc-modname{display:flex;align-items:center;gap:8px;font-family:"Instrument Serif",serif;font-size:19px;color:var(--sage-d);margin-bottom:4px}
+.dc-sk{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:5px 0;border-bottom:1px dashed var(--line)} .dc-sk span{font-size:14px}
+.dc-days{display:flex;gap:3px;flex-shrink:0} .dc-days button{width:34px;height:28px;padding:0;font-size:11px;letter-spacing:0;background:#fffffb;border:1px solid var(--line);color:var(--muted);border-radius:7px}
+.dc-days button.on{background:var(--sage-d);color:#fff;border-color:var(--sage-d)}
+/* diary report (landscape) */
+#report.gen.land{width:1123px;padding:14px 40px}
+#report .dr-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--sage-d);padding-bottom:6px;margin-bottom:10px}
+#report .dr-head h1{color:var(--sage-d);margin:0} #report .dr-sub{color:#5e6b58;font-size:10pt}
+#report .dr-meta{display:flex;gap:18px;font-size:9.5pt;color:#5e6b58} #report .dr-meta b{color:#2f3a2c}
+#report table.dr-t{width:100%;border-collapse:collapse;font-size:9pt;table-layout:fixed}
+#report table.dr-t th{border:1px solid #c9ccbd;padding:3px 2px;text-align:center;background:var(--sage-l);color:var(--sage-d);font-weight:600;vertical-align:bottom}
+#report table.dr-t th.g{font-family:"Instrument Serif",serif;font-weight:400;font-size:10.5pt}
+#report table.dr-t th.l{font-size:7pt;line-height:1.15;background:#fff;text-align:center;padding:4px 2px;vertical-align:bottom;word-wrap:break-word;hyphens:auto}
+#report table.dr-t th.s{font-size:7.5pt;color:#7d8a76;background:#fff;font-weight:500}
+#report table.dr-t td{border:1px solid #c9ccbd;padding:5px 3px;text-align:center;height:24px;font-weight:600;color:#2f3a2c}
+#report table.dr-t td.t{font-weight:400;text-align:left;font-size:8.5pt}
+#report table.dr-t td.d{text-align:left;white-space:nowrap;background:var(--sage-l);color:var(--sage-d);font-family:"Instrument Serif",serif;font-size:11pt;font-weight:400} #report table.dr-t td.d small{font-family:Manrope,sans-serif;font-size:7.5pt;color:#7d8a76}
+#report table.dr-t th:first-child,#report table.dr-t td.d{width:64px} #report table.dr-t td.wide,#report table.dr-t th.wide{width:120px}
+#report .dr-bottom{display:flex;gap:14px;margin-top:10px} #report .dr-col{flex:1;min-width:0}
+#report .dr-box{border:1px solid #c9ccbd;border-radius:6px;padding:5px 9px;margin-bottom:8px;font-size:9pt} #report .dr-box b{display:block;color:var(--sage-d);font-size:8.5pt;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px} #report .dr-box p{margin:0;white-space:pre-wrap}
+#report .dr-legend{display:grid;grid-template-columns:1fr 1fr;gap:1px 12px;font-size:8pt}
+#report table.dr-u{width:100%;border-collapse:collapse;font-size:9pt} #report table.dr-u th{border:1px solid #c9ccbd;background:var(--sage-l);color:var(--sage-d);font-size:7.5pt;padding:3px 5px;text-align:left} #report table.dr-u td{border:1px solid #c9ccbd;padding:3px 6px;text-align:center;font-weight:600} #report table.dr-u td:first-child{text-align:left;font-weight:400}
+#report .dr-page2{page-break-before:always;break-before:page;padding-top:4px}
+#report .dr-sk-wrap{display:flex;gap:16px;align-items:flex-start}
+#report .dr-abbr{width:230px;flex-shrink:0;font-size:8pt;color:#4a5b45} #report .dr-abbr div{margin-bottom:5px} #report .dr-abbr b{color:var(--sage-d)}
+#report table.dr-sk{flex:1;border-collapse:collapse;font-size:8pt;line-height:1.15}
+#report table.dr-sk td{border:1px solid #c9ccbd;padding:1px 5px;text-align:center;width:34px;color:#9aa394}
+#report table.dr-sk td.n{text-align:right;width:auto;color:#2f3a2c;font-weight:500}
+#report table.dr-sk td.on{background:var(--sage-d);color:#fff;font-weight:700}
+#report table.dr-sk tr.m td{text-align:left;font-family:"Instrument Serif",serif;font-size:10pt;color:var(--sage-d);background:var(--sage-l);padding:1px 8px}
 /* chain rings */
 .ring{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:2.5px solid var(--sage-d);background:#fffffb;font-family:Manrope,sans-serif;font-weight:700;font-size:12px;color:var(--sage-d);flex-shrink:0;box-sizing:border-box}
 .ring.fill{background:var(--sage-d);color:#fff}
@@ -265,6 +315,7 @@ table.ws-grid input{margin-bottom:4px;padding:6px 10px;border-radius:8px}
 <nav class="tabs">
   <button data-v="practice" onclick="showView('practice')">Практика</button>
   <button data-v="theory" onclick="showView('theory')">Теория</button>
+  <button data-v="diary" onclick="showView('diary')">Карточка</button>
   <button data-v="chains" onclick="showView('chains')">Цепочки</button>
   <button data-v="archive" onclick="showView('archive')">Архив</button>
 </nav>
@@ -348,6 +399,52 @@ table.ws-grid input{margin-bottom:4px;padding:6px 10px;border-radius:8px}
     <p class="hint">Навыки сгруппированы по модулям. По мере прохождения новых сессий сюда добавляются новые карточки.</p>
   </div>
   <div id="theory"></div>
+</section>
+
+<!-- ============ DIARY CARD ============ -->
+<section class="view" id="view-diary">
+  <div class="card c-sand">
+    <div class="hdr"><div><h2>Дневниковая карточка</h2><p class="hint" style="margin:0">Заполняй строку каждый день. Перед встречей — «Скачать PDF карточки»: альбомный лист как оригинал, уходит в архив отчётов.</p></div>
+      <div class="toolbar no-print"><button class="primary" id="dcPdfBtn" onclick="printDiary()">⬇ Скачать PDF карточки</button><button class="ghost" onclick="newWeek()">Текущая неделя</button></div></div>
+    <div class="row" style="margin-top:8px">
+      <div><label>Имя</label><input type="text" id="dc-name"></div>
+      <div><label>Неделя (понедельник)</label><input type="date" id="dc-week"><div class="hint" id="dc-range"></div></div>
+      <div><label>Заполнялась на сессии?</label><div class="ws-opts" style="flex-direction:row;gap:16px"><label class="chk"><input type="radio" name="dc-os" data-dcw="onSession" value="y"> Да</label><label class="chk"><input type="radio" name="dc-os" data-dcw="onSession" value="n"> Нет</label></div></div>
+      <div><label>Как часто заполняла</label><select data-dcw="freq"><option value="">—</option><option value="d">Ежедневно</option><option value="46">4–6 раз</option><option value="23">2–3 раза</option><option value="1">1 раз</option></select></div>
+      <div><label>Последнее заполнение</label><input type="date" data-dcw="lastFill"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Неделя по дням</h2>
+    <p class="hint">0–5 — сила побуждения или рейтинг за день; # — сколько раз; Д/Н — нажми, чтобы переключить; навыки* 0–7 по шкале ниже. Сегодняшний день подсвечен.</p>
+    <div class="dc-scroll"><table class="dc" id="dc-table"></table></div>
+  </div>
+
+  <div class="card">
+    <h2>Итоги недели</h2>
+    <div class="row">
+      <div><label>Изменения в питании за неделю</label><textarea data-dcw="food_changes" placeholder="Режим, пропуски, переедания, что поменялось"></textarea></div>
+      <div><label>Домашнее задание и результаты на этой неделе</label><textarea data-dcw="homework"></textarea></div>
+      <div><label>Навыки, которые практиковались на этой неделе</label><textarea data-dcw="skills_week"></textarea></div>
+    </div>
+    <div class="row" style="margin-top:16px;align-items:flex-start">
+      <div><label>* Применение навыков (шкала 0–7)</label><div class="dc-legend" id="dc-legend"></div></div>
+      <div><label>Побуждения</label><table class="dc-u"><thead><tr><th></th><th>Сколько раз на сессии (0–5)</th><th>Убеждённость, что могу изменять / регулировать (0–5)</th></tr></thead><tbody id="dc-urges"></tbody></table></div>
+    </div>
+  </div>
+
+  <div class="card c-sky">
+    <h2>Навыки за неделю</h2>
+    <p class="hint">Отметь дни, когда практиковала навык.</p>
+    <div class="dc-abbr" id="dc-abbr"></div>
+    <div id="dc-skills"></div>
+  </div>
+
+  <div class="card">
+    <h2>Все недели</h2>
+    <div id="dc-weeks"></div>
+  </div>
 </section>
 
 <!-- ============ CHAINS ============ -->
@@ -504,7 +601,7 @@ const DAYS = ['Понедельник','Вторник','Среда','Четве
 const KEY = 'dbt-journal-v2';
 
 // ============ STORE ============
-let store = {name:'', sessions:{}, chains:{}, current:null, currentChain:null, theoryMode:'current'};
+let store = {name:'', sessions:{}, chains:{}, diary:{}, current:null, currentChain:null, currentWeek:null, theoryMode:'current'};
 function load(){
   try{ const s=localStorage.getItem(KEY); if(s){ store=Object.assign(store,JSON.parse(s)); return; } }catch(e){}
   // миграция из v1 (недели)
@@ -515,7 +612,7 @@ function load(){
 }
 // ---- cloud sync (Claude artifact db) ----
 let cloud=null; // {db,uid}
-const dirty=new Set(); const dirtyChains=new Set(); let metaDirty=false; const chains={};
+const dirty=new Set(); const dirtyChains=new Set(); const dirtyWeeks=new Set(); let metaDirty=false; const chains={};
 function queue(key,fn){ chains[key]=(chains[key]||Promise.resolve()).then(fn).catch(e=>{ console.warn('db',e); setStatus('облако: ошибка, данные сохранены локально'); }); return chains[key]; }
 function tstamp(){ return Date.now(); }
 function markSession(id){ if(id) dirty.add(id); }
@@ -528,6 +625,8 @@ function persist(){
   ids.forEach(id=>{ const ss=store.sessions[id]; if(!ss) return; ss.updated=tstamp(); queue(id,()=>cloud.db.doc(base+'/journal/sessions/'+id).set(ss)); });
   const cids=[...dirtyChains]; dirtyChains.clear();
   cids.forEach(id=>{ const c=store.chains[id]; if(!c) return; c.updated=tstamp(); queue('c'+id,()=>cloud.db.doc(base+'/journal/chains/'+id).set(c)); });
+  const wids=[...dirtyWeeks]; dirtyWeeks.clear();
+  wids.forEach(id=>{ const w=store.diary[id]; if(!w) return; w.updated=tstamp(); queue('w'+id,()=>cloud.db.doc(base+'/journal/diary/'+id).set(w)); });
   if(metaDirty){ metaDirty=false; queue('meta',()=>cloud.db.doc(base+'/meta').set({name:store.name||'',current:store.current||'',theoryMode:store.theoryMode||'current',updated:tstamp()})); }
   Promise.all(Object.values(chains)).then(()=>setStatus('сохранено в облаке '+new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit'})));
   setStatus('сохраняю…');
@@ -542,10 +641,13 @@ async function connectCloud(){
   cloud={db,uid}; const base='data/users/'+uid;
   setStatus('загружаю из облака…');
   try{
-    const [metaSnap,sessSnap,skSnap,chSnap]=await Promise.all([db.doc(base+'/meta').get(), db.collection(base+'/journal/sessions').get(), db.collection('skills').get().catch(()=>null), db.collection(base+'/journal/chains').get().catch(()=>null)]);
+    const [metaSnap,sessSnap,skSnap,chSnap,dSnap]=await Promise.all([db.doc(base+'/meta').get(), db.collection(base+'/journal/sessions').get(), db.collection('skills').get().catch(()=>null), db.collection(base+'/journal/chains').get().catch(()=>null), db.collection(base+'/journal/diary').get().catch(()=>null)]);
     if(chSnap){ store.chains=store.chains||{}; const rc={}; chSnap.docs.forEach(d=>{ if(d.exists) rc[d.id]=d.data(); });
       Object.keys(store.chains).forEach(id=>{ const l=store.chains[id], r=rc[id]; if(!r||(l.updated||0)>(r.updated||0)) dirtyChains.add(id); else store.chains[id]=r; });
       Object.keys(rc).forEach(id=>{ if(!store.chains[id]) store.chains[id]=rc[id]; }); }
+    if(dSnap){ store.diary=store.diary||{}; const rd={}; dSnap.docs.forEach(d=>{ if(d.exists) rd[d.id]=d.data(); });
+      Object.keys(store.diary).forEach(id=>{ const l=store.diary[id], r=rd[id]; if(!r){ if(weekHas(l)) dirtyWeeks.add(id); else delete store.diary[id]; } else if((l.updated||0)>(r.updated||0)) dirtyWeeks.add(id); else store.diary[id]=r; });
+      Object.keys(rd).forEach(id=>{ if(!store.diary[id]) store.diary[id]=rd[id]; }); }
     if(skSnap) applyCloudSkills(skSnap.docs.filter(d=>d.exists).map(d=>Object.assign({id:d.id},d.data())));
     const remote={}; sessSnap.docs.forEach(d=>{ if(d.exists) remote[d.id]=d.data(); });
     const meta=metaSnap.exists?metaSnap.data():null;
@@ -558,7 +660,7 @@ async function connectCloud(){
     pushLocal=pushLocal.filter(id=>{ const ss=store.sessions[id]; const empty=!ss.topic&&!ss.skills.length&&!Object.values(ss.checks||{}).some(v=>v)&&!ss.days.some(dayHas)&&!ss.reflect&&!ss.wise&&!ss.notes&&!Object.values(ss.forms||{}).some(a=>a.length); if(empty&&Object.keys(remote).length){ if(store.current===id){ delete store.sessions[id]; store.current=sortedIds()[0]; } else delete store.sessions[id]; return false; } return true; });
     normalize(); if(!store.current||!store.sessions[store.current]){ store.current=sortedIds()[0]; if(!store.current){ const n=blankSession(today()); store.sessions[n.id]=n; store.current=n.id; pushLocal.push(n.id); } }
     pushLocal.forEach(markSession); metaDirty=true;
-    renderAll(); renderChains(); if(document.getElementById('view-theory').classList.contains('active')) renderTheory(); if(document.getElementById('view-archive').classList.contains('active')) renderArchive();
+    renderAll(); renderChains(); renderDiary(); if(document.getElementById('view-theory').classList.contains('active')) renderTheory(); if(document.getElementById('view-archive').classList.contains('active')) renderArchive();
     persist();
     document.getElementById('cloudHint').textContent='Записи хранятся в облаке твоего аккаунта Claude и доступны с любого устройства после входа.'; document.getElementById('repHint').textContent='Отчёты тоже лежат в облаке.';
   }catch(e){ console.warn('cloud load',e); cloud=null; setStatus('облако недоступно — работаю локально'); }
@@ -586,6 +688,7 @@ function showView(v){
   document.querySelectorAll('nav.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
   if(v==='archive'){ renderArchive(); loadReports().then(renderReports); }
   if(v==='chains') renderChains();
+  if(v==='diary') renderDiary();
   if(v==='theory') renderTheory();
 }
 
@@ -808,7 +911,7 @@ function importJSON(inp){
   r.onload=()=>{ try{ const d=JSON.parse(r.result); if(!d.sessions) throw 0;
     if(!confirm('Объединить с текущими записями? (Отмена — заменить всё)')) store={name:d.name||'',sessions:{},current:null,theoryMode:'current'};
     Object.assign(store.sessions,d.sessions); store.name=store.name||d.name||''; store.current=d.current&&store.sessions[d.current]?d.current:sortedIds()[0];
-    if(d.chains) Object.assign(store.chains=store.chains||{},d.chains); normalize(); Object.keys(store.sessions).forEach(markSession); Object.keys(store.chains||{}).forEach(markChain); metaDirty=true; renderAll(); persist(); renderArchive(); alert('Готово: загружено сессий — '+Object.keys(store.sessions).length);
+    if(d.chains) Object.assign(store.chains=store.chains||{},d.chains); if(d.diary){ Object.assign(store.diary=store.diary||{},d.diary); Object.keys(d.diary).forEach(markWeek); } normalize(); Object.keys(store.sessions).forEach(markSession); Object.keys(store.chains||{}).forEach(markChain); metaDirty=true; renderAll(); persist(); renderArchive(); alert('Готово: загружено сессий — '+Object.keys(store.sessions).length);
   }catch(e){ alert('Не удалось прочитать файл'); } inp.value=''; };
   r.readAsText(f);
 }
@@ -891,6 +994,146 @@ function wsReportOld(s){
       else h+=`<div class="rp-keep"><div class="rp-ws-entry">${head}${parts[0]||''}</div></div>`+(parts.length>1?`<div class="rp-ws-entry" style="margin-top:0;border-top:0;border-radius:0 0 8px 8px;padding-top:0">${parts.slice(1).join('')}</div>`:''); });
     h+=`</div>`; });
   return h;
+}
+
+// ============ DIARY CARD ============
+// Конфигурация колонок дневниковой карточки — правится здесь.
+// type: n5 (0–5), n7 (0–7), num (#), yn (Д/Н), text
+const DIARY_GROUPS=[
+  {name:'Сильное побуждение', cols:[
+    {k:'u_suic',label:'К самоубийству',type:'n5'},
+    {k:'u_harm',label:'К самоповреждению',type:'n5'},
+    {k:'u_food',label:'К срыву в еде',type:'n5'}]},
+  {name:'Высший рейтинг за день', cols:[
+    {k:'r_empty',label:'Опустошённость',type:'n5'},
+    {k:'r_tired',label:'Физ. усталость',type:'n5'},
+    {k:'r_joy',label:'Радость',type:'n5'}]},
+  {name:'Еда', cols:[
+    {k:'f_over_n',label:'Переедание',sub:'#',type:'num'},
+    {k:'f_over_w',label:'Что?',type:'text'},
+    {k:'f_skip',label:'Пропуск еды',sub:'Д/Н',type:'yn'},
+    {k:'f_emo_n',label:'Еда по эмоциям',sub:'#',type:'num'},
+    {k:'f_emo_w',label:'Какая?',type:'text'}]},
+  {name:'Действия', cols:[
+    {k:'a_harm',label:'Самоповреждения',sub:'Д/Н',type:'yn'},
+    {k:'a_lie',label:'Ложь',sub:'#',type:'num'},
+    {k:'a_skill',label:'Навыки*',sub:'0–7',type:'n7'}]},
+  {name:'Эмоции', cols:[{k:'emo',label:'',type:'text',wide:true}]},
+  {name:'Дополнительно', cols:[{k:'extra',label:'',type:'text',wide:true}]}
+];
+const DIARY_COLS=DIARY_GROUPS.flatMap(g=>g.cols);
+const DIARY_URGES=[['urge_quit','Бросить психотерапию'],['urge_food','Сорваться в еде'],['urge_kill','Убить себя']];
+const SKILL_LEGEND=['0 = Не думала, не применяла','1 = Думала, не применяла, не хотела','2 = Думала, не применяла, но хотела','3 = Пыталась, не получилось','4 = Пыталась, получилось, не помогло','5 = Пыталась, получилось, помогло','6 = Автоматически применила, не помогло','7 = Автоматически применила, помогло'];
+const DIARY_SKILLS=[
+  {mod:'Осознанность', items:['Мудрый разум','Наблюдение: просто замечать','Описание: не нужно лишних слов, только факты','Участие: проживайте происходящее','Безоценочность','Однонаправленность: концентрация на текущем моменте','Эффективность: сосредоточиться на том, что работает']},
+  {mod:'Межличностная эффективность', items:['ПОПР','ОСИ','Эффективность взаимоотношений (ДРУГ)','Эффективность самоуважения (ЧЕСТЬ)','Следование срединному пути: диалектика','Валидация','Стратегии изменения поведения']},
+  {mod:'Эмоциональная регуляция', items:['Проверка фактов','Противоположное действие','Решение проблемы','Аккумулировать положительные эмоции (A)','Выработать мастерство (B)','Справляться заранее (C)','Снижение эмоциональной уязвимости (ЗАБОТА)','Осознанность к текущим эмоциям']},
+  {mod:'Стрессоустойчивость', items:['СТОП','«За» и «против»','ТРУД','Отвлечение (ПЕРЕЖИТЬ с мудрым разумом)','Самоуспокоение','ПОПРАВЬте момент','Радикальное принятие','Полуулыбка, ладони готовности','Готовность, осознанность к текущим мыслям']}
+];
+const DIARY_ABBR=['<b>ПОПР:</b> Проговорите факты, Опишите своё отношение, Попросите, что хочется, Расскажите, почему это хорошо','<b>ОСИ:</b> Обсуждайте разные варианты, Стойте на своём','<b>ДРУГ:</b> будьте Доброжелательны, покажите Расположение, Успешно валидируйте, Говорите непринуждённо','<b>ЧЕСТЬ:</b> будьте Честными, Если виноваты, извинитесь только 1 раз, держитесь Своих ценностей, говориТе правду','<b>ABC:</b> Аккумулировать положительные эмоции, Вырабатывать мастерство, Справляться заранее','<b>ЗАБОТА:</b> Здоровье тела, физ. Активность, Будьте умеренными, Отдых для нервной системы, еда 3–4 раза в день','<b>ТРУД:</b> Температура, Релаксация, Упражнения, Дыхание'];
+const DW=['ПН','ВТ','СР','ЧТ','ПТ','СБ','ВС'];
+
+function weekKey(d){ const x=new Date(d+'T12:00'); const day=(x.getDay()+6)%7; x.setDate(x.getDate()-day); return iso(x); }
+function blankWeek(wk){ const w={id:wk, week:wk, onSession:'', freq:'', lastFill:'', days:{}, skills:{}, food_changes:'', homework:'', skills_week:'', urges:{}, updated:tstamp()}; for(let i=0;i<7;i++) w.days[i]={}; return w; }
+function curWeek(){ store.diary=store.diary||{}; const wk=store.currentWeek||weekKey(today()); if(!store.diary[wk]) store.diary[wk]=blankWeek(wk); store.currentWeek=wk; return store.diary[wk]; }
+function markWeek(wk){ if(wk) dirtyWeeks.add(wk); }
+function weekHas(w){ return Object.values(w.days).some(d=>Object.values(d).some(v=>v!==''&&v!=null&&v!==false))||Object.values(w.skills||{}).some(a=>a&&a.length)||w.food_changes||w.homework||w.skills_week; }
+function setWeek(wk){ store.currentWeek=wk; curWeek(); metaDirty=true; renderDiary(); save(); }
+
+function renderDiary(){
+  const w=curWeek(); const wk=w.week; const end=addDays(wk,6);
+  document.getElementById('dc-week').value=wk;
+  document.getElementById('dc-range').textContent=fmtShort(wk)+' — '+fmtShort(end);
+  // header controls
+  document.getElementById('dc-name').value=store.name||'';
+  document.querySelectorAll('[data-dcw]').forEach(el=>{ const k=el.dataset.dcw; if(el.type==='radio') el.checked=w[k]===el.value; else if(el.type==='checkbox') el.checked=!!w[k]; else el.value=w[k]||''; });
+  // table
+  const t=document.getElementById('dc-table');
+  let h='<thead><tr><th rowspan="3" class="dc-day">День</th>';
+  DIARY_GROUPS.forEach(g=>{ h+=`<th colspan="${g.cols.length}" class="dc-g">${g.name}</th>`; });
+  h+='</tr><tr>'; DIARY_COLS.forEach(c=>{ h+=`<th class="dc-l ${c.wide?'wide':''}"><span>${c.label}</span></th>`; });
+  h+='</tr><tr>'; DIARY_COLS.forEach(c=>{ h+=`<th class="dc-s">${c.sub||({n5:'0–5',n7:'0–7',num:'#',yn:'Д/Н',text:''})[c.type]}</th>`; });
+  h+='</tr></thead><tbody>';
+  const tIdx=(new Date(today()+'T12:00').getDay()+6)%7; const isCur=wk===weekKey(today());
+  for(let i=0;i<7;i++){ const d=w.days[i]||{}; const dt=addDays(wk,i);
+    h+=`<tr class="${isCur&&i===tIdx?'today':''}"><td class="dc-day"><b>${DW[i]}</b><small>${fmtShort(dt).replace(' ',' ')}</small></td>`;
+    DIARY_COLS.forEach(c=>{ const v=d[c.k]; const a=`data-dc="${i}|${c.k}"`;
+      if(c.type==='n5'||c.type==='n7'||c.type==='num'){ const mx=c.type==='n5'?5:c.type==='n7'?7:99; h+=`<td><input type="number" ${a} min="0" max="${mx}" value="${v===''||v==null?'':v}" class="dc-n"></td>`; }
+      else if(c.type==='yn'){ h+=`<td class="dc-yn"><button type="button" ${a} class="yn ${v===true?'y':v===false?'n':''}">${v===true?'Д':v===false?'Н':'—'}</button></td>`; }
+      else { h+=`<td class="${c.wide?'wide':''}"><input type="text" ${a} value="${esc(v||'')}" class="dc-t"></td>`; }
+    });
+    h+='</tr>'; }
+  t.innerHTML=h+'</tbody>';
+  // urges
+  document.getElementById('dc-urges').innerHTML=DIARY_URGES.map(([k,l])=>{ const u=w.urges[k]||{}; return `<tr><td>${l}</td><td><input type="number" min="0" max="5" class="dc-n" data-dcu="${k}|n" value="${u.n==null?'':u.n}"></td><td><input type="number" min="0" max="5" class="dc-n" data-dcu="${k}|c" value="${u.c==null?'':u.c}"></td></tr>`; }).join('');
+  // skills grid
+  const g=document.getElementById('dc-skills');
+  g.innerHTML=DIARY_SKILLS.map(m=>`<div class="dc-mod"><div class="dc-modname"><svg viewBox="0 0 40 40" width="26" height="26"><polygon points="20,2 25,15 38,15 28,23 32,37 20,29 8,37 12,23 2,15 15,15" fill="none" stroke="#4f6349" stroke-width="2"/></svg>${m.mod}</div>${m.items.map(it=>{ const sel=w.skills[it]||[]; return `<div class="dc-sk"><span>${it}</span><div class="dc-days">${DW.map((dn,i)=>`<button type="button" data-dcs="${esc(it)}|${i}" class="${sel.includes(i)?'on':''}">${dn}</button>`).join('')}</div></div>`; }).join('')}</div>`).join('');
+  document.getElementById('dc-legend').innerHTML=SKILL_LEGEND.map(x=>`<span>${x}</span>`).join('');
+  document.getElementById('dc-abbr').innerHTML=DIARY_ABBR.map(x=>`<div>${x}</div>`).join('');
+  renderWeekList();
+}
+function renderWeekList(){
+  const l=document.getElementById('dc-weeks'); const ks=Object.keys(store.diary||{}).sort().reverse();
+  l.innerHTML=ks.length?ks.map(k=>{ const w=store.diary[k]; const n=Object.values(w.days).filter(d=>Object.values(d).some(v=>v!==''&&v!=null)).length;
+    return `<div class="arch"><div><strong>Неделя ${fmtShort(k)} — ${fmtShort(addDays(k,6))}</strong>${k===store.currentWeek?' <span class="pill" style="margin-left:8px">открыта</span>':''}<br><small>${n} дн. заполнено</small></div><div class="toolbar"><button onclick="setWeek('${k}')">Открыть</button><button class="danger" onclick="delWeek('${k}')">Удалить</button></div></div>`; }).join(''):'<div class="empty">Пока пусто</div>';
+}
+function delWeek(k){ const w=store.diary[k]; if(weekHas(w)&&!confirm('Удалить карточку за неделю '+fmtShort(k)+'? Это нельзя отменить.')) return; delete store.diary[k]; dirtyWeeks.delete(k); if(cloud) queue('w'+k,()=>cloud.db.doc('data/users/'+cloud.uid+'/journal/diary/'+k).delete()); if(store.currentWeek===k) store.currentWeek=null; localPersist(); renderDiary(); }
+function diaryBind(){
+  const v=document.getElementById('view-diary');
+  document.getElementById('dc-week').addEventListener('change',e=>{ if(e.target.value) setWeek(weekKey(e.target.value)); });
+  document.getElementById('dc-name').addEventListener('input',e=>{ store.name=e.target.value; document.getElementById('f-name').value=store.name; save(); });
+  v.addEventListener('input',e=>{ const el=e.target; const w=curWeek();
+    if(el.dataset.dc){ const [i,k]=el.dataset.dc.split('|'); w.days[i]=w.days[i]||{}; if(el.type==='number'){ w.days[i][k]=el.value===''?'':Math.max(+el.min,Math.min(+el.max,+el.value)); } else w.days[i][k]=el.value; markWeek(w.week); save(); }
+    else if(el.dataset.dcu){ const [k,f]=el.dataset.dcu.split('|'); w.urges[k]=w.urges[k]||{}; w.urges[k][f]=el.value===''?'':Math.max(0,Math.min(5,+el.value)); markWeek(w.week); save(); }
+    else if(el.dataset.dcw){ const k=el.dataset.dcw; w[k]= el.type==='checkbox'?el.checked : el.value; if(el.tagName==='TEXTAREA') autosize(el); markWeek(w.week); save(); }
+  });
+  v.addEventListener('click',e=>{ const w=curWeek();
+    const yn=e.target.closest('button.yn'); if(yn){ const [i,k]=yn.dataset.dc.split('|'); w.days[i]=w.days[i]||{}; const cur=w.days[i][k]; const nv= cur===''||cur==null?true : cur===true?false:''; w.days[i][k]=nv; yn.className='yn '+(nv===true?'y':nv===false?'n':''); yn.textContent=nv===true?'Д':nv===false?'Н':'—'; markWeek(w.week); save(); return; }
+    const sk=e.target.closest('[data-dcs]'); if(sk){ const [it,i]=sk.dataset.dcs.split('|'); const set=new Set(w.skills[it]||[]); set.has(+i)?set.delete(+i):set.add(+i); w.skills[it]=[...set].sort(); sk.classList.toggle('on'); markWeek(w.week); save(); }
+  });
+}
+function newWeek(){ const wk=weekKey(today()); setWeek(wk); window.scrollTo(0,0); }
+
+// ---- diary PDF (landscape) ----
+function buildDiaryReport(w){
+  const wk=w.week; const cell=v=> (v===''||v==null)?'':(v===true?'Д':v===false?'Н':esc(String(v)));
+  let h=`<div class="dr-head"><div><h1 style="font-size:20pt">Дневниковая карточка DBT</h1><div class="dr-sub">${esc(store.name)||''} · неделя ${fmtShort(wk)} — ${fmtShort(addDays(wk,6))}</div></div>
+    <div class="dr-meta"><span>Заполнялась на сессии: <b>${w.onSession==='y'?'Да':w.onSession==='n'?'Нет':'—'}</b></span><span>Как часто заполняла: <b>${({d:'ежедневно','46':'4–6 раз','23':'2–3 раза','1':'1 раз'})[w.freq]||'—'}</b></span><span>Последнее заполнение: <b>${w.lastFill?fmt(w.lastFill):'—'}</b></span></div></div>`;
+  h+='<table class="dr-t"><thead><tr><th rowspan="3">День</th>';
+  DIARY_GROUPS.forEach(g=>{ h+=`<th colspan="${g.cols.length}" class="g">${g.name}</th>`; });
+  h+='</tr><tr>'; DIARY_COLS.forEach(c=>{ h+=`<th class="l ${c.wide?'wide':''}">${c.label}</th>`; });
+  h+='</tr><tr>'; DIARY_COLS.forEach(c=>{ h+=`<th class="s">${c.sub||({n5:'0–5',n7:'0–7',num:'#',yn:'Д/Н',text:''})[c.type]}</th>`; });
+  h+='</tr></thead><tbody>';
+  for(let i=0;i<7;i++){ const d=w.days[i]||{}; h+=`<tr><td class="d"><b>${DW[i]}</b> <small>${fmtShort(addDays(wk,i))}</small></td>${DIARY_COLS.map(c=>`<td class="${c.wide?'wide':''} ${c.type==='text'?'t':''}">${cell(d[c.k])}</td>`).join('')}</tr>`; }
+  h+='</tbody></table>';
+  h+=`<div class="dr-bottom"><div class="dr-col">
+      <div class="dr-box"><b>Изменения в питании за неделю</b><p>${esc(w.food_changes)||'—'}</p></div>
+      <div class="dr-box"><b>Домашнее задание и результаты на этой неделе</b><p>${esc(w.homework)||'—'}</p></div>
+      <div class="dr-box"><b>Навыки, которые практиковались на этой неделе</b><p>${esc(w.skills_week)||'—'}</p></div></div>
+    <div class="dr-col"><div class="dr-box"><b>* Применение навыков (0–7)</b><div class="dr-legend">${SKILL_LEGEND.map(x=>`<span>${x}</span>`).join('')}</div></div>
+      <table class="dr-u"><tr><th>Побуждения</th><th>Сколько раз на сессии (0–5)</th><th>Убеждённость, что я могу изменять / регулировать (0–5)</th></tr>${DIARY_URGES.map(([k,l])=>{ const u=w.urges[k]||{}; return `<tr><td>${l}</td><td>${cell(u.n)}</td><td>${cell(u.c)}</td></tr>`; }).join('')}</table></div></div>`;
+  // page 2: skills
+  h+=`<div class="dr-page2"><div class="dr-head" style="margin-bottom:6px"><div><h1 style="font-size:16pt">Навыки за неделю</h1><div class="dr-sub">отметь навык и дни, когда практиковала</div></div></div>
+    <div class="dr-sk-wrap"><div class="dr-abbr">${DIARY_ABBR.map(x=>`<div>${x}</div>`).join('')}</div><table class="dr-sk">`;
+  DIARY_SKILLS.forEach(m=>{ h+=`<tr class="m"><td colspan="8">${m.mod}</td></tr>`; m.items.forEach(it=>{ const sel=w.skills[it]||[]; h+=`<tr><td class="n">${it}</td>${DW.map((dn,i)=>`<td class="${sel.includes(i)?'on':''}">${dn}</td>`).join('')}</tr>`; }); });
+  h+=`</table></div></div>`;
+  h+=`<div class="rp-foot">Дневниковая карточка DBT · сформирована ${fmt(today())} · по форме Diary Card (CBTeam) с адаптацией под питание</div>`;
+  document.getElementById('report').innerHTML=h;
+}
+async function printDiary(){
+  const w=curWeek(); buildDiaryReport(w); const name='DBT-card-'+w.week+'_'+today()+'.pdf';
+  const btn=document.getElementById('dcPdfBtn'); const old=btn.textContent; btn.textContent='Собираю PDF…'; btn.disabled=true;
+  const el=document.getElementById('report'); el.classList.add('gen','land'); document.body.classList.add('pdfmode','land'); window.scrollTo(0,0);
+  try{
+    if(typeof html2pdf==='undefined') throw new Error('nolib');
+    await document.fonts.ready;
+    const blob=await html2pdf().set({margin:[10,0,10,0],filename:name,image:{type:'jpeg',quality:0.95},html2canvas:{scale:2,useCORS:true,backgroundColor:'#ffffff'},jsPDF:{unit:'mm',format:'a4',orientation:'landscape'},pagebreak:{mode:['css','legacy'],before:['.dr-page2'],avoid:['.dr-box','tr']}}).from(el).outputPdf('blob');
+    el.classList.remove('gen','land'); document.body.classList.remove('pdfmode','land');
+    await saveReport(blob,{id:'card-'+w.week,date:w.week,topic:'Дневниковая карточка'},name); if(document.getElementById('view-archive').classList.contains('active')) renderReports();
+    await deliver(blob,name);
+  }catch(e){ console.warn('pdf',e); window.print(); }
+  finally{ el.classList.remove('gen','land'); document.body.classList.remove('pdfmode','land'); btn.textContent=old; btn.disabled=false; }
 }
 
 // ============ CHAINS ============
@@ -1063,7 +1306,7 @@ function restoreSession(k){ const s=store.sessions[k]; if(!s) return; s.archived
 window.addEventListener('beforeprint',buildReport);
 
 // ============ INIT ============
-load(); store.chains=store.chains||{}; normalize(); bind(); wsBind(); document.getElementById('chainSvg').innerHTML=CHAIN_SVG;
+load(); store.chains=store.chains||{}; store.diary=store.diary||{}; normalize(); bind(); wsBind(); diaryBind(); document.getElementById('chainSvg').innerHTML=CHAIN_SVG;
 if(!store.current||!store.sessions[store.current]){ const s=blankSession(today()); store.sessions[s.id]=s; store.current=s.id; }
 renderAll();
 document.querySelector('nav.tabs button[data-v=practice]').classList.add('active');
