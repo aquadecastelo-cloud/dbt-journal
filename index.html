@@ -217,10 +217,10 @@ table.ws-grid input{margin-bottom:4px;padding:6px 10px;border-radius:8px}
 #report table.rp-grid ol{margin:0;padding-left:18px}
 /* diary card */
 .dc-scroll{overflow-x:auto;padding-bottom:6px}
-table.dc{border-collapse:separate;border-spacing:0;width:100%;min-width:980px;font-size:13px}
+table.dc{border-collapse:separate;border-spacing:0;width:100%;min-width:1400px;font-size:13px}
 table.dc th{background:var(--sage-l);color:var(--sage-d);font-weight:600;padding:5px 4px;text-align:center;border-bottom:1px solid var(--line);vertical-align:bottom}
 table.dc th.dc-g{font-family:"Instrument Serif",serif;font-weight:400;font-size:15px;border-left:1px solid #fff}
-table.dc th.dc-l{font-size:11px;font-weight:600;height:84px;background:var(--paper);vertical-align:bottom}
+table.dc th.dc-l{font-size:11px;font-weight:600;height:120px;background:var(--paper);vertical-align:bottom}
 table.dc th.dc-l span{writing-mode:vertical-rl;transform:rotate(180deg);display:inline-block;white-space:nowrap;line-height:1.1}
 table.dc th.dc-l.wide span{writing-mode:horizontal-tb;transform:none}
 table.dc th.dc-s{font-size:10px;color:var(--muted);background:var(--paper);font-weight:500;border-bottom:2px solid var(--sage)}
@@ -244,15 +244,15 @@ table.dc-u{width:100%;border-collapse:collapse;font-size:13px} table.dc-u th{fon
 #report .dr-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--sage-d);padding-bottom:6px;margin-bottom:10px}
 #report .dr-head h1{color:var(--sage-d);margin:0} #report .dr-sub{color:#5e6b58;font-size:10pt}
 #report .dr-meta{display:flex;gap:18px;font-size:9.5pt;color:#5e6b58} #report .dr-meta b{color:#2f3a2c}
-#report table.dr-t{width:100%;border-collapse:collapse;font-size:9pt;table-layout:fixed}
+#report table.dr-t{width:100%;border-collapse:collapse;font-size:8pt;table-layout:fixed}
 #report table.dr-t th{border:1px solid #c9ccbd;padding:3px 2px;text-align:center;background:var(--sage-l);color:var(--sage-d);font-weight:600;vertical-align:bottom}
 #report table.dr-t th.g{font-family:"Instrument Serif",serif;font-weight:400;font-size:10.5pt}
-#report table.dr-t th.l{font-size:7pt;line-height:1.15;background:#fff;text-align:center;padding:4px 2px;vertical-align:bottom;word-wrap:break-word;hyphens:auto}
+#report table.dr-t th.l{font-size:6.2pt;line-height:1.1;background:#fff;text-align:center;padding:4px 2px;vertical-align:bottom;word-wrap:break-word;hyphens:auto}
 #report table.dr-t th.s{font-size:7.5pt;color:#7d8a76;background:#fff;font-weight:500}
-#report table.dr-t td{border:1px solid #c9ccbd;padding:5px 3px;text-align:center;height:24px;font-weight:600;color:#2f3a2c}
+#report table.dr-t td{border:1px solid #c9ccbd;padding:4px 2px;text-align:center;height:22px;font-weight:600;color:#2f3a2c}
 #report table.dr-t td.t{font-weight:400;text-align:left;font-size:8.5pt}
 #report table.dr-t td.d{text-align:left;white-space:nowrap;background:var(--sage-l);color:var(--sage-d);font-family:"Instrument Serif",serif;font-size:11pt;font-weight:400} #report table.dr-t td.d small{font-family:Manrope,sans-serif;font-size:7.5pt;color:#7d8a76}
-#report table.dr-t th:first-child,#report table.dr-t td.d{width:64px} #report table.dr-t td.wide,#report table.dr-t th.wide{width:120px}
+#report table.dr-t td.t{font-size:7.5pt}
 #report .dr-bottom{display:flex;gap:14px;margin-top:10px} #report .dr-col{flex:1;min-width:0}
 #report .dr-box{border:1px solid #c9ccbd;border-radius:6px;padding:5px 9px;margin-bottom:8px;font-size:9pt} #report .dr-box b{display:block;color:var(--sage-d);font-size:8.5pt;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px} #report .dr-box p{margin:0;white-space:pre-wrap}
 #report .dr-legend{display:grid;grid-template-columns:1fr 1fr;gap:1px 12px;font-size:8pt}
@@ -1006,17 +1006,26 @@ const DIARY_GROUPS=[
     {k:'u_food',label:'К срыву в еде',type:'n5'}]},
   {name:'Высший рейтинг за день', cols:[
     {k:'r_empty',label:'Опустошённость',type:'n5'},
-    {k:'r_tired',label:'Физ. усталость',type:'n5'},
-    {k:'r_joy',label:'Радость',type:'n5'}]},
+    {k:'r_joy',label:'Радость',type:'n5'},
+    {k:'r_tired_m',label:'Усталость ментальная',type:'n5'},
+    {k:'r_tired',label:'Усталость физическая',type:'n5'},
+    {k:'r_sleep',label:'Проблемы со сном',type:'n5'}]},
+  {name:'Состояние', cols:[
+    {k:'s_migraine',label:'Мигрень',sub:'Д/Н',type:'yn'},
+    {k:'s_med',label:'Смена препарата',sub:'Д/Н',type:'yn'}]},
   {name:'Еда', cols:[
     {k:'f_over_n',label:'Переедание',sub:'#',type:'num'},
     {k:'f_over_w',label:'Что?',type:'text'},
     {k:'f_skip',label:'Пропуск еды',sub:'Д/Н',type:'yn'},
     {k:'f_emo_n',label:'Еда по эмоциям',sub:'#',type:'num'},
-    {k:'f_emo_w',label:'Какая?',type:'text'}]},
-  {name:'Действия', cols:[
+    {k:'f_emo_w',label:'Какая?',type:'text'},
+    {k:'f_unst',label:'Еда в условиях нестабильности',sub:'Д/Н',type:'yn'}]},
+  {name:'Поведение', cols:[
     {k:'a_harm',label:'Самоповреждения',sub:'Д/Н',type:'yn'},
     {k:'a_lie',label:'Ложь',sub:'#',type:'num'},
+    {k:'a_nohelp',label:'Хотела попросить о помощи, но не стала',sub:'Д/Н',type:'yn'},
+    {k:'a_selfinv',label:'Самоинвалидация',sub:'Д/Н',type:'yn'},
+    {k:'a_avoid',label:'Избегание со стыдом',sub:'Д/Н',type:'yn'},
     {k:'a_skill',label:'Навыки*',sub:'0–7',type:'n7'}]},
   {name:'Эмоции', cols:[{k:'emo',label:'',type:'text',wide:true}]},
   {name:'Дополнительно', cols:[{k:'extra',label:'',type:'text',wide:true}]}
@@ -1100,7 +1109,9 @@ function buildDiaryReport(w){
   const wk=w.week; const cell=v=> (v===''||v==null)?'':(v===true?'Д':v===false?'Н':esc(String(v)));
   let h=`<div class="dr-head"><div><h1 style="font-size:20pt">Дневниковая карточка DBT</h1><div class="dr-sub">${esc(store.name)||''} · неделя ${fmtShort(wk)} — ${fmtShort(addDays(wk,6))}</div></div>
     <div class="dr-meta"><span>Заполнялась на сессии: <b>${w.onSession==='y'?'Да':w.onSession==='n'?'Нет':'—'}</b></span><span>Как часто заполняла: <b>${({d:'ежедневно','46':'4–6 раз','23':'2–3 раза','1':'1 раз'})[w.freq]||'—'}</b></span><span>Последнее заполнение: <b>${w.lastFill?fmt(w.lastFill):'—'}</b></span></div></div>`;
-  h+='<table class="dr-t"><thead><tr><th rowspan="3">День</th>';
+  const nNarrow=DIARY_COLS.filter(c=>!c.wide&&c.type!=='text').length, nText=DIARY_COLS.filter(c=>!c.wide&&c.type==='text').length, nWide=DIARY_COLS.filter(c=>c.wide).length;
+  const avail=1043-56-nWide*90-nText*58; const cw=Math.floor(avail/nNarrow);
+  h+='<table class="dr-t" style="width:1043px"><colgroup><col style="width:56px">'+DIARY_COLS.map(c=>`<col style="width:${c.wide?90:c.type==='text'?58:cw}px">`).join('')+'</colgroup><thead><tr><th rowspan="3">День</th>';
   DIARY_GROUPS.forEach(g=>{ h+=`<th colspan="${g.cols.length}" class="g">${g.name}</th>`; });
   h+='</tr><tr>'; DIARY_COLS.forEach(c=>{ h+=`<th class="l ${c.wide?'wide':''}">${c.label}</th>`; });
   h+='</tr><tr>'; DIARY_COLS.forEach(c=>{ h+=`<th class="s">${c.sub||({n5:'0–5',n7:'0–7',num:'#',yn:'Д/Н',text:''})[c.type]}</th>`; });
