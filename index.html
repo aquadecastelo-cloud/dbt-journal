@@ -561,7 +561,7 @@ let SKILLS = [
    ideas:['Т: окунула лицо в холодную воду или приложила ледяной компресс на 30 секунд, задержав дыхание.','Р: на вдохе напрягла мышцы, на выдохе со словом «расслабься» отпустила.','У: 10–15 минут интенсивной нагрузки — бег, прыжки, быстрая ходьба.','Д: дыхание животом, 5–6 циклов в минуту, выдох длиннее вдоха.','Оценила возбуждение и стрессоустойчивость до и после — заметила разницу.'],
    items:['Т: холодная вода на лицо / ледяной компресс','Р: парная мышечная релаксация','У: интенсивные физические упражнения','Д: размеренное дыхание (выдох длиннее вдоха)','Оценила состояние до и после применения ТРУД'],
    form:{title:'Изменение состояния тела: навыки ТРУД', visual:'trud', multi:true, entryName:'Практика', sheet:'Стрессоустойчивость: рабочий лист 4', fields:[
-     {k:'letter',type:'choice',label:'Какой навык применила',opts:['Т — Температура','Р — парная мышечная Релаксация','У — физические Упражнения','Д — размеренное Дыхание']},
+     {k:'letter',type:'checks',label:'Какие навыки применила (можно несколько)',opts:['Т — Температура','Р — парная мышечная Релаксация','У — физические Упражнения','Д — размеренное Дыхание']},
      {k:'situation',type:'textarea',label:'Ситуация'},
      {k:'ar_before',type:'number',label:'Возбуждение до (1–100)',min:1,max:100},
      {k:'ar_after',type:'number',label:'Возбуждение после (1–100)',min:1,max:100},
@@ -594,7 +594,7 @@ let SKILLS = [
    form:{title:'Навыки переживания кризиса', visual:'tilesbars', multi:true, entryName:'Запись', sheet:'Стрессоустойчивость: рабочий лист 1б',
      tiles:{k:'skill',items:[['СТОП','СТОП'],['З/П','«За» и «против»'],['ТРУД','ТРУД'],['ПЕР','ПЕРЕЖИТЬ'],['5','Самоуспокоение'],['ПОП','ПОПРАВЬте']]}, bars:[],
      fields:[
-     {k:'skill',type:'choice',label:'Навык',opts:['СТОП','«За» и «против»','ТРУД','ПЕРЕЖИТЬ с мудрым разумом','Самоуспокоение','ПОПРАВЬте момент']},
+     {k:'skill',type:'checks',label:'Навыки (можно несколько)',opts:['СТОП','«За» и «против»','ТРУД','ПЕРЕЖИТЬ с мудрым разумом','Самоуспокоение','ПОПРАВЬте момент']},
      {k:'did',type:'textarea',label:'Что я сделала'},
      {k:'eff',type:'scale',label:'Эффективность: насколько помогло пережить кризис и не усугубить ситуацию',min:1,max:5,labels:{1:'Мне так и не удалось выдержать ситуацию, даже в течение одной минуты',3:'Мне удалось совладать по крайней мере на некоторое время. Это несколько помогло',5:'Мне удалось применить навыки, сохранить стрессоустойчивость и не пойти на поводу у проблемных побуждений'}}
    ]}, order:5},
@@ -614,7 +614,7 @@ let SKILLS = [
      tiles:{k:'tech',items:[['П','Помогите'],['Е','Если сравнить'],['Р','Различные эмоции'],['Е','Есть действия'],['Ж','Железная стена'],['И','Ощущения'],['Т','Течение мыслей']]},
      bars:[['tol_b','tol_a','Стрессоустойчивость (0–5)',5],['neg_b','neg_a','Отрицательные эмоции (0–100)',100],['pos_b','pos_a','Положительные эмоции (0–100)',100]],
      fields:[
-     {k:'tech',type:'choice',label:'Какой навык отвлечения',opts:['П — Помогите кому-нибудь','Е — Если сравнить','Р — Используйте Различные эмоции','Е — Есть другие действия','Ж — Постройте Железную стену','И — Используйте ощущения','Т — Течение мыслей перенаправьте']},
+     {k:'tech',type:'checks',label:'Какие навыки отвлечения (можно несколько)',opts:['П — Помогите кому-нибудь','Е — Если сравнить','Р — Используйте Различные эмоции','Е — Есть другие действия','Ж — Постройте Железную стену','И — Используйте ощущения','Т — Течение мыслей перенаправьте']},
      {k:'did',type:'textarea',label:'Когда практиковала этот навык и что для этого делала'},
      {k:'crisis',type:'textarea',label:'В чём состоял кризис (что побудило применить навык)'},
      {k:'dur',type:'text',label:'Как долго практиковала навык'},
@@ -640,7 +640,7 @@ let SKILLS = [
      tiles:{k:'sense',items:[['👁','Зрение'],['👂','Слух'],['👃','Обоняние'],['👅','Вкус'],['✋','Осязание']]},
      bars:[['tol_b','tol_a','Стрессоустойчивость (0–5)',5],['neg_b','neg_a','Отрицательные эмоции (0–100)',100],['pos_b','pos_a','Положительные эмоции (0–100)',100]],
      fields:[
-     {k:'sense',type:'choice',label:'Через какое чувство',opts:['Зрение','Слух','Обоняние','Вкус','Осязание']},
+     {k:'sense',type:'checks',label:'Через какие чувства (можно несколько)',opts:['Зрение','Слух','Обоняние','Вкус','Осязание']},
      {k:'did',type:'textarea',label:'Когда практиковала этот навык и что для этого делала'},
      {k:'crisis',type:'textarea',label:'Что произошло болезненного или стрессогенного (если произошло)'},
      {k:'dur',type:'text',label:'Как долго практиковала навык'},
@@ -691,7 +691,7 @@ let SKILLS = [
      tiles:{k:'tech',items:[['П','Воображение'],['О','Смысл'],['П','По одному'],['Р','Расслабьтесь'],['А','Отпуск'],['В','Верьте'],['М','Молитесь']]},
      bars:[['tol_b','tol_a','Стрессоустойчивость (0–5)',5],['neg_b','neg_a','Отрицательные эмоции (0–100)',100],['pos_b','pos_a','Положительные эмоции (0–100)',100]],
      fields:[
-     {k:'tech',type:'choice',label:'Какой навык',opts:['П — Подключите воображение','О — Откройте смысл','П — Выполняйте По одному делу за раз','Р — Расслабьтесь','А — Активно отправьте себя в короткий отпуск','В — Верьте в себя','М — Молитесь']},
+     {k:'tech',type:'checks',label:'Какие навыки (можно несколько)',opts:['П — Подключите воображение','О — Откройте смысл','П — Выполняйте По одному делу за раз','Р — Расслабьтесь','А — Активно отправьте себя в короткий отпуск','В — Верьте в себя','М — Молитесь']},
      {k:'did',type:'textarea',label:'Когда практиковала этот навык и что для этого делала'},
      {k:'crisis',type:'textarea',label:'Что произошло болезненного или стрессогенного (если произошло)'},
      {k:'dur',type:'text',label:'Как долго практиковала навык'},
@@ -729,7 +729,7 @@ let SKILLS = [
      tiles:{k:'step',items:[['1','Причины'],['2','Всем естеством'],['3','Противоп. действие'],['4','Заранее'],['5','Тело'],['6','Горевать'],['7','Жизнь стоит'],['8','«За» / «против»']]},
      bars:[['acc_b','acc_a','Принятие (0–5)',5],['neg_b','neg_a','Отрицательные эмоции (0–100)',100],['pos_b','pos_a','Положительные эмоции (0–100)',100]],
      fields:[
-     {k:'step',type:'choice',label:'Какой шаг практиковала',opts:['Рассмотреть причины произошедшего','Принять всем своим естеством','Противоположное действие','Справиться со сложными эмоциональными ситуациями заблаговременно','Внимание к телесным ощущениям','Позволить себе горевать','Признать, что жизнь стоит того, чтобы её прожить','Взвесить «за» и «против»']},
+     {k:'step',type:'checks',label:'Какие шаги практиковала (можно несколько)',opts:['Рассмотреть причины произошедшего','Принять всем своим естеством','Противоположное действие','Справиться со сложными эмоциональными ситуациями заблаговременно','Внимание к телесным ощущениям','Позволить себе горевать','Признать, что жизнь стоит того, чтобы её прожить','Взвесить «за» и «против»']},
      {k:'did',type:'textarea',label:'Когда практиковала этот навык и что для этого делала'},
      {k:'hard',type:'textarea',label:'Что произошло такого, что было сложно принять (если произошло)'},
      {k:'dur',type:'text',label:'Как долго практиковала принятие'},
@@ -773,7 +773,7 @@ let SKILLS = [
      {k:'c4',type:'textarea',label:'4. Настроение',hint:'Могу ли потратить время и усилия на решение проблемы? Если нет: «за/против» работы над навыками, радикальное принятие и готовность, участие и эффективность'},
      {k:'c5',type:'textarea',label:'5. Эмоциональная перегруженность',hint:'Слишком расстроена для сложных навыков? Легко ли решить проблему → решение проблемы; нет → осознанность к текущей эмоции; запредельно → ТРУД'},
      {k:'c6',type:'textarea',label:'6. Мифы об эмоциях',hint:'Какие суждения или мифы об эмоциях встали на пути? Проверила факты, опровергла, безоценочное мышление'},
-     {k:'found',type:'choice',label:'На какой проверке нашлась причина',opts:['1 — уязвимость','2 — навыки','3 — подкрепления','4 — настроение','5 — перегруженность','6 — мифы','Не нашла']},
+     {k:'found',type:'checks',label:'На каких проверках нашлись причины (можно несколько)',opts:['1 — уязвимость','2 — навыки','3 — подкрепления','4 — настроение','5 — перегруженность','6 — мифы','Не нашла']},
      {k:'result',type:'textarea',label:'Что изменилось после'}
    ]}, order:20},
 ];
@@ -1106,6 +1106,7 @@ function importJSON(inp){
 }
 
 // ============ WORKSHEETS ============
+function arr(v){ return Array.isArray(v)?v:(v!==''&&v!=null?[v]:[]); }
 function wsRef(i,j){ return i+'|'+j; }
 function wsGet(ref){ const [i,j]=ref.split('|').map(Number); const en=cur().days[i]&&cur().days[i].entries[j]; if(!en) return null; en.ws=en.ws||{}; return en.ws; }
 function wsHas(ws){ return !!ws&&Object.values(ws).some(v=>Array.isArray(v)?v.length:(v&&typeof v==='object'?Object.values(v).some(a=>(a||[]).some(x=>x)):v!==''&&v!=null)); }
@@ -1123,7 +1124,7 @@ function wsFieldHtml(ref,f,e,num){
   if(f.type==='text') inner=`<input type="text" ${d} value="${esc(v||'')}">`;
   else if(f.type==='textarea') inner=`<textarea ${d} placeholder="${esc(f.hint||'')}">${esc(v||'')}</textarea>`;
   else if(f.type==='number') inner=`<input type="number" ${d} min="${f.min}" max="${f.max}" value="${v===''||v==null?'':v}">`;
-  else if(f.type==='checks') inner=`<div class="ws-opts">${f.opts.map(o=>`<label class="chk"><input type="checkbox" ${d} data-opt="${esc(o)}" ${(v||[]).includes(o)?'checked':''}> ${o}</label>`).join('')}</div>`;
+  else if(f.type==='checks') inner=`<div class="ws-opts">${f.opts.map(o=>`<label class="chk"><input type="checkbox" ${d} data-opt="${esc(o)}" ${arr(v).includes(o)?'checked':''}> ${o}</label>`).join('')}</div>`;
   else if(f.type==='choice') inner=`<div class="ws-opts">${f.opts.map(o=>`<label class="chk"><input type="radio" name="r-${id}-${f.k}" ${d} data-opt="${esc(o)}" ${v===o?'checked':''}> ${o}</label>`).join('')}</div>`;
   else if(f.type==='scale'){ const L=f.labels||{}; inner=`<div class="ws-scale">${Array.from({length:f.max-f.min+1},(_,k)=>f.min+k).map(n=>`<button type="button" class="${+v===n?'on':''}" data-wsscale="${ref}|${f.k}" data-v="${n}">${n}</button>`).join('')}</div>
     <div class="ws-scale-l"><span>${L[f.min]||''}</span><span>${L[Math.round((f.min+f.max)/2)]||''}</span><span>${L[f.max]||''}</span></div>`; }
@@ -1139,7 +1140,7 @@ function wsBind(){
   root.addEventListener('input',e=>{
     const el=e.target;
     if(el.dataset.ws){ const [i,j,k]=el.dataset.ws.split('|'); const e2=wsGet(i+'|'+j); if(!e2) return;
-      if(el.type==='checkbox'){ const set=new Set(e2[k]||[]); el.checked?set.add(el.dataset.opt):set.delete(el.dataset.opt); e2[k]=[...set]; }
+      if(el.type==='checkbox'){ const set=new Set(arr(e2[k])); el.checked?set.add(el.dataset.opt):set.delete(el.dataset.opt); e2[k]=[...set]; const ent=el.closest('.entry'); const live=ent&&(ent.querySelector('.vis-live')||ent.querySelector('.vis-trud')); if(live){ const sk=SK[cur().days[+i].entries[+j].skill]; live.outerHTML=visualHtml(sk,e2); } }
       else if(el.type==='radio'){ e2[k]=el.dataset.opt; const t=el.closest('.entry')&&(el.closest('.entry').querySelector('.vis-live')||el.closest('.entry').querySelector('.vis-trud')); if(t){ const sk=SK[cur().days[+i].entries[+j].skill]; t.outerHTML=visualHtml(sk,e2); } }
       else if(el.type==='number'){ e2[k]=el.value===''?'':Math.max(+el.min,Math.min(+el.max,+el.value)); const bars=el.closest('.entry')&&(el.closest('.entry').querySelector('.vis-live')||el.closest('.entry').querySelector('.vis-bars')); if(bars){ const sk=SK[cur().days[+i].entries[+j].skill]; bars.outerHTML=visualHtml(sk,e2); } }
       else { e2[k]=el.value; if(el.tagName==='TEXTAREA') autosize(el); }
@@ -1156,7 +1157,7 @@ function wsParts(sk,e){ const parts=[];
   sk.form.fields.forEach(f=>{ const v=e[f.k]; if(f.type==='number') return; const numbered=sk.form.numbered&&/^c\d$/.test(f.k); const nn=numbered?++n:0;
     const wrap=x=>nn?`<div class="rp-f ws-f num"><div class="bignum">${nn}</div><div>${x}</div></div>`:`<div class="rp-f">${x}</div>`;
     if(f.type==='text'||f.type==='textarea'){ if(v) parts.push(wrap(`<b>${f.label}</b><p>${esc(v)}</p>`)); }
-    else if(f.type==='checks'){ if((v||[]).length) parts.push(wrap(`<b>${f.label}</b><div class="rp-checks">${f.opts.map(o=>`<span class="${(v||[]).includes(o)?'y':''}">${o}</span>`).join('')}</div>`)); }
+    else if(f.type==='checks'){ if(arr(v).length) parts.push(wrap(`<b>${f.label}</b><div class="rp-checks">${f.opts.map(o=>`<span class="${arr(v).includes(o)?'y':''}">${o}</span>`).join('')}</div>`)); }
     else if(f.type==='choice'){ if(v) parts.push(wrap(`<b>${f.label}</b><p>${esc(v)}</p>`)); }
     else if(f.type==='scale'){ if(v) parts.push(wrap(`<b>${f.label}</b><div class="rp-scale">${Array.from({length:f.max-f.min+1},(_,k)=>f.min+k).map(n=>`<i class="${+v===n?'on':''}">${n}</i>`).join('')}<small>${(f.labels||{})[v]||''}</small></div>`)); }
     else if(f.type==='grid'){ const g=v||{}; const any=Object.values(g).some(a=>(a||[]).some(x=>x)); if(any) parts.push(wrap(`<b>${f.label}</b><table class="rp-grid"><tr><th></th>${f.cols.map(c=>`<th>${c}</th>`).join('')}</tr>${f.rows.map((r,ri)=>`<tr><td class="rh">${r}</td>${f.cols.map((c,ci)=>`<td><ol>${(g[ri+'_'+ci]||[]).filter(x=>x).map(x=>`<li>${esc(x)}</li>`).join('')}</ol></td>`).join('')}</tr>`).join('')}</table>`)); }
@@ -1353,14 +1354,14 @@ function visualHtml(sk,e){
   if(!sk.form||!sk.form.visual) return '';
   if(sk.form.visual==='stop') return `<div class="vis-stop">${STOP_SVG}<div class="vis-steps">${STOP_STEPS.map(x=>`<div><b>${x[0]}</b>${x[1]}<small>${x[2]}</small></div>`).join('')}</div></div>`;
   if(sk.form.visual==='tilesbars'){ const f=sk.form; let h='<div class="vis-live">';
-    if(f.tiles){ const opts=(f.fields.find(x=>x.k===f.tiles.k)||{}).opts||[]; const idx=opts.indexOf(e[f.tiles.k]);
-      h+=`<div class="vis-trud vis-tiles">${f.tiles.items.map((t,i)=>`<div class="tile ${idx===i?'on':''} ${t[0].length>1&&!/\p{Extended_Pictographic}/u.test(t[0])?'long':''}"><b>${t[0]}</b><small>${t[1]}</small></div>`).join('')}</div>`; }
+    if(f.tiles){ const opts=(f.fields.find(x=>x.k===f.tiles.k)||{}).opts||[]; const sel=arr(e[f.tiles.k]).map(x=>opts.indexOf(x));
+      h+=`<div class="vis-trud vis-tiles">${f.tiles.items.map((t,i)=>`<div class="tile ${sel.includes(i)?'on':''} ${t[0].length>1&&!/\p{Extended_Pictographic}/u.test(t[0])?'long':''}"><b>${t[0]}</b><small>${t[1]}</small></div>`).join('')}</div>`; }
     if(f.bars&&f.bars.length){ const n=v=>(v===''||v==null)?null:+v; const bar=(v,mx,l)=>`<div class="vis-bar"><span>${l}</span><i><em style="width:${v==null?0:Math.round(v/mx*100)}%"></em></i><b>${v==null?'—':v}</b></div>`;
       const used=f.bars.filter(b=>n(e[b[0]])!=null||n(e[b[1]])!=null);
       if(used.length) h+=`<div class="vis-bars">${used.map(b=>`<div class="vis-cap">${b[2]}</div>${bar(n(e[b[0]]),b[3],'до')}${bar(n(e[b[1]]),b[3],'после')}`).join('')}</div>`; }
     return h+'</div>'; }
-  if(sk.form.visual==='trud'){ const L=['Т','Р','У','Д']; const sel=(e.letter||'').charAt(0); const names=['Температура','Релаксация','Упражнения','Дыхание'];
-    return `<div class="vis-trud">${L.map((l,i)=>`<div class="tile ${sel===l?'on':''}"><b>${l}</b><small>${names[i]}</small></div>`).join('')}</div>`; }
+  if(sk.form.visual==='trud'){ const L=['Т','Р','У','Д']; const sel=arr(e.letter).map(x=>x.charAt(0)); const names=['Температура','Релаксация','Упражнения','Дыхание'];
+    return `<div class="vis-trud vis-live">${L.map((l,i)=>`<div class="tile ${sel.includes(l)?'on':''}"><b>${l}</b><small>${names[i]}</small></div>`).join('')}</div>`; }
   if(sk.form.visual==='bars2'){ const n=v=>(v===''||v==null)?null:+v; const bar=(v,l)=>`<div class="vis-bar"><span>${l}</span><i><em style="width:${v==null?0:v}%"></em></i><b>${v==null?'—':v}</b></div>`;
     return `<div class="vis-bars"><div class="vis-cap">Расслабление — практика</div>${bar(n(e.p_before),'до')}${bar(n(e.p_after),'после')}<div class="vis-cap">Расслабление — при стрессе</div>${bar(n(e.s_before),'до')}${bar(n(e.s_after),'после')}</div>`; }
   if(sk.form.visual==='bars'){ const a=e.before===''||e.before==null?null:+e.before, b=e.after===''||e.after==null?null:+e.after;
